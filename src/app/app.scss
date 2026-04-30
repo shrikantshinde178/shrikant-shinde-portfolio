@@ -1,0 +1,1116 @@
+/* 1. THE FOUNDATION - FIXED VIEWPORT */
+.corporate-shell {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: #010a26;
+  font-family: "Inter", sans-serif;
+  perspective: 2000px;
+}
+
+/* 2. LEFT PANEL - THE CINEMATIC VIEW */
+.visual-panel {
+  position: relative;
+  height: 100%;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 30% 50%, #021b6d 0%, #010a26 100%);
+  perspective: 2000px; /* Stronger 3D depth */
+  animation: slideInLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  .top-brand {
+    position: absolute;
+    top: clamp(18px, 4vh, 32px);
+    left: clamp(18px, 4vw, 36px);
+    z-index: 20;
+
+    .title {
+      font-size: clamp(0.55rem, 1.5vw, 0.7rem);
+      font-weight: 600;
+      letter-spacing: clamp(1.5px, 0.6vw, 3px);
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.75);
+
+      position: relative;
+      padding-left: 12px;
+
+      /* subtle modern accent line */
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: clamp(4px, 1vw, 6px);
+        height: 2px;
+        background: #ff9500;
+        border-radius: 2px;
+      }
+    }
+  }
+  .video-wrapper {
+    width: 80%;
+    height: 50%;
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+
+    transform: rotateY(15deg) rotateX(2deg);
+    transform-style: preserve-3d;
+
+    /* Glass border */
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    /* 🔥 Outer glow */
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.05),
+      0 0 30px rgba(0, 123, 255, 0.4),
+      0 0 80px rgba(0, 123, 255, 0.25),
+      -30px 30px 100px rgba(0, 123, 255, 0.3);
+
+    background: rgba(255, 255, 255, 0.02);
+    .bg-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 20px;
+      filter: grayscale(20%) brightness(35%);
+    }
+
+    .bg-image {
+      position: absolute;
+      inset: 0;
+      background: url("/assets/images/City Night View 2.png") no-repeat center;
+      background-size: cover;
+      border-radius: 20px;
+
+      filter: brightness(0.7) contrast(1.1) saturate(1.2);
+    }
+
+    /* 🔵 Neon sky glow */
+    .bg-image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+
+      background: radial-gradient(
+        circle at top,
+        rgba(0, 123, 255, 0.35),
+        transparent 60%
+      );
+
+      mix-blend-mode: screen;
+    }
+
+    .overlay-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, transparent, rgba(1, 20, 79, 0.4));
+    }
+  }
+
+  .video-wrapper::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
+      linear-gradient(90deg, rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+    background-size:
+      100% 4px,
+      3px 100%;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .play-trigger {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateZ(60px);
+    z-index: 10;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    .play-circle {
+      width: clamp(70px, 12vw, 110px);
+      height: clamp(70px, 12vw, 110px);
+      border: 2px solid #007bff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      background: rgba(0, 123, 255, 0.2);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    .play-circle {
+      color: rgba(255, 255, 255, 0.573);
+    }
+    .play-icon {
+      font-size: clamp(18px, 4vw, 28px);
+    }
+    @media (max-width: 768px) {
+      .play-trigger {
+        transform: translate(-50%, -50%) scale(1.2);
+      }
+    }
+    &:hover .play-circle {
+      // background: #007bff;
+      color: white;
+      // transform: scale(1.1);
+      border: 2px solid #f9fbff;
+    }
+
+    .play-text {
+      color: #fff;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 600;
+      opacity: 0.8;
+    }
+  }
+
+  /* 2. LEFT PANEL - SINGLE LINE STATS */
+  .stats-overlay {
+    position: absolute;
+    bottom: clamp(20px, 4vh, 40px);
+    left: 0;
+    right: 0;
+    padding: 0 clamp(16px, 4vw, 40px);
+    z-index: 5;
+
+    display: flex;
+    align-items: center;
+    gap: clamp(6px, 1vw, 14px);
+
+    /* 👇 KEY CHANGE */
+    overflow-x: auto;
+    scroll-behavior: smooth;
+
+    /* Hide ugly scrollbar */
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    animation: slideInBottom 0.6s ease;
+
+    .stat-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      min-width: max-content; /* prevents shrinking */
+
+      padding: 10px 14px;
+      border-radius: 12px;
+
+      /* 🔥 Glass effect */
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(10px);
+
+      border: 1px solid rgba(255, 255, 255, 0.08);
+
+      transition: all 0.3s ease;
+
+      &:hover {
+        // transform: translateY(-3px);
+        background: rgba(0, 123, 255, 0.15);
+        border-color: rgba(0, 123, 255, 0.4);
+      }
+
+      .stat-icon {
+        font-size: clamp(18px, 2vw, 24px);
+        color: #4fc3f7;
+      }
+
+      .stat-text {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .stat-value {
+        font-size: clamp(0.9rem, 1.6vw, 1.2rem);
+        font-weight: 700;
+        color: #ffffff;
+        line-height: 1;
+      }
+
+      .stat-label {
+        font-size: clamp(0.55rem, 0.9vw, 0.7rem);
+        color: rgba(255, 255, 255, 0.6);
+        letter-spacing: 1px;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .stats-overlay {
+      // position: static; /* 🔥 removes overlap completely */
+      margin-top: 16px;
+      padding: 0 16px;
+    }
+
+    .visual-panel {
+      display: flex;
+      flex-direction: column;
+
+      justify-content: flex-start; /* ❌ remove center */
+      align-items: center;
+
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+
+    .video-wrapper {
+      width: 80%;
+      height: auto;
+      aspect-ratio: 16/9;
+    }
+  }
+
+  /* 6. RESPONSIVE ADJUSTMENTS */
+  @media (max-width: 1024px) {
+    .visual-panel {
+      height: 55vh; // Keeps the video section tall enough
+
+      .play-trigger {
+        top: 35%; // Moves play button up to ensure 0 overlap with the line
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .stats-overlay {
+      .stat-box {
+        border-left-width: 1.5px;
+        padding-left: 8px;
+      }
+    }
+  }
+}
+
+/* 6. RESPONSIVE ADJUSTMENTS */
+@media (max-width: 1024px) {
+  .visual-panel {
+    height: 55vh; // Keeps the video section tall enough
+
+    .panel-brand {
+      top: 20px;
+      left: 20px;
+      padding: 5px 10px;
+
+      .brand-text {
+        font-size: 0.55rem; // Shrink text slightly
+        letter-spacing: 2px;
+      }
+    }
+
+    .play-trigger {
+      /* Pushing the play icon down to 50% ensures 
+         it stays centered and away from the top-left brand */
+      top: 50%;
+      transform: translate(-50%, -50%);
+
+      .play-circle {
+        width: 60px; // Slightly smaller icon for mobile
+        height: 60px;
+      }
+
+      .play-text {
+        font-size: 0.65rem;
+      }
+    }
+  }
+}
+
+/* Extra safety for very small phones (iPhone SE, etc.) */
+@media (max-width: 480px) {
+  .visual-panel .panel-brand {
+    top: 15px;
+    left: 15px;
+  }
+
+  .visual-panel .play-trigger {
+    top: 48%; // Tiny adjustment to prevent any visual crowding
+  }
+}
+/* 3. RIGHT PANEL - THE WHITE PROFESSIONAL SIDE */
+.content-panel {
+  animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  position: relative;
+  align-items: center;
+  padding: 60px;
+  background: #f9fbff;
+  height: 100%;
+  overflow-y: auto;
+
+  /* 💻 DESKTOP (default) */
+  border-top-left-radius: 40px;
+  border-top-right-radius: 0px;
+
+  box-shadow: -15px 0 30px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+
+  /* 📱 TABLET + MOBILE */
+  @media (max-width: 1024px) {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 40px;
+    margin-top: 0px;
+  }
+  .inner-content {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .branding {
+    margin-bottom: 40px;
+
+    .role-tag {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      font-size: clamp(0.7rem, 1vw, 0.85rem);
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #0b1524cc;
+
+      margin-bottom: 10px;
+
+      .yrd-logo {
+        height: 19px;
+        width: auto;
+        object-fit: contain;
+        mix-blend-mode: multiply;
+      }
+    }
+
+    .intro-text {
+      display: block;
+      font-size: clamp(0.75rem, 1.2vw, 0.9rem);
+      // letter-spacing: 1px;
+
+      color: #556070;
+      font-style: italic;
+      line-height: 1.6;
+      opacity: 0.85;
+
+      margin-bottom: 6px;
+    }
+    .name-title {
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 300;
+      color: #1368f1;
+      line-height: 1.1;
+      margin: 0;
+
+      .last-name {
+        font-weight: 800;
+        color: #1368f1;
+      }
+    }
+
+    .accent-line {
+      width: 35px;
+      height: 3px;
+      background: #d7e2ede7;
+      margin: 20px 0;
+    }
+
+    .brief {
+      color: #556070;
+      // font-size: 0.95rem;
+      line-height: 1.6;
+      margin: 0;
+      opacity: 0.85;
+    }
+
+    .sub-brief {
+      margin-top: 8px;
+      color: #070809;
+      line-height: 1.5;
+      font-style: italic;
+      font-size: 0.6rem;
+      opacity: 0.6;
+    }
+  }
+}
+
+/* 4. THE NAVIGATION - FIXING THE ARROW */
+.main-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Tighter gap for enterprise density */
+
+  .nav-button {
+    all: unset;
+    cursor: pointer;
+    position: relative; /* For the left-accent bar */
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+
+    /* 1. Yardi "Surface" Look */
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 6px; /* Steeper corners for a more formal look */
+
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* 2. The Hidden Accent Bar */
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 0%; /* Grows on hover */
+      background: #0056b3;
+      border-radius: 0 4px 4px 0;
+      transition: height 0.3s ease;
+    }
+
+    .nav-index {
+      font-size: 0.7rem;
+      color: #64748b; /* Muted gray for number */
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      min-width: 28px;
+    }
+
+    .nav-text {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #334155;
+      flex-grow: 1;
+      margin-left: 10px;
+      padding-left: 15px;
+      border-left: 1px solid #f1f5f9;
+      letter-spacing: 0.02em;
+    }
+
+    .arrow-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      background: #f8fafc;
+      border: 1px solid #edf2f7;
+      transition: all 0.2s ease;
+
+      .nav-arrow {
+        font-size: 0.8rem;
+        color: #94a3b8; /* Muted arrow */
+        font-weight: 900;
+      }
+    }
+
+    /* 🔥 THE YARDI HOVER (High Contrast) */
+    &:hover {
+      background: #fdfdfd;
+      border-color: #cbd5e1;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+
+      &::before {
+        height: 60%; /* Bar slides in */
+      }
+
+      .nav-index {
+        color: #0056b3;
+      }
+
+      .nav-text {
+        color: #002d5c;
+      }
+
+      .arrow-wrapper {
+        border-color: #0056b3;
+        background: #0056b3;
+
+        .nav-arrow {
+          color: #ffffff;
+          // transform: translateX(2px);
+        }
+      }
+    }
+
+    /* Active state (The "Clicked" look) */
+    &:active {
+      transform: scale(0.99);
+      background: #f1f5f9;
+    }
+  }
+}
+/* 5. THE FOOTER */
+.contact-footer {
+  margin-top: 30px;
+  padding-top: 20px;
+  max-width: 400px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: #8a98ab;
+  font-size: 0.75rem;
+
+  .location-group {
+    display: flex;
+    align-items: center; /* 🔥 ensures vertical center */
+    gap: 6px;
+  }
+
+  .location-icon {
+    font-size: 16px;
+    line-height: 1; /* removes extra vertical space */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transform: translateY(
+      1px
+    ); /* 🔥 micro-adjust for perfect optical alignment */
+  }
+
+  .location {
+    color: #1368f1;
+    font-weight: 500;
+  }
+
+  .location-text {
+    line-height: 1;
+  }
+
+  .world-map {
+    width: clamp(80px, 25vw, 180px);
+    opacity: 0.3;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-footer {
+    justify-content: flex-start;
+    gap: 20px;
+
+    .world-map {
+      width: 90px;
+    }
+  }
+}
+/* 6. RESPONSIVE - MOBILE (Simple Stack) */
+@media (max-width: 1024px) {
+  .corporate-shell {
+    grid-template-columns: 1fr;
+    height: auto;
+    overflow-y: visible;
+  }
+  .visual-panel {
+    height: 45vh;
+  }
+  .content-panel {
+    height: auto;
+    padding: 40px 20px;
+  }
+}
+
+.thank-you-toast {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  z-index: 10000;
+
+  // High contrast colors for visibility on #f9fbff and #010e34
+  background: #121212;
+  color: #ffffff;
+
+  // Adding a distinct border so it doesn't get lost on dark backgrounds
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 4px solid #00e5ff; // Sharp cyan accent
+
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+
+  // Smooth slide-up animation
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+
+  &.active {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .toast-icon {
+    color: #00e5ff;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+  }
+
+  .text-group {
+    .toast-title {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #00e5ff; // Cyan for a "Tech/SQL" feel
+      font-weight: 800;
+      margin-bottom: 2px;
+    }
+
+    .toast-msg {
+      margin: 0;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 400;
+    }
+  }
+}
+
+// Ensure visibility on mobile
+@media (max-width: 768px) {
+  .thank-you-toast {
+    right: 20px;
+    left: 20px;
+    bottom: 20px;
+  }
+}
+.idea-notification {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 50;
+}
+
+.idea-icon {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: transparent;
+  color: grey;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* 🔴 Red Badge */
+.badge-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 10px;
+  height: 10px;
+  background: #ff3b3b;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+/* 💬 Cloud */
+.idea-cloud {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  width: 260px;
+
+  padding: 16px 18px;
+  border-radius: 18px;
+
+  background: #fa9759;
+  backdrop-filter: blur(14px);
+
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+
+  animation: cloudIn 0.3s ease;
+}
+
+.close-btn {
+  position: absolute;
+  top: -10px; /* Positions it slightly above the banner */
+  right: 15px;
+  background: #333;
+  color: #fff;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 0.2s ease; /* Smooth color transition */
+
+  &:hover {
+    background: #ff3b3b !important; /* Forces the red color on hover */
+    color: #fff;
+  }
+}
+
+/* Tail */
+.idea-cloud::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: 14px;
+  width: 12px;
+  height: 12px;
+  background: inherit;
+  transform: rotate(45deg);
+}
+
+@keyframes cloudIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInTop {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes slideInBottom {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- THE HIRE BANNER CONTAINER --- */
+.hire-banner-box {
+  position: absolute;
+  top: 55px;
+  right: 0;
+  width: 520px; /* Standard Desktop Width */
+  background: rgba(26, 26, 26, 0.95);
+  backdrop-filter: blur(15px); /* Modern frosted glass effect */
+  border-radius: 100px; /* Perfect Pill Shape */
+  padding: 8px 20px 8px 8px;
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  z-index: 1000;
+  animation: cloudIn 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+
+  .banner-flex {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .img-wrapper {
+    flex-shrink: 0;
+    display: flex;
+  }
+
+  .mini-profile-img {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white; /* Blue ring to match your brand */
+  }
+
+  .banner-info {
+    flex-grow: 1;
+    min-width: 0; /* Ensures text doesn't push the box out */
+
+    .banner-title {
+      margin: 0;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .banner-subtitle {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.8rem;
+    }
+  }
+
+  .hire-cta-btn {
+    background: #ffffff;
+    color: #000;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: #007bff;
+      color: #fff;
+      transform: scale(1.03);
+    }
+  }
+}
+
+/* --- CRITICAL FIX FOR MOBILE CLIPPING --- */
+@media (max-width: 768px) {
+  .hire-banner-box {
+    width: 92vw; /* Uses 92% of the screen width */
+    right: -4vw; /* Math: (100% - 92% width) / 2 = 4% on each side for perfect centering */
+    top: 55px;
+    border-radius: 20px; /* Switch to rounded card for mobile readability */
+    padding: 12px;
+
+    .banner-info {
+      .banner-title {
+        white-space: normal; /* Allow title to wrap on tiny screens */
+        font-size: 0.9rem;
+      }
+      .banner-subtitle {
+        font-size: 0.75rem;
+      }
+    }
+
+    .mini-profile-img {
+      width: 44px;
+      height: 44px;
+    }
+
+    .hire-cta-btn {
+      padding: 8px 14px;
+      font-size: 0.75rem;
+    }
+  }
+}
+
+@keyframes cloudIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.visual-panel {
+  position: relative;
+  overflow: hidden;
+  background: #020b1a;
+  perspective: 1200px;
+}
+
+.dots-bottom-left,
+.dots-top-right {
+  position: absolute;
+  pointer-events: none;
+  --dot-color: #4cc9f0;
+  z-index: 0;
+}
+
+.dots-bottom-left {
+  bottom: 100px;
+  left: -100px;
+  width: 55%;
+  height: 250px;
+
+  background-image: radial-gradient(
+    circle,
+    var(--dot-color) 1.2px,
+    transparent 1.2px
+  );
+  background-size: 20px 20px;
+
+  transform: rotateX(90deg) rotateZ(10deg);
+  transform-origin: bottom left;
+
+  -webkit-mask-image: linear-gradient(to top right, black 10%, transparent 70%);
+  mask-image: linear-gradient(to top right, black 10%, transparent 70%);
+
+  filter: drop-shadow(0 0 3px rgba(76, 201, 240, 0.4));
+}
+
+.dots-top-right {
+  top: 20px;
+  right: -30px;
+  width: 250px;
+  height: 250px;
+
+  background-image: radial-gradient(
+    circle,
+    var(--dot-color) 1px,
+    transparent 1px
+  );
+  background-size: 18px 18px;
+  transform: rotateX(90deg) rotateZ(-30deg) rotateY(120deg);
+
+  -webkit-mask-image: radial-gradient(
+    circle at center,
+    black 20%,
+    transparent 100%
+  );
+  opacity: 0.7;
+}
+
+/* Perfect Balance for Mobile */
+@media (max-width: 768px) {
+  .dots-bottom-left {
+    width: 90%;
+    height: 150px;
+    bottom: 10px;
+    background-size: 16px 16px;
+    transform: rotateX(50deg) rotateZ(5deg);
+  }
+
+  .dots-top-right {
+    width: 150px;
+    height: 150px;
+    top: 10px;
+  }
+}
+
+/* Optimized Balance for Mobile */
+@media (max-width: 768px) {
+  .dots-bottom-left {
+    /* 1. Reduce overall footprint */
+    width: 60%; /* Smaller horizontal span */
+    height: 100px; /* Significantly shorter height */
+    bottom: 50px; /* Pushed away from the very edge */
+    left: -20px; /* Less extreme bleed off-screen */
+
+    /* 2. Shrink the dots themselves */
+    background-size: 12px 12px;
+
+    /* 3. Flatten the perspective so it doesn't "stretch" too far */
+    transform: rotateX(45deg) rotateZ(5deg);
+
+    /* 4. Fade it out more so it doesn't compete with content */
+    opacity: 0.4;
+
+    /* 5. Sharper mask to keep it contained */
+    mask-image: linear-gradient(to top right, black 5%, transparent 50%);
+  }
+
+  .dots-top-right {
+    /* 1. Scale down the box */
+    width: 100px;
+    height: 100px;
+    top: 5px;
+    right: -10px;
+
+    /* 2. Smaller dots */
+    background-size: 10px 10px;
+
+    /* 3. Reduce visibility */
+    opacity: 0.3;
+  }
+}
+
+/* Extra safety for very small screens (iPhone SE, etc.) */
+@media (max-width: 480px) {
+  .dots-bottom-left {
+    width: 50%;
+    height: 80px;
+    bottom: 20px;
+  }
+}
+
+.bottom-right-asset {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  width: clamp(200px, 30vw, 400px);
+  z-index: 1;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 1;
+}
+
+.bottom-right-asset img {
+  width: 100%;
+  height: auto;
+  display: block;
+
+  filter: brightness(0.8) contrast(1.2) hue-rotate(10deg);
+}

@@ -1,0 +1,24 @@
+<div class="video-overlay">
+  <button class="close-btn" (click)="closeVideo()">
+    <span class="icon">&times;</span>
+    <span class="text">Back to Portfolio</span>
+  </button>
+
+  <div class="video-container">
+    <!-- Loader -->
+    <div class="loader" *ngIf="!videoLoaded"></div>
+
+    <!-- Video -->
+    <video
+      controls
+      autoplay
+      muted
+      playsinline
+      class="main-video"
+      [class.loaded]="videoLoaded"
+      (loadeddata)="onVideoLoad()"
+    >
+      <source src="assets/hero.hd.1080p.mp4" type="video/mp4" />
+    </video>
+  </div>
+</div>

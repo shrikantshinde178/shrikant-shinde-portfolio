@@ -1,0 +1,64 @@
+<div class="experience-wrapper">
+  <!-- Header -->
+  <header class="projects-header">
+    <div>
+      <span class="highlight-text badge">Here’s Where I’ve Gained</span>
+      <h2>Experience</h2>
+    </div>
+
+    <button mat-dialog-close class="dialog-close-btn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+
+  <div class="value-banner">
+    <p>
+      I help property management teams streamline reporting, automate workflows,
+      and deliver accurate data insights using
+      <strong>Voyager 7S & SQL</strong>.
+    </p>
+    <p>
+      Throughout my journey, I have focused on building data-driven solutions
+      and scalable systems that improve operational efficiency and support
+      business decision-making.
+    </p>
+  </div>
+
+  <!-- Intro -->
+  <div class="header">
+    <!-- <p>
+      Throughout my journey, I have focused on building data-driven solutions
+      and scalable systems that improve operational efficiency and support
+      business decision-making.
+    </p> -->
+  </div>
+
+  <!-- Timeline -->
+  <div class="timeline">
+    <div class="timeline-item" *ngFor="let exp of experiences">
+      <div class="timeline-left">
+        <div class="icon">
+          <mat-icon class="wo">work</mat-icon>
+        </div>
+      </div>
+
+      <div class="timeline-content">
+        <div class="top-row">
+          <h3>{{ exp.role }} <span> · {{ exp.company }}</span></h3>
+          <span class="badge" *ngIf="exp.current">Current</span>
+        </div>
+
+        <span class="date">{{ exp.duration }}</span>
+        <p>{{ exp.description }}</p>
+        <span class="cta-content">{{ exp.cta }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="resume-action">
+    <a [href]="resume.url" target="_blank" class="resume-btn">
+      <mat-icon>open_in_new</mat-icon>
+      {{ resume.label }}
+    </a>
+  </div>
+</div>

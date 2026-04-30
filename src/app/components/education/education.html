@@ -1,0 +1,106 @@
+<div class="projects-dialog">
+  <!-- HEADER (UNCHANGED) -->
+  <header class="projects-header">
+    <div>
+      <span class="highlight-text badge">The foundation behind my</span>
+      <h2>Education & Core Skills</h2>
+    </div>
+    <button mat-dialog-close class="dialog-close-btn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+
+  <!-- VALUE FIRST -->
+  <div class="value-banner">
+    From learning core computer science concepts to applying them in real-world
+    scenarios, my academic journey built the foundation of my thinking -
+    continuously shaping the skills I use today.
+    <!-- I specialize in
+    <strong>Yardi + SQL-driven reporting</strong>, helping teams automate
+    workflows and improve data accuracy. -->
+  </div>
+
+  <div class="flow-layout">
+    <!-- LEFT: TIMELINE -->
+    <div class="left-panel">
+      <h3 class="section-title">
+        <mat-icon>school</mat-icon> University Studies
+      </h3>
+
+      <div class="timeline">
+        <div class="timeline-item" *ngFor="let edu of education">
+          <div class="timeline-dot" [class.current]="edu.highlight"></div>
+
+          <div>
+            <h4>{{ edu.degree }}</h4>
+            <h5 class="institution-link">
+              <a [href]="edu.website" target="_blank" rel="noopener">
+                {{ edu.institution }}
+                <mat-icon class="link-icon">open_in_new</mat-icon>
+              </a>
+            </h5>
+            <span class="date-tag">{{ edu.year }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: STACKED CARDS -->
+    <div class="right-panel">
+      <!-- YARDI -->
+      <div class="skills-card yardi-specialty">
+        <h3 class="section-title">
+          <mat-icon>domain</mat-icon> Yardi CRM Expertise
+        </h3>
+
+        <div class="pill-container">
+          <span class="skill-pill yardi" *ngFor="let mod of yardiModules">
+            <img [src]="mod.icon" alt="" class="pill-icon" />
+            {{ mod.name }}
+          </span>
+        </div>
+      </div>
+
+      <!-- TECH -->
+      <div class="skills-card">
+        <h3 class="section-title">
+          <mat-icon>terminal</mat-icon> Tools & Technologies
+        </h3>
+
+        <div class="pill-container">
+          <span class="skill-pill tech" *ngFor="let tech of techStack">
+            {{ tech }}
+          </span>
+        </div>
+      </div>
+
+      <!-- IMPACT -->
+      <div class="impact-card" #impactSection>
+        <h3>What I <span class="ibr">Bring</span></h3>
+
+        <div class="impact-stats">
+          <div>
+            <h4>{{ reportsCount }}+</h4>
+            <p>Reports Automated</p>
+          </div>
+          <div>
+            <h4>{{ reductionPercent }}%</h4>
+            <p>Manual Work Reduced</p>
+          </div>
+          <div>
+            <h4>{{ accuracy }}%</h4>
+            <p>Accuracy Focus</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <!-- <div class="resume-action">
+        <a [href]="resume.url" target="_blank" class="resume-btn">
+          <mat-icon>open_in_new</mat-icon>
+          View Full Profile & Work
+        </a>
+      </div> -->
+    </div>
+  </div>
+</div>

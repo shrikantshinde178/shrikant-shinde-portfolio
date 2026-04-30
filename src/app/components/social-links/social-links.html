@@ -1,0 +1,24 @@
+<div class="links-container">
+  <div class="floating-bg">
+    <span class="orb orb1"></span>
+    <span class="orb orb2"></span>
+    <span class="orb orb3"></span>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <div class="content-wrapper">
+    <h2>Connect With Me</h2>
+    <div class="links">
+      @for (link of socialLinks; track link.label) {
+      <a [href]="link.url" target="_blank" class="link-item">
+        <div class="link-content-left">
+          <i [className]="link.icon"></i>
+          <span>{{ link.label }}</span>
+        </div>
+
+        <i class="fas fa-arrow-right external-link-icon"></i>
+      </a>
+      }
+    </div>
+  </div>
+</div>

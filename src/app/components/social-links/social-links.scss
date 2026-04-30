@@ -1,0 +1,218 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.links-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.floating-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.content-wrapper {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h2 {
+    margin-bottom: 2rem;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-align: center;
+  }
+}
+
+/* BASE LINK STYLE */
+.link-item {
+  display: flex;
+  align-items: center;
+  /* CRITICAL: This pushes the left-content to the left and arrow to the total right */
+  justify-content: space-between;
+
+  padding: 0 16px; /* Increased padding for better edge breathing room */
+  height: 44px;
+  flex: 1;
+  min-width: 0;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.25s ease-out;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-sizing: border-box;
+
+  .link-content-left {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Professional spacing between icon and text */
+
+    i {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(0, 0, 0, 0.813);
+      background: #d1d3d675;
+      border-radius: 8px;
+      font-size: 14px;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+
+    span {
+      font-size: 14px;
+      letter-spacing: normal;
+      transition: letter-spacing 0.3s ease;
+      font-weight: 500;
+      color: #333;
+    }
+  }
+
+  .external-link-icon {
+    font-size: 12px;
+    color: #bbb;
+    /* Changed: keep it visible but subtle, or use your slide-in logic */
+    opacity: 0.5;
+    transition: all 0.3s ease;
+    flex-shrink: 0; /* Ensures the arrow never squishes */
+  }
+
+  &:hover {
+    background: #ffffff;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+
+    .link-content-left {
+      i {
+        background: #3872e5;
+        color: #fff;
+      }
+      span {
+        letter-spacing: 0.5px; /* Subtle expansion */
+        color: #000;
+      }
+    }
+
+    .external-link-icon {
+      opacity: 1;
+      color: #3872e5;
+      transform: translateX(3px);
+    }
+  }
+}
+@media (max-width: 600px) {
+  .links {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .link-item {
+    width: 90%;
+    max-width: 280px;
+    flex: none;
+    // Keep arrow visible on mobile for better affordance
+    .external-link-icon {
+      opacity: 0.6;
+      transform: translateX(0);
+    }
+  }
+}
+
+/* DESKTOP: Single Horizontal Row */
+@media (min-width: 1025px) {
+  .links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+  }
+  .link-item {
+    flex: 1;
+    max-width: 200px;
+  }
+}
+
+/* TABLET: 2x2 Grid (Fixes the overlap) */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .links {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); // Two equal columns
+    gap: 16px; // Space between buttons
+    width: 100%;
+    max-width: 450px; // Keeps the grid centered and compact
+  }
+  .link-item {
+    width: 100%; // Fill the grid cell
+    max-width: none;
+  }
+}
+
+/* MOBILE: Single Column Stack */
+@media (max-width: 600px) {
+  .content-wrapper h2 {
+    margin-bottom: 1.2rem;
+  }
+  .links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    align-items: center;
+  }
+  .link-item {
+    width: 85%;
+    max-width: 280px;
+  }
+}
+
+/* ANIMATED BACKGROUND */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.4;
+  z-index: 1;
+}
+.orb1 {
+  width: 700px;
+  height: 300px;
+  background: #0a66c2;
+  top: -50px;
+  left: -50px;
+}
+.orb2 {
+  width: 350px;
+  height: 350px;
+  background: #007bff;
+  bottom: -50px;
+  right: -50px;
+}
+.grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: 1;
+}

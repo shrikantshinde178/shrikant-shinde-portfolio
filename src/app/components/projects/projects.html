@@ -1,0 +1,162 @@
+<div class="projects-dialog">
+  <header class="projects-header">
+    <div>
+      <span class="highlight-text badge">Let's talk about</span>
+      <h2>My Few Projects</h2>
+    </div>
+    <button mat-dialog-close class="dialog-close-btn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+
+  <div class="projects-wrapper-main">
+    <!-- Tabs -->
+    <nav class="modern-tabs">
+      <div
+        class="tab-item"
+        [class.active]="activeTab === 'All'"
+        (click)="setTab('All')"
+      >
+        All Projects
+      </div>
+      <div
+        class="tab-item"
+        [class.active]="activeTab === 'Yardi'"
+        (click)="setTab('Yardi')"
+      >
+        Yardi Reports
+      </div>
+      <div
+        class="tab-item"
+        [class.active]="activeTab === 'Web'"
+        (click)="setTab('Web')"
+      >
+        Web Applications
+      </div>
+    </nav>
+
+    <!-- Projects Grid -->
+    <div
+      [ngClass]="activeTab === 'All' ? 'masonry-container' : 'standard-grid'"
+    >
+      @for (p of filteredProjects; track p.title) {
+      <div class="project-item-wrapper">
+        <ng-container
+          *ngTemplateOutlet="projectCard; context: { $implicit: p }"
+        ></ng-container>
+      </div>
+      }
+    </div>
+
+    <!-- Card Template -->
+    <ng-template #projectCard let-p>
+      <!-- Yardi -->
+      <div
+        *ngIf="p.category === 'Yardi'"
+        class="project-card yardi-card"
+        (click)="view(p)"
+      >
+        <div class="card-inner">
+          <div class="file-icon-box">
+            <i [class]="getFileIcon(p.fileType)"></i>
+          </div>
+          <div class="card-text">
+            <h3>{{ p.title }}</h3>
+            <p>{{ p.description }}</p>
+          </div>
+          <span class="arrow-wrapper">
+            <span class="nav-arrow">→</span>
+          </span>
+          <!-- <mat-icon class="card-arrow nav-arrow">chevron_right</mat-icon> -->
+        </div>
+      </div>
+
+      <!-- Web -->
+      <div *ngIf="p.category === 'Web'" class="project-card web-card">
+        <div class="web-preview">
+          <img [src]="p.image" loading="lazy" decoding="async" />
+          <div class="web-hover-info">View Details</div>
+        </div>
+        <div class="web-content">
+          <div class="tech-pill-container">
+            <span class="tech-pill" *ngFor="let t of p.tech">{{ t }}</span>
+          </div>
+          <h3>{{ p.title }}</h3>
+          <p>{{ p.description }}</p>
+          <div class="web-actions">
+            <!-- <a [href]="p.sourceCode" target="_blank" class="action-btn">
+              <mat-icon>code</mat-icon> Source
+            </a> -->
+            <!-- <a (click)="confirmVisit(p)" class="action-btn live"> -->
+            <a (click)="openWebProject(p)" class="action-btn live">
+              <mat-icon>launch</mat-icon>
+              Visit Site
+            </a>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- DOCUMENT VIEWER -->
+  <div class="modal-overlay" *ngIf="selectedProject">
+    <div class="modal-content">
+      <!-- SECURITY -->
+      <div
+        class="security-banner"
+        *ngIf="selectedProject?.category === 'Yardi'"
+      >
+        <div class="banner-content">
+          <mat-icon>security</mat-icon>
+          <div>
+            <strong>Secure View</strong>
+            <p>
+              This document is client owned and displayed for portfolio
+              demonstration purposes only.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOP BAR -->
+      <div class="modal-top-bar">
+        <h3>{{ selectedProject.title }}</h3>
+
+        <div class="zoom-controls" *ngIf="selectedProject.category==='Yardi'">
+          <button (click)="zoomOut()">−</button>
+          <div>{{ zoomLevel }}%</div>
+          <button (click)="zoomIn()">+</button>
+        </div>
+
+        <button class="cls" (click)="close()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <!-- VIEWER -->
+      <div class="viewer-layout">
+        <div class="viewer-wrapper" (scroll)="onScroll($event)">
+          <div
+            class="report-container"
+            [style.transform]="'scale(' + zoom + ')'"
+          >
+            <div
+              class="report-page"
+              *ngFor="let page of visiblePages; let i = index"
+            >
+              <img
+                [src]="page"
+                loading="lazy"
+                decoding="async"
+                draggable="false"
+              />
+            </div>
+          </div>
+
+          <div class="watermark">CONFIDENTIAL</div>
+        </div>
+        <div class="watermark">CONFIDENTIAL</div>
+      </div>
+    </div>
+  </div>
+</div>

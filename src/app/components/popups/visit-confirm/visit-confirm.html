@@ -1,0 +1,19 @@
+<div class="project-popup">
+  <!-- Close Icon -->
+  <button class="close-btn" (click)="dialogRef.close()">×</button>
+
+  <!-- Content -->
+  <h2>{{ project.title }}</h2>
+
+  <p class="overview">{{ project.details?.overview }}</p>
+
+  <div class="features">
+    <h4>
+      <span class="label">Technology/Type:</span
+      ><span class="tech">{{ project.details?.techtype }}</span>
+    </h4>
+  </div>
+
+  <!-- Visit Button -->
+  <button class="visit-btn" (click)="visit()">Visit Site</button>
+</div>

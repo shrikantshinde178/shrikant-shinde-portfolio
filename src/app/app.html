@@ -1,0 +1,139 @@
+<div class="corporate-shell">
+  <section class="visual-panel">
+    <div class="dots-top-right"></div>
+    <div class="dots-bottom-left"></div>
+    <div class="bottom-right-asset">
+      <img src="assets/images/world.jpeg" alt="decorative asset" />
+    </div>
+
+    <div class="top-brand">
+      <span class="title">Portfolio</span>
+    </div>
+    <div class="video-wrapper">
+      <div class="bg-image"></div>
+
+      <div class="overlay-gradient"></div>
+
+      <div class="play-trigger" (click)="playFullVideo()">
+        <div class="play-circle">
+          <span class="play-icon">▶</span>
+        </div>
+        <p class="play-text">Watch 2-min Intro</p>
+      </div>
+    </div>
+
+    <div class="stats-overlay">
+      <div class="stat-box" *ngFor="let stat of stats">
+        <mat-icon class="stat-icon">{{ stat.icon }}</mat-icon>
+
+        <div class="stat-text">
+          <span class="stat-value">{{ stat.value }}</span>
+          <span class="stat-label">{{ stat.label }}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-panel">
+    <div class="curve-divider">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path d="M100,0 C60,0 40,100 0,100 L100,100 Z" fill="#f9fbff" />
+      </svg>
+    </div>
+
+    <div class="idea-notification" *ngIf="showNotificationIcon">
+      <div class="idea-icon" (click)="toggleIdeaBox()">
+        <mat-icon>notifications</mat-icon>
+        <span class="badge-dot" *ngIf="hasUnreadNotification"></span>
+      </div>
+
+      <div class="hire-banner-box" *ngIf="showIdeaBox">
+        <button class="close-btn" (click)="closeIdea($event)">✕</button>
+        <div class="banner-flex">
+          <div class="img-wrapper">
+            <img
+              src="assets/images/Passport Photo Shrikant.png"
+              alt="Shrikant"
+              class="mini-profile-img"
+            />
+          </div>
+          <div class="banner-info">
+            <h4 class="banner-title">Have any project idea?</h4>
+            <p class="banner-subtitle">
+              I'm available for Freelance or Full-time Role.
+            </p>
+          </div>
+          <button class="hire-cta-btn" (click)="openLinks()">
+            Let's Connect
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="inner-content">
+      <header class="branding">
+        <span class="intro-text">Hello, I'm</span>
+        <h1 class="name-title">
+          {{ brand.name }} <span class="last-name">{{ brand.lastName }}</span>
+        </h1>
+        <p class="role-tag">
+          <img src="assets/images/YardiLogo.jpg" alt="Yardi" class="yrd-logo" />
+          {{ brand.role }}
+        </p>
+        <div class="accent-line"></div>
+        <p class="brief">{{ brand.brief }}</p>
+        <!-- <p class="sub-brief">*{{ brand.subbrief}}</p> -->
+      </header>
+
+      <nav class="main-nav">
+        <button
+          *ngFor="let item of navItems"
+          (click)="item.action()"
+          class="nav-button"
+          matRipple
+        >
+          <span class="nav-index">{{ item.index }}</span>
+          <span class="nav-text">{{ item.label }}</span>
+
+          <span class="arrow-wrapper">
+            <span class="nav-arrow">→</span>
+          </span>
+        </button>
+      </nav>
+
+      <footer class="contact-footer">
+        <div class="location-group">
+          <mat-icon class="location-icon">place</mat-icon>
+
+          <span class="location-text">
+            Currently based in
+            <span class="location"> {{ brand.location }}</span>
+          </span>
+        </div>
+
+        <img src="assets/images/utd.png" alt="world map" class="world-map" />
+      </footer>
+    </div>
+  </section>
+</div>
+
+<router-outlet></router-outlet>
+<div class="thank-you-toast" *ngIf="showToast" [class.active]="animateToast">
+  <div class="toast-icon">
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="3"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+  </div>
+  <div class="text-group">
+    <!-- <span class="toast-title">System Ready</span> -->
+    <p class="toast-msg">Thank you for visiting :)</p>
+  </div>
+</div>

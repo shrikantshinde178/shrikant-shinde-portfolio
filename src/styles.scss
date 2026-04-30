@@ -1,0 +1,215 @@
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use "@angular/material" as mat;
+
+html {
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+
+body {
+  // Default the application to a light color theme. This can be changed to
+  // `dark` to enable the dark color theme, or to `light dark` to defer to the
+  // user's system settings.
+  color-scheme: light;
+
+  // Set a default background, font and text colors for the application using
+  // Angular Material's system-level CSS variables. Learn more about these
+  // variables at https://material.angular.dev/guide/system-variables
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  // Reset the user agent margin.
+  margin: 0;
+}
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* GLOBAL CLOSE BUTTON (used everywhere) */
+.dialog-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+  border: none;
+  outline: none;
+
+  border-radius: 50%;
+
+  color: #6b7280;
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+/* Mobile fallback */
+@media (max-width: 768px) {
+  .dialog-close-btn {
+    position: static;
+    box-shadow: none;
+  }
+}
+
+button.dialog-close-btn.mat-mdc-icon-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* 🔥 RESET MATERIAL DEFAULTS */
+  border: none !important;
+  outline: none !important;
+  background: #ffffff !important;
+
+  /* FORCE LOOK */
+  color: #111 !important;
+  border-radius: 50% !important;
+
+  // box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15) !important;
+
+  transition: all 0.25s ease;
+}
+.dialog-close-btn mat-icon {
+  font-size: 20px;
+  color: #6b7280;
+
+  display: inline-flex; /* important */
+  align-items: center;
+  justify-content: center;
+
+  transform-origin: center; /* lock center */
+  transition:
+    transform 0.25s ease,
+    color 0.2s ease;
+}
+
+.dialog-close-btn:hover mat-icon {
+  transform: rotate(90deg) translateY(-1px); /* small correction */
+  color: #093667;
+}
+
+.dialog-close-btn:active mat-icon {
+  transform: scale(0.92);
+}
+
+.dialog-close-btn::before,
+.dialog-close-btn::after {
+  display: none !important;
+}
+
+/* =========================================
+   ✅ FORCE SCROLLBAR STYLE (WORKING FIX)
+   ========================================= */
+
+/* TARGET THE REAL SCROLL CONTAINER */
+.cdk-overlay-pane,
+.custom-dialog-container,
+.custom-dialog-container .mat-mdc-dialog-surface,
+.custom-dialog-container .mat-mdc-dialog-content {
+  overflow-y: auto !important;
+}
+.custom-dialog-container .mat-mdc-dialog-surface {
+  border-radius: 14px;
+  overflow: hidden;
+
+  background: #f9fbff !important;
+}
+/* =========================
+   CHROME / EDGE / SAFARI
+   ========================= */
+
+/* Apply everywhere inside dialog */
+.cdk-overlay-pane::-webkit-scrollbar,
+.custom-dialog-container::-webkit-scrollbar,
+.custom-dialog-container .mat-mdc-dialog-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+.cdk-overlay-pane::-webkit-scrollbar-track,
+.custom-dialog-container::-webkit-scrollbar-track,
+.custom-dialog-container .mat-mdc-dialog-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* THUMB (BLUE) */
+.cdk-overlay-pane::-webkit-scrollbar-thumb,
+.custom-dialog-container::-webkit-scrollbar-thumb,
+.custom-dialog-container .mat-mdc-dialog-content::-webkit-scrollbar-thumb {
+  background: #5453534a;
+  border-radius: 10px;
+}
+
+/* Hover */
+.cdk-overlay-pane::-webkit-scrollbar-thumb:hover,
+.custom-dialog-container::-webkit-scrollbar-thumb:hover,
+.custom-dialog-container
+  .mat-mdc-dialog-content::-webkit-scrollbar-thumb:hover {
+  background: #5453534a;
+}
+
+/* 🔥 BACKDROP OVERLAY */
+.custom-backdrop {
+  background: rgba(10, 10, 10, 0.65) !important;
+
+  /* Optional: blur effect (premium feel) */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  transition: all 0.3s ease;
+}
+/* =========================
+   FIREFOX
+   ========================= */
+.cdk-overlay-pane,
+.custom-dialog-container .mat-mdc-dialog-content {
+  scrollbar-width: thin;
+  scrollbar-color: #5453534a transparent;
+}
+/* TARGET REAL MATERIAL LAYER */
+.custom-dialog-container .mdc-dialog__surface {
+  background: #f9fbff !important; /* allow your inner div to control */
+  box-shadow: none !important;
+  overflow: hidden;
+}
+
+/* REMOVE EXTRA PADDING */
+.custom-dialog-container .mat-mdc-dialog-container {
+  padding: 0 !important;
+}
