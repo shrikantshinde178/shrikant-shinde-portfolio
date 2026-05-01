@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-
 interface Stat {
   value: string;
   label: string;
   icon: string;
+  target?: number;
+  suffix?: string;
+  animatedValue?: number;
 }
 
 interface NavItem {
@@ -27,9 +29,18 @@ export class App implements OnInit {
   constructor(
     private dialog: MatDialog,
     private router: Router,
-  ) {}
+  ) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        gtag('config', 'G-QYZEE2C6MJ', {
+          page_path: event.urlAfterRedirects,
+        });
+      }
+    });
+  }
 
   ngOnInit() {
+    this.animateStats();
     const isRead = localStorage.getItem('ideaRead');
     this.hasUnreadNotification = isRead !== 'true';
 
@@ -38,6 +49,43 @@ export class App implements OnInit {
     }, 3000);
   }
 
+  animateStats() {
+    this.stats.forEach((stat) => {
+      if (!stat.target) return;
+
+      let current = 0;
+      const duration = 1200;
+      const stepTime = 20;
+
+      const increment = stat.target / (duration / stepTime);
+
+      const interval = setInterval(() => {
+        current += increment;
+
+        if (current >= stat.target!) {
+          current = stat.target!;
+          clearInterval(interval);
+        }
+
+        stat.animatedValue = Math.floor(current);
+      }, stepTime);
+    });
+  }
+  formatValue(value: number): string {
+    if (value >= 1000000000) {
+      return (value / 1000000000).toFixed(1) + '';
+    }
+
+    if (value >= 1000000) {
+      return (value / 1000000).toFixed(1) + 'M';
+    }
+
+    if (value >= 1000) {
+      return (value / 1000).toFixed(1) + 'K';
+    }
+
+    return value.toString();
+  }
   hasUnreadNotification = true;
   showIdeaBox = false;
   showNotificationIcon = false;
@@ -123,10 +171,34 @@ export class App implements OnInit {
   };
 
   protected readonly stats: Stat[] = [
-    { value: '1.5B+', label: 'Rows Processed', icon: 'storage' },
-    { value: '36+', label: 'Custom Reports', icon: 'code' },
-    { value: '2+', label: 'Yrs Experience', icon: 'bar_chart' },
-    { value: '5+', label: 'Happy Client', icon: 'groups' },
+    {
+      value: '1.5B+',
+      label: 'Rows Processed',
+      icon: 'storage',
+      target: 1500000000,
+      suffix: 'B+',
+    },
+    {
+      value: '36+',
+      label: 'Custom Reports',
+      icon: 'code',
+      target: 36,
+      suffix: '+',
+    },
+    {
+      value: '2+',
+      label: 'Yrs Experience',
+      icon: 'bar_chart',
+      target: 2,
+      suffix: '+',
+    },
+    {
+      value: '5+',
+      label: 'Happy Client',
+      icon: 'groups',
+      target: 5,
+      suffix: '+',
+    },
   ];
   protected readonly navItems: NavItem[] = [
     {

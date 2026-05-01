@@ -14,25 +14,15 @@ import { MatIconModule } from '@angular/material/icon';
 export class Education implements AfterViewInit {
   constructor(public dialogRef: MatDialogRef<Education>) {}
 
-  // =========================
-  // VIEW CHILD
-  // =========================
   @ViewChild('impactSection') impactSection!: ElementRef;
 
-  // =========================
-  // COUNTER STATE
-  // =========================
   reportsCount = 0;
   reductionPercent = 0;
   accuracy = 0;
 
   hasAnimated = false;
 
-  // =========================
-  // LIFECYCLE
-  // =========================
   ngAfterViewInit() {
-    // Delay for dialog rendering
     setTimeout(() => {
       const observer = new IntersectionObserver(
         ([entry]) => {
@@ -40,7 +30,7 @@ export class Education implements AfterViewInit {
             this.hasAnimated = true;
 
             this.startCounters();
-            observer.disconnect(); // run only once
+            observer.disconnect();
           }
         },
         {
@@ -52,9 +42,6 @@ export class Education implements AfterViewInit {
     }, 200);
   }
 
-  // =========================
-  // COUNTER LOGIC
-  // =========================
   startCounters() {
     setTimeout(() => {
       this.animateCount(20, (val) => (this.reportsCount = val));
@@ -89,18 +76,12 @@ export class Education implements AfterViewInit {
     }, 16);
   }
 
-  // =========================
-  // RESUME
-  // =========================
   resume = {
     url: 'https://drive.google.com/file/d/151q0h7N0qlKPVMlSJvYlP9IfpjbZlsWH/view?usp=sharing',
     label: 'View Resume',
     download: false,
   };
 
-  // =========================
-  // TOGGLES
-  // =========================
   showDomain = false;
   showTechnical = false;
 
@@ -114,9 +95,6 @@ export class Education implements AfterViewInit {
     this.showDomain = false;
   }
 
-  // =========================
-  // EDUCATION DATA
-  // =========================
   education = [
     {
       degree: 'Master of Science in Computer Science',
@@ -138,9 +116,6 @@ export class Education implements AfterViewInit {
     },
   ];
 
-  // =========================
-  // YARDI MODULES
-  // =========================
   yardiModules = [
     {
       name: 'Residential & Affordable',
@@ -176,9 +151,6 @@ export class Education implements AfterViewInit {
     },
   ];
 
-  // =========================
-  // SUBJECTS
-  // =========================
   subjects = [
     'Database Management Systems',
     'Advanced SQL & Query Optimization',
@@ -187,9 +159,6 @@ export class Education implements AfterViewInit {
     'Software Engineering',
   ];
 
-  // =========================
-  // TECH STACK
-  // =========================
   techStack = [
     'SQL Server',
     'MongoDB',

@@ -27,7 +27,9 @@
         <mat-icon class="stat-icon">{{ stat.icon }}</mat-icon>
 
         <div class="stat-text">
-          <span class="stat-value">{{ stat.value }}</span>
+          <span class="stat-value">
+            {{ formatValue(stat.animatedValue ?? 0) }}{{ stat.suffix }}
+          </span>
           <span class="stat-label">{{ stat.label }}</span>
         </div>
       </div>

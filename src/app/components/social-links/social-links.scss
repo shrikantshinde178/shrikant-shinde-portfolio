@@ -1,218 +1,206 @@
+/* =========================
+   HOST
+   ========================= */
 :host {
   display: block;
   width: 100%;
   height: 100%;
 }
 
+/* =========================
+   CONTAINER
+   ========================= */
 .links-container {
-  position: relative;
   width: 100%;
   height: 100%;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+
   padding: 20px;
   box-sizing: border-box;
-}
 
-.floating-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-}
+  background: linear-gradient(135deg, #f8fafc, #eef2ff);
+  font-family: "Inter", sans-serif;
 
-.content-wrapper {
   position: relative;
-  z-index: 2;
+}
+
+/* =========================
+   HEADER
+   ========================= */
+.projects-header {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 35px;
+}
+.primary-text {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #334155;
+  line-height: 1.6;
+}
+
+.cta-text {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #475569;
+  font-weight: 500;
+}
+.dialog-close-btn {
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* =========================
+   MAIN LAYOUT
+   ========================= */
+.content-wrapper {
   width: 100%;
-  max-width: 1000px;
+  max-width: 900px;
+
   display: flex;
   flex-direction: column;
-  align-items: center;
 
-  h2 {
-    margin-bottom: 2rem;
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: #1a1a1a;
-    text-align: center;
-  }
+  gap: 30px;
 }
 
-/* BASE LINK STYLE */
-.link-item {
+/* =========================
+   LEFT TEXT
+   ========================= */
+.header-text {
+  width: 100%;
+  max-width: 490px;
+}
+
+.header-text h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.4;
+
+  background: linear-gradient(90deg, #0f172a, #4f46e5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.highlight-text {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 12px;
+
+  background: #e0e7ff;
+  padding: 5px 8px;
+  border-radius: 6px;
+
+  color: #334155;
+}
+
+.header-text h5 {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* =========================
+   RIGHT WRAPPER (KEY FIX)
+   ========================= */
+.links-wrapper {
+  display: flex;
+  align-items: center; /* 🔥 vertical center on desktop */
+  justify-content: center;
+}
+
+/* =========================
+   GRID
+   ========================= */
+.links-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+
+  width: 100%;
+  max-width: 260px;
+}
+
+/* =========================
+   CARD
+   ========================= */
+.link-card {
   display: flex;
   align-items: center;
-  /* CRITICAL: This pushes the left-content to the left and arrow to the total right */
-  justify-content: space-between;
+  justify-content: center;
+  gap: 8px;
 
-  padding: 0 16px; /* Increased padding for better edge breathing room */
-  height: 44px;
-  flex: 1;
-  min-width: 0;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+
   text-decoration: none;
-  transition: all 0.25s ease-out;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  box-sizing: border-box;
+  color: #0f172a;
 
-  .link-content-left {
-    display: flex;
-    align-items: center;
-    gap: 12px; /* Professional spacing between icon and text */
+  font-size: 13px;
+  font-weight: 500;
 
-    i {
-      width: 28px;
-      height: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: rgba(0, 0, 0, 0.813);
-      background: #d1d3d675;
-      border-radius: 8px;
-      font-size: 14px;
-      flex-shrink: 0;
-      transition: all 0.3s ease;
-    }
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.06);
 
-    span {
-      font-size: 14px;
-      letter-spacing: normal;
-      transition: letter-spacing 0.3s ease;
-      font-weight: 500;
-      color: #333;
-    }
-  }
+  backdrop-filter: blur(6px);
 
-  .external-link-icon {
-    font-size: 12px;
-    color: #bbb;
-    /* Changed: keep it visible but subtle, or use your slide-in logic */
-    opacity: 0.5;
-    transition: all 0.3s ease;
-    flex-shrink: 0; /* Ensures the arrow never squishes */
-  }
-
-  &:hover {
-    background: #ffffff;
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
-
-    .link-content-left {
-      i {
-        background: #3872e5;
-        color: #fff;
-      }
-      span {
-        letter-spacing: 0.5px; /* Subtle expansion */
-        color: #000;
-      }
-    }
-
-    .external-link-icon {
-      opacity: 1;
-      color: #3872e5;
-      transform: translateX(3px);
-    }
-  }
-}
-@media (max-width: 600px) {
-  .links {
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-  .link-item {
-    width: 90%;
-    max-width: 280px;
-    flex: none;
-    // Keep arrow visible on mobile for better affordance
-    .external-link-icon {
-      opacity: 0.6;
-      transform: translateX(0);
-    }
-  }
+  transition: all 0.25s ease;
 }
 
-/* DESKTOP: Single Horizontal Row */
-@media (min-width: 1025px) {
-  .links {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    width: 100%;
+.link-card i {
+  font-size: 16px;
+  color: #4f46e5;
+  transition: 0.25s;
+}
+
+.link-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(79, 70, 229, 0.12);
+}
+
+.link-card:hover i {
+  transform: scale(1.15);
+}
+
+/* =========================
+   DESKTOP (IMPORTANT)
+   ========================= */
+@media (min-width: 768px) {
+  .content-wrapper {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch; /* allows right side centering control */
   }
-  .link-item {
+
+  .links-wrapper {
     flex: 1;
-    max-width: 200px;
-  }
-}
-
-/* TABLET: 2x2 Grid (Fixes the overlap) */
-@media (min-width: 601px) and (max-width: 1024px) {
-  .links {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); // Two equal columns
-    gap: 16px; // Space between buttons
-    width: 100%;
-    max-width: 450px; // Keeps the grid centered and compact
-  }
-  .link-item {
-    width: 100%; // Fill the grid cell
-    max-width: none;
-  }
-}
-
-/* MOBILE: Single Column Stack */
-@media (max-width: 600px) {
-  .content-wrapper h2 {
-    margin-bottom: 1.2rem;
-  }
-  .links {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: 100%;
-    align-items: center;
+    align-items: center; /* 🔥 THIS CENTERS GRID VERTICALLY */
+    justify-content: center;
   }
-  .link-item {
-    width: 85%;
-    max-width: 280px;
+
+  .header-text {
+    flex: 1;
   }
 }
 
-/* ANIMATED BACKGROUND */
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(60px);
-  opacity: 0.4;
-  z-index: 1;
-}
-.orb1 {
-  width: 700px;
-  height: 300px;
-  background: #0a66c2;
-  top: -50px;
-  left: -50px;
-}
-.orb2 {
-  width: 350px;
-  height: 350px;
-  background: #007bff;
-  bottom: -50px;
-  right: -50px;
-}
-.grid-overlay {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-  z-index: 1;
+/* =========================
+   MOBILE (IMPORTANT FIX)
+   ========================= */
+@media (max-width: 768px) {
+  .content-wrapper {
+    flex-direction: column;
+  }
+
+  .links-wrapper {
+    align-items: flex-start; /* 🔥 REMOVE CENTER SPACE */
+  }
 }

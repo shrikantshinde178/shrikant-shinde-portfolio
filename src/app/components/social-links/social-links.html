@@ -1,24 +1,35 @@
 <div class="links-container">
-  <div class="floating-bg">
-    <span class="orb orb1"></span>
-    <span class="orb orb2"></span>
-    <span class="orb orb3"></span>
-    <div class="grid-overlay"></div>
-  </div>
+  <header class="projects-header">
+    <div>
+      <p></p>
+    </div>
+    <button class="dialog-close-btn" (click)="closeDialog()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
 
   <div class="content-wrapper">
-    <h2>Connect With Me</h2>
-    <div class="links">
-      @for (link of socialLinks; track link.label) {
-      <a [href]="link.url" target="_blank" class="link-item">
-        <div class="link-content-left">
+    <!-- LEFT -->
+    <div class="header-text">
+      <h2>{{cta.txt1}}</h2>
+
+      <p class="primary-text"></p>
+
+      <p class="cta-text">{{cta.txt4}}</p>
+
+      <h5>{{cta.txt5}}</h5>
+    </div>
+
+    <!-- RIGHT (NEW WRAPPER FOR VERTICAL CENTER CONTROL) -->
+    <div class="links-wrapper">
+      <div class="links-grid">
+        @for (link of socialLinks; track link.label) {
+        <a [href]="link.url" target="_blank" class="link-card">
           <i [className]="link.icon"></i>
           <span>{{ link.label }}</span>
-        </div>
-
-        <i class="fas fa-arrow-right external-link-icon"></i>
-      </a>
-      }
+        </a>
+        }
+      </div>
     </div>
   </div>
 </div>
