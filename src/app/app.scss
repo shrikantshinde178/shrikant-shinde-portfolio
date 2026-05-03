@@ -402,7 +402,8 @@
       font-size: clamp(0.75rem, 1.2vw, 0.9rem);
       // letter-spacing: 1px;
 
-      color: #556070;
+      // color: #556070;
+      color: #000;
       font-style: italic;
       line-height: 1.6;
       opacity: 0.85;
@@ -435,6 +436,7 @@
       line-height: 1.6;
       margin: 0;
       opacity: 0.85;
+      content-visibility: auto;
     }
 
     .sub-brief {
