@@ -1,207 +1,376 @@
-/* =========================
-   HOST
-   ========================= */
 :host {
   display: block;
   width: 100%;
   height: 100%;
 }
 
-/* =========================
-   CONTAINER
-   ========================= */
-.links-container {
+$text-muted: #666666;
+
+@import url("https://fonts.googleapis.com/css2?family=Ephesis&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css");
+
+/* ==========================================================================
+   DESKTOP DEFAULT STYLES (Side-by-Side Bento Grid Layout)
+   ========================================================================== */
+.contact-bento {
+  box-sizing: border-box;
+  // font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   width: 100%;
   height: 100%;
-
   display: flex;
-  justify-content: center;
-  align-items: center;
-
-  padding: 20px;
-  box-sizing: border-box;
-
-  background: linear-gradient(135deg, #f8fafc, #eef2ff);
-  font-family: "Inter", sans-serif;
-
+  background: #f9fbff;
   position: relative;
-}
+  overflow: hidden;
 
-/* =========================
-   HEADER
-   ========================= */
-.projects-header {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 35px;
-}
-.primary-text {
-  margin-top: 10px;
-  font-size: 13px;
-  color: #334155;
-  line-height: 1.6;
-}
+  &::before {
+    content: "";
+    position: absolute;
+    top: 20px;
+    right: 43%;
+    width: 140px;
+    height: 70px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50" fill="none" stroke="%23cccccc" stroke-width="1.2" stroke-dasharray="3,4"><path d="M0,40 Q25,5 55,30 T100,10"/></svg>')
+      no-repeat;
+    opacity: 0.6;
+    z-index: 1;
+    pointer-events: none;
+  }
+  /* ==========================================================================
+   DOSSIER CLOSE BUTTON (Cleaned & Prioritized)
+   ========================================================================== */
+  .dossier-close-btn {
+    position: fixed;
+    top: 24px;
+    right: 32px;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 99999 !important; /* Forces the element to stay in front of both panels on mobile */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition:
+      opacity 0.15s ease,
+      background-color 0.15s ease,
+      transform 0.15s ease;
 
-.cta-text {
-  margin-top: 10px;
-  font-size: 13px;
-  color: #475569;
-  font-weight: 500;
-}
-.dialog-close-btn {
-  border: none;
-  background: transparent;
-  font-size: 18px;
-  cursor: pointer;
-}
+    &:hover {
+      opacity: 0.8;
+    }
 
-/* =========================
-   MAIN LAYOUT
-   ========================= */
-.content-wrapper {
-  width: 100%;
-  max-width: 900px;
+    &:active {
+      transform: scale(0.95);
+    }
 
+    /* --- MOBILE & TABLET RESPONSIVE OVERRIDES --- */
+    @media (max-width: 1024px) {
+      top: 16px;
+      right: 16px;
+
+      // Balanced corporate dark slate backdrop
+      background: rgba(15, 23, 42, 0.6) !important;
+
+      // Native backdrop blurring for high-end digital design harmony
+      backdrop-filter: blur(4px) !important;
+      -webkit-backdrop-filter: blur(4px) !important;
+
+      color: #ffffff !important;
+
+      &:hover {
+        background: rgba(15, 23, 42, 0.8) !important;
+        opacity: 1; /* Eliminates the desktop opacity flicker on standard touch input */
+      }
+    }
+  }
+}
+.left-panel {
+  width: 55%;
+  padding: 2.5rem 2rem 2.5rem 3.5rem;
   display: flex;
   flex-direction: column;
-
-  gap: 30px;
+  justify-content: space-between;
+  z-index: 2;
 }
 
-/* =========================
-   LEFT TEXT
-   ========================= */
-.header-text {
-  width: 100%;
-  max-width: 490px;
+.right-panel {
+  width: 45%;
+  height: 100%;
+  position: relative;
+  display: flex;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center right;
+  }
 }
 
-.header-text h2 {
-  font-size: 22px;
-  font-weight: 700;
+.title-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+
+  // &::after {
+  //   content: "";
+  //   margin-top: 0.75rem; /* Naturally creates space below your new image text */
+  //   width: 105px;
+  //   height: 4px;
+  //   background: #7ab336;
+  //   border-radius: 4px;
+  // }
+}
+
+.connect-title-img {
+  display: block;
+  height: clamp(
+    3rem,
+    4.5vw,
+    4.8rem
+  ); /* Matches your exact previous text scale height */
+  width: auto; /* Preserves the aspect ratio perfectly */
+  object-fit: contain;
+}
+
+.connect-title {
+  font-size: clamp(3rem, 4.5vw, 4.8rem);
+  color: #333e5b;
+  line-height: 0.8;
+  font-weight: 400;
   margin: 0;
-  line-height: 1.4;
-
-  background: linear-gradient(90deg, #0f172a, #4f46e5);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
-.highlight-text {
-  display: inline-block;
-  margin-top: 8px;
-  font-size: 12px;
-
-  background: #e0e7ff;
-  padding: 5px 8px;
-  border-radius: 6px;
-
-  color: #334155;
+.headline {
+  font-size: clamp(1.2rem, 1.8vw, 1.9rem);
+  color: #767c92;
+  font-weight: 400;
+  line-height: 1.3;
+  margin-top: 1rem;
+  letter-spacing: -0.02em;
 }
 
-.header-text h5 {
-  margin-top: 10px;
-  font-size: 12px;
-  color: #64748b;
+.blue {
+  color: #1a4f9c;
+  font-weight: 600;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+}
+.green {
+  color: #4b9b32;
+  font-weight: 600;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
 }
 
-/* =========================
-   RIGHT WRAPPER (KEY FIX)
-   ========================= */
-.links-wrapper {
+.description {
+  color: #575e78;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.action-grid {
   display: flex;
-  align-items: center; /* 🔥 vertical center on desktop */
-  justify-content: center;
+  gap: 1.8rem;
+  margin-bottom: 1rem;
 }
 
-/* =========================
-   GRID
-   ========================= */
-.links-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-
-  width: 100%;
-  max-width: 260px;
-}
-
-/* =========================
-   CARD
-   ========================= */
-.link-card {
+.action-item {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-
-  padding: 10px 12px;
-  border-radius: 10px;
-
   text-decoration: none;
-  color: #0f172a;
+  color: #22519d;
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+  cursor: pointer;
 
-  font-size: 13px;
+  &:hover {
+    color: #0076ce;
+  }
+  i {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  span {
+    font-size: 0.65rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+}
+
+.bottom-banner {
+  color: #ffffff;
+  display: block;
+  width: 100%;
+  max-width: calc(100% - 10px);
+  box-sizing: border-box;
+  margin: 0 auto;
+  font-size: clamp(0.75rem, 2.5vw, 0.85rem);
+  line-height: 1.4;
+  text-align: center;
+  padding: 12px 20px 14px 20px;
+
   font-weight: 500;
+  // width: fit-content;
+  background-color: #011e48;
+  -webkit-mask-image: url("/assets/images/brush-stroke.png");
+  mask-image: url("/assets/images/brush-stroke.png");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
 
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-
-  backdrop-filter: blur(6px);
-
-  transition: all 0.25s ease;
-}
-
-.link-card i {
-  font-size: 16px;
-  color: #1368f1;
-  transition: 0.25s;
-}
-
-.link-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 18px rgba(79, 70, 229, 0.12);
-  border: 1px solid #0057b348;
-}
-
-.link-card:hover i {
-  transform: scale(1.15);
-}
-
-/* =========================
-   DESKTOP (IMPORTANT)
-   ========================= */
-@media (min-width: 768px) {
-  .content-wrapper {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: stretch; /* allows right side centering control */
-  }
-
-  .links-wrapper {
-    flex: 1;
-    display: flex;
-    align-items: center; /* 🔥 THIS CENTERS GRID VERTICALLY */
-    justify-content: center;
-  }
-
-  .header-text {
-    flex: 1;
+  .highlight-green {
+    color: #a3e635;
+    font-weight: 700;
   }
 }
 
-/* =========================
-   MOBILE (IMPORTANT FIX)
-   ========================= */
-@media (max-width: 768px) {
-  .content-wrapper {
+@media (max-width: 900px) {
+  :host {
+    height: 100%;
+    width: 100%;
+    display: block;
+  }
+
+  .contact-bento {
     flex-direction: column;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: #ffffff;
+
+    &::before {
+      display: none;
+    }
+
+    .dossier-close-btn {
+      position: fixed;
+      top: 24px;
+      right: 32px;
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      width: 36px;
+      height: 36px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition:
+        opacity 0.15s ease,
+        transform 0.15s ease;
+
+      &:hover {
+        opacity: 0.8;
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+
+      @media (max-width: 1024px) {
+        top: 16px;
+        right: 16px;
+      }
+    }
   }
 
-  .links-wrapper {
-    align-items: flex-start;
+  /* Content area takes up 70% height to ensure great breathing room */
+  .left-panel {
+    width: 100%;
+    flex: 0 0 70%;
+    height: 70%;
+    padding: 2.2rem 1.5rem 1rem 1.5rem; /* Balanced padding allows content to expand */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.4rem;
+  }
+
+  .headline {
+    /* Scaling up from a crisp 1.35rem on phones up to 1.6rem on tablets */
+    font-size: clamp(1.35rem, 4vw, 1.6rem);
+    line-height: 1.35;
+    margin-top: 0.15rem;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+  }
+
+  .description {
+    /* Slightly boosted from 0.8rem desktop default to a highly legible mobile size */
+    font-size: clamp(0.85rem, 2.2vw, 0.95rem);
+    margin: 0;
+    color: #575e78;
+    font-weight: 500;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  /* Tap targets: spacious spacing and clear modern scale */
+  .action-grid {
+    gap: 0.5rem;
+    margin: 0.4rem 0;
+    justify-content: space-between;
+  }
+
+  .action-item {
+    flex: 1;
+    min-width: 68px;
+
+    i {
+      font-size: 1.35rem; /* Noticeably larger icons for excellent touch precision */
+      margin-bottom: 0.45rem;
+    }
+    span {
+      font-size: 0.72rem; /* Clearer font labels below your navigation icons */
+      font-weight: 700;
+    }
+  }
+
+  /* Beautiful paint stroke banner sizing for mobile frames */
+  .bottom-banner {
+    width: 100%;
+    max-width: 330px;
+    font-size: 0.85rem; /* Increased slightly for comfortable inline legibility */
+    line-height: 1.4;
+    padding: 12px 26px 14px 26px;
+    margin: 0 auto;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+  }
+
+  /* Image block container strictly occupies the remaining 30% footer area */
+  .right-panel {
+    width: 100%;
+    flex: 0 0 30%;
+    height: 30%;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    background: #ffffff;
+    padding-top: 0.25rem;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: bottom center;
+    }
   }
 }

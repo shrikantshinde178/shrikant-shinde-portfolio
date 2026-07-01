@@ -1,162 +1,517 @@
-<div class="projects-dialog">
-  <header class="projects-header">
-    <div>
-      <span class="highlight-text badge">Let's talk about</span>
-      <h2>Few Projects</h2>
+<div class="yardi-dashboard">
+  <button class="dossier-close-btn" (click)="dialogRef.close()">✕</button>
+  <div class="top-search-bar">
+    <div class="search-input-wrapper" [class.is-searching]="searchQuery">
+      <mat-icon>search</mat-icon>
+      <input
+        type="text"
+        [value]="searchQuery"
+        (input)="searchQuery = $any($event.target).value"
+        placeholder="Search across all portfolio resources..."
+      />
+      <button
+        *ngIf="searchQuery"
+        class="clear-search-btn"
+        (click)="searchQuery = ''"
+      >
+        ✕
+      </button>
     </div>
-    <button mat-dialog-close class="dialog-close-btn">
-      <mat-icon>close</mat-icon>
-    </button>
-  </header>
+  </div>
 
-  <div class="projects-wrapper-main">
-    <!-- Tabs -->
-    <nav class="modern-tabs">
-      <div
-        class="tab-item"
-        [class.active]="activeTab === 'All'"
+  <div class="hero-banner">
+    <div class="banner-left">
+      <div class="brand-logo">
+        <span class="m-sym">IM</span> <strong>Yardi</strong>Consultant
+      </div>
+      <button class="btn-register" (click)="setTab('Yardi')">
+        EXPLORE REPORTS &gt;
+      </button>
+    </div>
+    <div class="banner-center">
+      <div class="live-badge">⚡ PORTFOLIO OVERVIEW</div>
+      <h2>Yardi Custom Solutions & Web Applications</h2>
+      <p class="date-subtitle">Active Catalog | Real-time Insights</p>
+    </div>
+    <div class="banner-right">
+      <div class="blog-card">
+        <h3>THE TECH BLOG</h3>
+        <button class="btn-explore" (click)="setTab('Web')">
+          EXPLORE &gt;
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="navigation-container-pane" [class.search-active]="searchQuery">
+    <div class="category-navigation">
+      <button
+        [class.active]="activeTab === 'All' && !searchQuery"
         (click)="setTab('All')"
       >
         All Projects
-      </div>
-      <div
-        class="tab-item"
-        [class.active]="activeTab === 'Yardi'"
+      </button>
+      <button
+        [class.active]="activeTab === 'Yardi' && !searchQuery"
         (click)="setTab('Yardi')"
       >
-        Yardi Reports
-      </div>
-      <div
-        class="tab-item"
-        [class.active]="activeTab === 'Web'"
+        Yardi Configurations
+      </button>
+      <button
+        [class.active]="activeTab === 'Web' && !searchQuery"
         (click)="setTab('Web')"
       >
         Web Applications
-      </div>
-    </nav>
-
-    <!-- Projects Grid -->
-    <div
-      [ngClass]="activeTab === 'All' ? 'masonry-container' : 'standard-grid'"
-    >
-      @for (p of filteredProjects; track p.title) {
-      <div class="project-item-wrapper">
-        <ng-container
-          *ngTemplateOutlet="projectCard; context: { $implicit: p }"
-        ></ng-container>
-      </div>
-      }
+      </button>
     </div>
-
-    <!-- Card Template -->
-    <ng-template #projectCard let-p>
-      <!-- Yardi -->
-      <div
-        *ngIf="p.category === 'Yardi'"
-        class="project-card yardi-card"
-        (click)="view(p)"
-      >
-        <div class="card-inner">
-          <div class="file-icon-box">
-            <i [class]="getFileIcon(p.fileType)"></i>
-          </div>
-          <div class="card-text">
-            <h3>{{ p.title }}</h3>
-            <p>{{ p.description }}</p>
-          </div>
-          <span class="arrow-wrapper">
-            <span class="nav-arrow">→</span>
-          </span>
-          <!-- <mat-icon class="card-arrow nav-arrow">chevron_right</mat-icon> -->
-        </div>
-      </div>
-
-      <!-- Web -->
-      <div *ngIf="p.category === 'Web'" class="project-card web-card">
-        <div class="web-preview">
-          <img [src]="p.image" loading="lazy" decoding="async" />
-          <div class="web-hover-info">View Details</div>
-        </div>
-        <div class="web-content">
-          <div class="tech-pill-container">
-            <span class="tech-pill" *ngFor="let t of p.tech">{{ t }}</span>
-          </div>
-          <h3>{{ p.title }}</h3>
-          <p>{{ p.description }}</p>
-          <div class="web-actions">
-            <!-- <a [href]="p.sourceCode" target="_blank" class="action-btn">
-              <mat-icon>code</mat-icon> Source
-            </a> -->
-            <!-- <a (click)="confirmVisit(p)" class="action-btn live"> -->
-            <a (click)="openWebProject(p)" class="action-btn live">
-              <mat-icon>launch</mat-icon>
-              Visit Site
-            </a>
-          </div>
-        </div>
-      </div>
-    </ng-template>
   </div>
 
-  <!-- DOCUMENT VIEWER -->
-  <div class="modal-overlay" *ngIf="selectedProject">
-    <div class="modal-content">
-      <!-- SECURITY -->
-      <div
-        class="security-banner"
-        *ngIf="selectedProject?.category === 'Yardi'"
-      >
-        <div class="banner-content">
-          <mat-icon>security</mat-icon>
-          <div>
-            <strong>Secure View</strong>
-            <p>
-              This document is client owned and displayed for portfolio
-              demonstration purposes only.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- TOP BAR -->
-      <div class="modal-top-bar">
-        <h3>{{ selectedProject.title }}</h3>
-
-        <div class="zoom-controls" *ngIf="selectedProject.category==='Yardi'">
-          <button (click)="zoomOut()">−</button>
-          <div>{{ zoomLevel }}%</div>
-          <button (click)="zoomIn()">+</button>
-        </div>
-
-        <button class="cls" (click)="close()">
-          <mat-icon>close</mat-icon>
+  <div class="dashboard-content-body">
+    <div class="search-results-overlay" *ngIf="searchQuery">
+      <div class="search-header-meta">
+        <span class="results-count">
+          Found
+          <strong
+            [ngClass]="filteredProjects.length > 0 ? 'text-success' : 'text-danger'"
+          >
+            {{ filteredProjects.length }}
+          </strong>
+          Results
+        </span>
+        <button class="btn-exit-search" (click)="searchQuery = ''">
+          Clear Search
         </button>
       </div>
 
-      <!-- VIEWER -->
-      <div class="viewer-layout">
-        <div class="viewer-wrapper" (scroll)="onScroll($event)">
-          <div
-            class="report-container"
-            [style.transform]="'scale(' + zoom + ')'"
-          >
+      <div
+        class="search-empty-state-slim"
+        *ngIf="filteredProjects.length === 0"
+      >
+        <mat-icon>search_off</mat-icon>
+        <div class="empty-text-group">
+          <h4>No matches found!</h4>
+          <p>
+            We couldn't find a direct match. Try searching for domain
+            specialties like Yardi, Angular, Etc.
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="search-dynamic-grid"
+        [class.has-both-results]="getSearchResultsByCategory('Yardi').length > 0 && getSearchResultsByCategory('Web').length > 0"
+        *ngIf="filteredProjects.length > 0"
+      >
+        <div
+          class="result-grid-column yardi-search-pane"
+          *ngIf="getSearchResultsByCategory('Yardi').length > 0"
+        >
+          <h3 class="column-group-title">
+            <mat-icon>folder_open</mat-icon> Custom Financials & Operational
+            Reporting Engine
+          </h3>
+          <div class="search-list-twocol">
             <div
-              class="report-page"
-              *ngFor="let page of visiblePages; let i = index"
+              class="search-report-row"
+              *ngFor="let project of getSearchResultsByCategory('Yardi')"
+              (click)="handleProjectClick(project)"
             >
-              <img
-                [src]="page"
-                loading="lazy"
-                decoding="async"
-                draggable="false"
-              />
+              <div class="report-meta-prefix">
+                <i
+                  [class]="getFileIcon(project.fileType)"
+                  [attr.data-type]="project.fileType"
+                ></i>
+                <span class="type-extension-tag"
+                  >{{ project.fileType | uppercase }}</span
+                >
+              </div>
+              <div class="report-core-details">
+                <h4>{{ project.title }}</h4>
+                <p>{{ project.description }}</p>
+              </div>
+              <div class="report-action-indicator">
+                <mat-icon>visibility</mat-icon>
+              </div>
             </div>
           </div>
-
-          <div class="watermark">CONFIDENTIAL</div>
         </div>
-        <div class="watermark">CONFIDENTIAL</div>
+
+        <div
+          class="result-grid-column web-search-pane"
+          *ngIf="getSearchResultsByCategory('Web').length > 0"
+        >
+          <h3 class="column-group-title">
+            <mat-icon>layers</mat-icon> Web Engineering Showcase & Full-Stack
+            Deployments
+          </h3>
+          <div class="search-cards-grid">
+            <div
+              class="search-app-card"
+              *ngFor="let project of getSearchResultsByCategory('Web')"
+              (click)="handleProjectClick(project)"
+            >
+              <div class="app-card-header">
+                <h4>{{ project.title }}</h4>
+                <div class="app-card-actions">
+                  <a
+                    *ngIf="project.sourceCode"
+                    [href]="project.sourceCode"
+                    target="_blank"
+                    (click)="$event.stopPropagation()"
+                    title="View Code"
+                  >
+                    <mat-icon>code</mat-icon>
+                  </a>
+                  <button
+                    *ngIf="project.url"
+                    (click)="openWebLauncher($event, project)"
+                    title="Launch Demo"
+                  >
+                    <mat-icon>launch</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <p class="app-card-desc">{{ project.description }}</p>
+              <div class="app-card-tags">
+                <span class="tech-tag" *ngFor="let t of project.tech"
+                  >{{ t }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+
+    <ng-container *ngIf="!searchQuery">
+      <div class="dashboard-grid" *ngIf="activeTab === 'All'">
+        <div class="grid-column column-spotlight">
+          <h3 class="section-title">Product Spotlight</h3>
+          <ng-container *ngIf="filteredProjects.length > 0">
+            <div
+              class="spotlight-card"
+              (click)="handleProjectClick(filteredProjects[0])"
+            >
+              <div class="image-container">
+                <img
+                  [src]="filteredProjects[0].image || 'assets/images/City Night View.webp'"
+                  alt="Spotlight Image"
+                />
+                <div class="overlay-text">
+                  <h4>{{ filteredProjects[0].title }}</h4>
+                  <span class="tag-sub">SPOTLIGHT SESSION</span>
+                </div>
+              </div>
+              <div class="card-meta">
+                <h3>{{ filteredProjects[0].title }}</h3>
+                <p class="description">{{ filteredProjects[0].description }}</p>
+                <div class="meta-footer">
+                  <div>
+                    <strong>Category:</strong> {{ filteredProjects[0].category
+                    }}
+                  </div>
+                  <div>
+                    <mat-icon>calendar_today</mat-icon> Development In Progress
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+
+        <div class="grid-column column-featured">
+          <h3 class="section-title">Featured Projects</h3>
+          <div class="list-container">
+            <div
+              class="video-list-item"
+              *ngFor="let project of filteredProjects.slice(1)"
+              (click)="handleProjectClick(project)"
+            >
+              <div class="item-thumbnail">
+                <div class="thumb-placeholder">
+                  <i
+                    [class]="getFileIcon(project.fileType)"
+                    [attr.data-type]="project.fileType || 'web'"
+                  ></i>
+                  <span>{{ project.category }}</span>
+                </div>
+              </div>
+              <div class="item-details">
+                <h4>{{ project.title }}</h4>
+                <p class="item-summary">{{ project.description }}</p>
+                <div class="item-meta-row">
+                  <!-- <span class="domain-type-badge">
+                    {{ project.category === 'Yardi' ? 'Yardi Config' : 'Web App'
+                    }}
+                  </span> -->
+                  <span
+                    ><mat-icon>build</mat-icon> {{ project.tech ?
+                    project.tech.join(', ') : 'SQL Report' }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn-view-all" (click)="setTab('Yardi')">
+            view report index >>
+          </button>
+        </div>
+
+        <div class="grid-column column-sidebar">
+          <div class="sidebar-action-card demo-card">
+            <div class="card-utility-header">
+              <span class="live-pulse-badge">📊 SCALE</span>
+              <h3>EXPLORE PRODUCT DEMOS</h3>
+            </div>
+            <div class="card-utility-body">
+              <p>
+                Delivered <strong>30+ custom YSR reports</strong> managing
+                functional support optimization for portfolios exceeding
+                <strong>7,000+ total units</strong>.
+              </p>
+            </div>
+            <button
+              class="btn-sidebar-action primary-flat-blue"
+              (click)="setTab('Yardi')"
+            >
+              LEARN MORE
+            </button>
+          </div>
+
+          <div class="sidebar-action-card schedule-card">
+            <div class="card-utility-header">
+              <span class="live-pulse-badge">🌐 GLOBAL</span>
+              <h3>PROJECT SOURCE INDEX</h3>
+            </div>
+            <div class="card-utility-body">
+              <p>
+                Full-stack architectures and database solutions engineered for
+                seamless deployment across global time zones:
+                <strong>IST | EST | GMT | AEST</strong>.
+              </p>
+            </div>
+            <button
+              class="btn-sidebar-action deep-portal-blue"
+              (click)="setTab('Web')"
+            >
+              STEP INSIDE
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="yardi-only-view" *ngIf="activeTab === 'Yardi'">
+        <div class="yardi-view-header">
+          <!-- <h3 class="section-title">
+            Custom Financials & Operational Reporting Engine
+          </h3> -->
+          <!-- <span class="report-counter-tag">
+            {{ filteredProjects.length }} Active Configurations
+          </span> -->
+        </div>
+
+        <div class="reports-minimal-deck">
+          <div
+            class="report-minimal-card"
+            *ngFor="let project of filteredProjects"
+            (click)="handleProjectClick(project)"
+          >
+            <div class="card-system-meta">
+              <span
+                class="engine-tag"
+                [attr.data-report-type]="project.reportType || 'Custom'"
+              >
+                {{ project.reportType || 'Custom' }}
+              </span>
+              <div class="extension-lockup">
+                <i [class]="getFileIcon(project.fileType)"></i>
+                <span>{{ project.fileType | uppercase }}</span>
+              </div>
+            </div>
+
+            <div class="card-core-text">
+              <h4>{{ project.title }}</h4>
+              <p>{{ project.description }}</p>
+            </div>
+
+            <div class="card-system-id">
+              <!-- <span>SYS-ID: 0{{ filteredProjects.indexOf(project) + 1 }}</span> -->
+              <span>Client Owned</span>
+              <mat-icon class="arrow-hook">chevron_right</mat-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="web-only-view" *ngIf="activeTab === 'Web'">
+        <div class="web-view-header">
+          <!-- <h3 class="section-title">
+            Web Engineering Showcase & Full-Stack Deployments
+          </h3> -->
+          <!-- <span class="app-counter-tag"
+            >{{ filteredProjects.length }} Applications</span
+          > -->
+        </div>
+
+        <div class="apps-display-grid">
+          <div
+            class="app-showcase-card"
+            *ngFor="let project of filteredProjects"
+          >
+            <a
+              *ngIf="project.url"
+              [href]="project.url"
+              target="_blank"
+              class="app-card-banner"
+            >
+              <img
+                [src]="project.image || 'assets/images/City Night View.webp'"
+                alt="Project Preview"
+              />
+              <span class="tech-type-label" *ngIf="project.details?.techtype">
+                {{ project.details?.techtype }}
+              </span>
+            </a>
+
+            <div *ngIf="!project.url" class="app-card-banner">
+              <img
+                [src]="project.image || 'assets/images/City Night View.webp'"
+                alt="Project Preview"
+              />
+              <span class="tech-type-label" *ngIf="project.details?.techtype">
+                {{ project.details?.techtype }}
+              </span>
+            </div>
+
+            <div class="app-card-body">
+              <h4 class="app-title" (click)="handleProjectClick(project)">
+                {{ project.title }}
+              </h4>
+
+              <p class="app-overview">
+                {{ project.details?.overview || project.description }}
+              </p>
+
+              <div class="app-action-footer">
+                <a
+                  *ngIf="project.sourceCode"
+                  [href]="project.sourceCode"
+                  target="_blank"
+                  class="action-link link-secondary"
+                  (click)="$event.stopPropagation()"
+                >
+                  Source Code
+                </a>
+
+                <button
+                  *ngIf="project.url"
+                  (click)="openWebLauncher($event, project)"
+                  class="action-link link-primary"
+                >
+                  Live Demo
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </div>
+
+  <ng-container *ngIf="selectedProject">
+    <div
+      class="document-viewer-modal"
+      *ngIf="selectedProject.category === 'Yardi'"
+      (scroll)="onScroll($event)"
+    >
+      <div class="modal-header">
+        <h3>{{ selectedProject.title }}</h3>
+        <div class="modal-controls">
+          <div class="zoom-controls-group">
+            <button class="btn-zoom" (click)="zoomOut()" title="Zoom Out">
+              -
+            </button>
+            <span class="zoom-percentage">{{ zoomLevel }}%</span>
+            <button class="btn-zoom" (click)="zoomIn()" title="Zoom In">
+              +
+            </button>
+          </div>
+          <button class="close-btn" (click)="close()" title="Close Viewer">
+            <mat-icon>close</mat-icon> <span>Close</span>
+          </button>
+        </div>
+      </div>
+      <!-- INSERTED STATEMENT ELEMENT HERE -->
+      <div class="modal-disclaimer-banner">
+        <mat-icon>info</mat-icon>
+        <p>
+          This report is client owned and displayed for the portfolio
+          demonstration purpose only.
+        </p>
+      </div>
+      <div class="modal-body" [style.transform]="'scale(' + zoom + ')'">
+        <div class="confidential-watermark">CONFIDENTIAL - VIEW ONLY</div>
+        <div class="page-view" *ngFor="let page of visiblePages">
+          <img
+            [src]="page"
+            alt="Report Page"
+            (contextmenu)="$event.preventDefault()"
+          />
+        </div>
+        <div
+          *ngIf="!selectedProject.pages || selectedProject.pages.length === 0"
+          class="no-preview"
+        >
+          <p>
+            No preview pages have been exported for this workspace template
+            structure.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="web-application-launcher-overlay"
+      *ngIf="selectedProject.category === 'Web'"
+    >
+      <div class="launcher-dialog-box">
+        <button class="absolute-close-x" (click)="close()">✕</button>
+
+        <div class="launcher-header">
+          <div class="launcher-title-area">
+            <mat-icon class="icon-app">lan</mat-icon>
+            <h3>Application System: {{ selectedProject.title }}</h3>
+          </div>
+        </div>
+
+        <div class="launcher-body">
+          <div class="app-meta-description">
+            <p>
+              {{ selectedProject.details?.overview ||
+              selectedProject.description }}
+            </p>
+          </div>
+
+          <div class="redirect-notice-card">
+            <mat-icon>info</mat-icon>
+            <p>
+              You are moving to an external production instance for
+              <strong>{{ selectedProject.title }}</strong>. Access is secure and
+              protected.
+            </p>
+          </div>
+        </div>
+
+        <div class="launcher-footer">
+          <button class="btn-abort" (click)="close()">Cancel</button>
+          <button
+            class="btn-execute-launch"
+            (click)="redirectToLiveUrl(selectedProject.url)"
+          >
+            Proceed to Live Application <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 </div>

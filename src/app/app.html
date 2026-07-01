@@ -18,7 +18,7 @@
     <div class="video-wrapper">
       <img
         class="bg-image"
-        src="assets/images/City Night View 2.webp"
+        src="assets/images/shrikant_img.png"
         alt="City night view"
         loading="eager"
         fetchpriority="high"
@@ -61,47 +61,100 @@
         <span class="badge-dot" *ngIf="hasUnreadNotification"></span>
       </div>
 
-      <div class="hire-banner-box" *ngIf="showIdeaBox">
-        <button class="close-btn" (click)="closeIdea($event)">✕</button>
-        <div class="banner-flex">
-          <div class="img-wrapper">
-            <img
-              src="assets/images/Shrikant Shinde Profile.webp"
-              alt="Shrikant"
-              class="mini-profile-img"
-            />
-          </div>
-          <div class="banner-info">
-            <h4 class="banner-title">Have any project idea?</h4>
-            <p class="banner-subtitle">
-              I'm available for Freelance or Full-time Role.
-            </p>
-          </div>
-          <button class="hire-cta-btn" (click)="openLinks()">
-            Let's Connect
+      <div
+        class="banner-overlay"
+        *ngIf="showIdeaBox"
+        (click)="closeIdea($event)"
+      >
+        <div class="hire-banner-box" (click)="$event.stopPropagation()">
+          <button
+            class="close-btn"
+            (click)="closeIdea($event)"
+            aria-label="Close notification"
+          >
+            ✕
           </button>
+
+          <div class="banner-flex">
+            <div class="img-wrapper"></div>
+            <div class="banner-info">
+              <h4 class="banner-title">Have any project idea?</h4>
+              <p class="banner-subtitle">
+                I'm available for a Full-time or Freelance.
+              </p>
+            </div>
+
+            <button class="hire-cta-btn" (click)="handleConnectClick($event)">
+              Let's Connect
+            </button>
+          </div>
         </div>
       </div>
     </div>
+
     <div class="inner-content">
       <header class="branding">
+        <div class="status-pill" *ngIf="brand.availableForWork">
+          <span class="status-dot"></span>
+          <span>Available for new projects</span>
+        </div>
+
         <span class="intro-text">Hello, I'm</span>
         <h1 class="name-title">
           {{ brand.name }} <span class="last-name">{{ brand.lastName }}</span>
         </h1>
+
         <p class="role-tag">
           <img
             src="assets/images/YardiLogo.webp"
-            width="93"
-            height="29"
+            width="70"
+            height="22"
             alt="Yardi"
             class="yrd-logo"
           />
-          {{ brand.role }}
+          <span class="role-text">TECHNO-FUNCTIONAL CONSULTANT</span>
         </p>
+
+        <div class="availability-row">
+          <div class="availability-item">
+            <mat-icon inline="true">schedule</mat-icon>
+            <span>4–6 hr overlap with EST / GMT</span>
+          </div>
+          <div class="availability-item">
+            <mat-icon inline="true">event</mat-icon>
+            <span>US business-hours availability</span>
+          </div>
+        </div>
+
         <div class="accent-line"></div>
+
         <p class="brief">{{ brand.brief }}</p>
-        <!-- <p class="sub-brief">*{{ brand.subbrief}}</p> -->
+
+        <!-- Slim Chips -->
+        <div class="engagement-row">
+          <span class="tag">Full-time</span>
+          <span class="tag">Contract</span>
+          <span class="tag">Freelance</span>
+        </div>
+
+        <!-- CTA row — after the visitor has read who you are, before they scroll to nav -->
+        <div class="cta-row">
+          <button class="cta-primary" matRipple (click)="openLinks()">
+            <span>Get in touch</span>
+            <mat-icon inline="true">arrow_forward</mat-icon>
+          </button>
+
+          <a
+            class="cta-secondary"
+            [href]="brand.url"
+            target="_blank"
+            rel="noopener"
+            matRipple
+          >
+            <mat-icon inline="true">download</mat-icon>
+            <span>Download resume</span>
+          </a>
+        </div>
       </header>
 
       <nav class="main-nav">
@@ -111,13 +164,18 @@
           class="nav-button"
           matRipple
         >
-          <span class="nav-index">{{ item.index }}</span>
           <span class="nav-text">{{ item.label }}</span>
-
-          <span class="arrow-wrapper">
-            <span class="nav-arrow">→</span>
-          </span>
         </button>
+
+        <!-- Uncomment once real or anonymized client names are ready -->
+        <!-- <div class="trusted-row" *ngIf="trustedClients?.length">
+          <span class="trusted-label">Trusted on projects with</span>
+          <span class="trusted-list">
+            <span *ngFor="let client of trustedClients; let last = last">
+              {{ client }}<span *ngIf="!last"> &middot; </span>
+            </span>
+          </span>
+        </div> -->
       </nav>
 
       <footer class="contact-footer">
@@ -153,7 +211,6 @@
     </svg>
   </div>
   <div class="text-group">
-    <!-- <span class="toast-title">System Ready</span> -->
     <p class="toast-msg">Thank you for visiting :)</p>
   </div>
 </div>

@@ -1,64 +1,154 @@
-<div class="experience-wrapper">
-  <!-- Header -->
-  <header class="projects-header">
-    <div>
-      <span class="highlight-text badge">Here’s Where I’ve Gained</span>
-      <h2>Experience</h2>
+<div class="engine-dossier-frame full-viewport-view">
+  <button class="ledger-close-anchor" (click)="dialogRef.close()">✕</button>
+
+  <div class="engine-split-grid">
+    <div class="engine-index-sidebar">
+      <div class="sidebar-sticky-wrapper">
+        <div class="sidebar-identity-header">
+          <div class="brand-logo-lockup">
+            <a
+              href="https://www.linkedin.com/in/shrikantshinde178"
+              target="_blank"
+              class="brand-logo-lockup"
+            >
+              <span class="ln-icon">
+                <i class="fab fa-linkedin-in"></i>
+              </span>
+              <div class="logo-text"><strong>Shrikant</strong>Shinde</div>
+            </a>
+          </div>
+          <span class="system-tag">PUNE, IN // IST TIMEZONE</span>
+          <h2>Corporate History</h2>
+          <p class="subtitle">Techno-Functional Consulting Ecosystem</p>
+        </div>
+
+        <div class="sidebar-metrics-deck">
+          <div class="metric-composite-box">
+            <span class="num">2+</span>
+            <span class="lbl">Years Core Domain Exp.</span>
+          </div>
+          <div class="metric-composite-box">
+            <span class="num">30+</span>
+            <span class="lbl">Custom YSR Reports</span>
+          </div>
+        </div>
+
+        <div class="sidebar-domain-matrix">
+          <h3>ENGINEERING CAPABILITIES</h3>
+          <div class="matrix-pill-cloud">
+            <span class="matrix-pill">Yardi Voyager</span>
+            <span class="matrix-pill">RentCafe Suite</span>
+            <span class="matrix-pill">MSSQL Server</span>
+            <span class="matrix-pill">YSR Reporting</span>
+            <span class="matrix-pill">Angular</span>
+            <span class="matrix-pill">Spring Boot</span>
+          </div>
+        </div>
+
+        <div class="sidebar-action-footer">
+          <a
+            [href]="resume.url"
+            target="_blank"
+            class="ui-action-btn primary-filled"
+          >
+            <mat-icon>description</mat-icon> {{ resume.label }}
+          </a>
+        </div>
+      </div>
     </div>
 
-    <button mat-dialog-close class="dialog-close-btn">
-      <mat-icon>close</mat-icon>
-    </button>
-  </header>
+    <div class="engine-timeline-workspace">
+      <div class="workspace-header-zone">
+        <h3 class="workspace-section-title">Deployment Timeline History</h3>
+      </div>
 
-  <div class="value-banner">
-    <p>
-      I help property management teams streamline reporting, automate workflows,
-      and deliver accurate data insights using
-      <strong>Voyager 7S & SQL</strong>.
-    </p>
-    <p>
-      Throughout my journey, I have focused on building data-driven solutions
-      and scalable systems that improve operational efficiency and support
-      business decision-making.
-    </p>
-  </div>
+      <div class="deck-outer-carousel-wrapper">
+        <div class="deck-scroll-container">
+          <div
+            class="deck-ribbon-track"
+            [style.transform]="getTrackTranslation()"
+          >
+            <div
+              class="node-content-canvas"
+              *ngFor="let exp of experiences; let i = index"
+              [class.is-active-card]="i === activeCardIndex"
+              [class.is-blurred-back]="i < activeCardIndex"
+              [class.is-blurred-card]="i !== activeCardIndex"
+              (click)="setActiveCard(i)"
+            >
+              <div class="canvas-header-meta">
+                <div class="identity-group">
+                  <h4>{{ exp.role }}</h4>
+                  <span class="entity-lbl">@ {{ exp.company }}</span>
+                </div>
 
-  <!-- Intro -->
-  <div class="header">
-    <!-- <p>
-      Throughout my journey, I have focused on building data-driven solutions
-      and scalable systems that improve operational efficiency and support
-      business decision-making.
-    </p> -->
-  </div>
+                <div class="status-group">
+                  <span class="duration-badge">{{ exp.duration }}</span>
+                  <span class="live-deployment-tag" *ngIf="exp.current"
+                    >CURRENT</span
+                  >
+                </div>
+              </div>
 
-  <!-- Timeline -->
-  <div class="timeline">
-    <div class="timeline-item" *ngFor="let exp of experiences">
-      <div class="timeline-left">
-        <div class="icon">
-          <mat-icon class="wo">work</mat-icon>
+              <div class="canvas-tech-matrix-row">
+                <ng-container *ngIf="exp.current">
+                  <span class="tech-pill">Yardi Suite</span>
+                  <span class="tech-pill">Payment Processing</span>
+                  <span class="tech-pill">Custom Reporting</span>
+
+                  <span class="tech-pill">SME- RentCafe</span>
+                  <span class="tech-pill">MSSQL server</span>
+                </ng-container>
+                <ng-container *ngIf="!exp.current">
+                  <span class="tech-pill">Angular Framework</span>
+                  <span class="tech-pill">Spring Boot Enterprise</span>
+                  <span class="tech-pill">RESTful API</span>
+                  <span class="tech-pill">Java 8 Core Systems</span>
+                </ng-container>
+              </div>
+
+              <div class="canvas-narrative-prose">
+                <p class="summary-prose-text">{{ exp.description }}</p>
+
+                <div class="dossier-info-callout" *ngIf="exp.cta">
+                  <mat-icon>info_outline</mat-icon>
+                  <span>{{ exp.cta }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="timeline-content">
-        <div class="top-row">
-          <h3>{{ exp.role }} <span> · {{ exp.company }}</span></h3>
-          <span class="badge" *ngIf="exp.current">Current</span>
+      <div class="deck-navigation-dock">
+        <button
+          class="dock-arrow-trigger"
+          (click)="prevCard()"
+          [disabled]="activeCardIndex === 0"
+          title="Previous Card"
+        >
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+
+        <div class="dock-dots-track">
+          <button
+            class="nav-dot-anchor"
+            *ngFor="let exp of experiences; let i = index"
+            [class.is-active-dot]="i === activeCardIndex"
+            (click)="setActiveCard(i)"
+            [title]="'Go to card ' + (i + 1)"
+          ></button>
         </div>
 
-        <span class="date">{{ exp.duration }}</span>
-        <p>{{ exp.description }}</p>
-        <span class="cta-content">{{ exp.cta }}</span>
+        <button
+          class="dock-arrow-trigger"
+          (click)="nextCard()"
+          [disabled]="activeCardIndex === experiences.length - 1"
+          title="Next Card"
+        >
+          <mat-icon>chevron_right</mat-icon>
+        </button>
       </div>
     </div>
-  </div>
-
-  <div class="resume-action">
-    <a [href]="resume.url" target="_blank" class="resume-btn">
-      <mat-icon>open_in_new</mat-icon>
-      {{ resume.label }}
-    </a>
   </div>
 </div>

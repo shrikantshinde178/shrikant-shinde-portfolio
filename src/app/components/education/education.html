@@ -1,106 +1,111 @@
-<div class="projects-dialog">
-  <!-- HEADER (UNCHANGED) -->
-  <header class="projects-header">
-    <div>
-      <span class="highlight-text badge">The foundation behind my</span>
-      <h2>Education & Core Skills</h2>
-    </div>
-    <button mat-dialog-close class="dialog-close-btn">
-      <mat-icon>close</mat-icon>
-    </button>
-  </header>
+<div class="education-dossier-frame">
+  <button class="ledger-close-anchor" (click)="dialogRef.close()">✕</button>
 
-  <!-- VALUE FIRST -->
-  <div class="value-banner">
-    From learning core computer science concepts to applying them in real-world
-    scenarios, my academic journey built the foundation of my thinking -
-    continuously shaping the skills I use today.
-    <!-- I specialize in
-    <strong>Yardi + SQL-driven reporting</strong>, helping teams automate
-    workflows and improve data accuracy. -->
-  </div>
+  <div class="education-layout-container">
+    <div class="executive-summary-deck">
+      <div class="header-lockup">
+        <!-- <h2>Expertise & Academic Matrix</h2> -->
+        <p class="subtitle">Education & Core Domain Expertise</p>
+      </div>
 
-  <div class="flow-layout">
-    <!-- LEFT: TIMELINE -->
-    <div class="left-panel">
-      <h3 class="section-title">
-        <mat-icon>school</mat-icon> University Studies
-      </h3>
-
-      <div class="timeline">
-        <div class="timeline-item" *ngFor="let edu of education">
-          <div class="timeline-dot" [class.current]="edu.highlight"></div>
-
-          <div>
-            <h4>{{ edu.degree }}</h4>
-            <h5 class="institution-link">
-              <a [href]="edu.website" target="_blank" rel="noopener">
-                {{ edu.institution }}
-                <mat-icon class="link-icon">open_in_new</mat-icon>
+      <div class="impact-statistics-dock" #impactSection>
+        <!-- Enhanced Education / Master's Card -->
+        <div class="academic-master-card" *ngFor="let ed of education">
+          <div class="academic-header">
+            <mat-icon>school</mat-icon>
+            <div class="academic-title">
+              <h4>{{ ed.degree }}</h4>
+              <a [href]="ed.website" target="_blank" class="institution-link">
+                {{ ed.institution }} <mat-icon>open_in_new</mat-icon>
               </a>
-            </h5>
-            <span class="date-tag">{{ edu.year }}</span>
+            </div>
+            <span class="year-badge">{{ ed.year }}</span>
+          </div>
+          <p class="academic-summary">{{ ed.summary }}</p>
+        </div>
+
+        <div class="stat-metrics-block">
+          <div class="impact-stat-item">
+            <span class="stat-num">{{ reportsCount }}+</span>
+            <span class="stat-lbl">Custom YSR Reports Deployed</span>
+          </div>
+          <div class="impact-stat-item">
+            <span class="stat-num">{{ reductionPercent }}%</span>
+            <span class="stat-lbl">ETL & Query Latency Reduction</span>
+          </div>
+          <div class="impact-stat-item">
+            <span class="stat-num">{{ accuracy }}%</span>
+            <span class="stat-lbl">Data Validation Accuracy</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- RIGHT: STACKED CARDS -->
-    <div class="right-panel">
-      <!-- YARDI -->
-      <div class="skills-card yardi-specialty">
-        <h3 class="section-title">
-          <mat-icon>domain</mat-icon> Yardi CRM Expertise
-        </h3>
+    <!-- Enhanced Workspace Navigation Controls -->
+    <div class="capabilities-workspace-banner">
+      <div class="matrix-navigation-dock">
+        <button
+          class="nav-tab-trigger"
+          [class.is-active]="showTechnical"
+          (click)="showTechnical = true"
+        >
+          <mat-icon>code</mat-icon>
+          <span>Technical Stack</span>
+        </button>
 
-        <div class="pill-container">
-          <span class="skill-pill yardi" *ngFor="let mod of yardiModules">
-            <img [src]="mod.icon" alt="" class="pill-icon" />
-            {{ mod.name }}
-          </span>
-        </div>
+        <button
+          class="nav-tab-trigger"
+          [class.is-active]="!showTechnical"
+          (click)="showTechnical = false"
+        >
+          <mat-icon>domain</mat-icon>
+          <span>Yardi Functional Modules</span>
+        </button>
       </div>
+    </div>
 
-      <!-- TECH -->
-      <div class="skills-card">
-        <h3 class="section-title">
-          <mat-icon>terminal</mat-icon> Tools & Technologies
-        </h3>
-
-        <div class="pill-container">
-          <span class="skill-pill tech" *ngFor="let tech of techStack">
-            {{ tech }}
-          </span>
-        </div>
-      </div>
-
-      <!-- IMPACT -->
-      <div class="impact-card" #impactSection>
-        <h3>What I <span class="ibr">Bring</span></h3>
-
-        <div class="impact-stats">
-          <div>
-            <h4>{{ reportsCount }}+</h4>
-            <p>Reports Automated</p>
-          </div>
-          <div>
-            <h4>{{ reductionPercent }}%</h4>
-            <p>Manual Work Reduced</p>
-          </div>
-          <div>
-            <h4>{{ accuracy }}%</h4>
-            <p>Accuracy Focus</p>
+    <div class="dynamic-workspace-canvas">
+      <div class="matrix-content-pane" *ngIf="showTechnical">
+        <div class="expertise-pill-cloud">
+          <div class="expertise-pill-item" *ngFor="let tech of techStack">
+            <mat-icon>verified</mat-icon>
+            <span>{{ tech }}</span>
           </div>
         </div>
       </div>
 
-      <!-- CTA -->
-      <!-- <div class="resume-action">
-        <a [href]="resume.url" target="_blank" class="resume-btn">
-          <mat-icon>open_in_new</mat-icon>
-          View Full Profile & Work
-        </a>
-      </div> -->
+      <div class="matrix-content-pane" *ngIf="!showTechnical">
+        <div class="yardi-reference-row-grid">
+          <div class="yardi-reference-card" *ngFor="let module of yardiModules">
+            <div class="card-graphic-block">
+              <img
+                [src]="module.icon"
+                [alt]="module.name"
+                (error)="$any($event.target).style.display='none'"
+              />
+              <mat-icon class="fallback-icon">business_center</mat-icon>
+            </div>
+            <div class="card-label-block">
+              <span class="module-txt-label">{{ module.name }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dossier-conversion-footer">
+      <p class="philosophy-headline-text">
+        I can help, by turning your ideas into Interfaces and data into
+        Directions.
+      </p>
+
+      <p class="philosophy-subtext-action">
+        Explore my full technical history and specific consulting case
+        assignments by
+        <a [href]="resume.url" target="_blank" class="inline-portfolio-link">
+          <span>opening my resume</span> </a
+        >.
+      </p>
     </div>
   </div>
 </div>

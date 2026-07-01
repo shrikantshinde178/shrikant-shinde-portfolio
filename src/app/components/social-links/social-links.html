@@ -1,35 +1,67 @@
-<div class="links-container">
-  <header class="projects-header">
-    <div>
-      <p></p>
-    </div>
-    <button class="dialog-close-btn" (click)="closeDialog()">
-      <mat-icon>close</mat-icon>
-    </button>
-  </header>
-
-  <div class="content-wrapper">
-    <!-- LEFT -->
-    <div class="header-text">
-      <h2>{{cta.txt1}}</h2>
-
-      <p class="primary-text"></p>
-
-      <p class="cta-text">{{cta.txt4}}</p>
-
-      <h5>{{cta.txt5}}</h5>
+<div class="contact-bento">
+  <button class="dossier-close-btn" (click)="dialogRef.close()">✕</button>
+  <div class="left-panel">
+    <div class="title-container">
+      <img
+        src="assets/images/lets connect 3.png"
+        alt="Let's Connect!"
+        class="connect-title-img"
+      />
     </div>
 
-    <!-- RIGHT (NEW WRAPPER FOR VERTICAL CENTER CONTROL) -->
-    <div class="links-wrapper">
-      <div class="links-grid">
-        @for (link of socialLinks; track link.label) {
-        <a [href]="link.url" target="_blank" class="link-card">
-          <i [className]="link.icon"></i>
-          <span>{{ link.label }}</span>
-        </a>
-        }
-      </div>
+    <div class="headline">
+      Looking for <br />
+      <span class="blue">Yardi Portfolio Optimizer</span> <br />
+      or a <span class="green">teammate?</span>
     </div>
+
+    <p class="description">Let's connect and create impact together.</p>
+
+    <div class="action-grid">
+      <a
+        class="action-item"
+        href="mailto:shrikantrs178@gmail.com?subject=Yardi%20Consulting%20Engagement%20-%20Inquiry"
+      >
+        <i class="fas fa-envelope"></i>
+        <span>Email</span>
+      </a>
+
+      <a
+        class="action-item"
+        href="https://linkedin.com"
+        target="_blank"
+        rel="noopener"
+      >
+        <i class="fab fa-linkedin-in"></i>
+        <span>LinkedIn</span>
+      </a>
+
+      <a class="action-item">
+        <i class="fas fa-comments"></i>
+        <span>Let's Chat</span>
+      </a>
+
+      <a
+        href="https://calendly.com/shrikantshinde"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="action-item"
+      >
+        <i class="far fa-calendar-alt"></i>
+        <span>Schedule a Call</span>
+      </a>
+    </div>
+
+    <div class="bottom-banner">
+      Let's build <span class="highlight-green">smarter portfolios</span> and
+      <span class="highlight-green">stronger teams.</span>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <img
+      src="assets/images/City.png"
+      alt="Modern Building Architecture Artwork"
+    />
   </div>
 </div>

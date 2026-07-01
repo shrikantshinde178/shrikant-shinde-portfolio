@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatIcon } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatDialogRef } from '@angular/material/dialog';
 
 interface SocialLink {
@@ -12,14 +12,14 @@ interface SocialLink {
 @Component({
   selector: 'app-social-links',
   standalone: true,
-  imports: [CommonModule, MatIcon],
+  imports: [CommonModule, MatIconModule],
   templateUrl: './social-links.html',
   styleUrl: './social-links.scss',
 })
 export class SocialLinks {
-  constructor(private dialogRef: MatDialogRef<SocialLinks>) {}
+  constructor(public dialogRef: MatDialogRef<SocialLinks>) {}
 
-  closeDialog() {
+  closeDialog(): void {
     this.dialogRef.close();
   }
 
@@ -35,23 +35,9 @@ export class SocialLinks {
       icon: 'fas fa-envelope',
     },
     {
-      label: 'GitHub',
-      url: 'https://github.com/shrikantshinde178',
-      icon: 'fab fa-github',
-    },
-    {
-      label: 'Twitter',
+      label: 'Twitter / X',
       url: 'https://x.com/_shrikant_s',
       icon: 'fab fa-x-twitter',
     },
   ];
-
-  cta = {
-    txt1: ' I empower Property Owners, Managers & Teams to step into their Power',
-    txt2: 'I design and build systems that simplify complex workflows into stable, maintainable, and efficient solutions.',
-    txt3: 'I empower Yardi portfolio to step into Power.',
-    txt4: 'Open to collaboration, opportunities, or meaningful conversations. reach out below.',
-    txt5: 'Available across EST, GMT, IST & AEST time zones.',
-    txt6: 'Let’s connect & build something meaningful :)',
-  };
 }
