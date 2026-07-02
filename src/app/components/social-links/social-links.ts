@@ -26,13 +26,18 @@ export class SocialLinks {
   public socialLinks: SocialLink[] = [
     {
       label: 'LinkedIn',
-      url: 'https://linkedin.com/in/shrikantshinde178',
+      url: 'https://linkedin.com/in/shrikantshinde178/',
       icon: 'fab fa-linkedin',
     },
     {
       label: 'Email',
       url: 'mailto:shrikantrs178@gmail.com',
       icon: 'fas fa-envelope',
+    },
+    {
+      label: "Let's Chat",
+      url: 'https://forms.gle/LNhePPvy9XPZRY95A',
+      icon: 'fas fa-comments',
     },
     {
       label: 'Twitter / X',
