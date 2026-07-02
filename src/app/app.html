@@ -115,6 +115,7 @@
           <span class="role-text">TECHNO-FUNCTIONAL CONSULTANT</span>
         </p>
 
+        <!-- Non-interactive info row: no border/pill affordance, just an accent + text -->
         <div class="availability-row">
           <div class="availability-item">
             <mat-icon inline="true">schedule</mat-icon>
@@ -130,14 +131,14 @@
 
         <p class="brief">{{ brand.brief }}</p>
 
-        <!-- Slim Chips -->
+        <!-- Slim, clearly non-interactive tags -->
         <div class="engagement-row">
           <span class="tag">Full-time</span>
           <span class="tag">Contract</span>
           <span class="tag">Freelance</span>
         </div>
 
-        <!-- CTA row — after the visitor has read who you are, before they scroll to nav -->
+        <!-- CTA row — the only visually "clickable" cluster besides main-nav -->
         <div class="cta-row">
           <button class="cta-primary" matRipple (click)="openLinks()">
             <span>Get in touch</span>
@@ -157,6 +158,7 @@
         </div>
       </header>
 
+      <!-- Main nav: now renders index + arrow so it visually reads as "tap to expand" -->
       <nav class="main-nav">
         <button
           *ngFor="let item of navItems"
@@ -164,7 +166,11 @@
           class="nav-button"
           matRipple
         >
+          <span class="nav-index">{{ item.index }}</span>
           <span class="nav-text">{{ item.label }}</span>
+          <span class="arrow-wrapper">
+            <mat-icon class="nav-arrow" inline="true">arrow_forward</mat-icon>
+          </span>
         </button>
 
         <!-- Uncomment once real or anonymized client names are ready -->
@@ -196,7 +202,7 @@
 
 <router-outlet></router-outlet>
 <div class="thank-you-toast" *ngIf="showToast" [class.active]="animateToast">
-  <div class="toast-icon">
+  <!-- <div class="toast-icon">
     <svg
       width="20"
       height="20"
@@ -209,7 +215,7 @@
     >
       <polyline points="20 6 9 17 4 12"></polyline>
     </svg>
-  </div>
+  </div> -->
   <div class="text-group">
     <p class="toast-msg">Thank you for visiting :)</p>
   </div>

@@ -179,7 +179,12 @@
     }
   }
 
-  /* 2. LEFT PANEL - SINGLE LINE STATS */
+  /* 2. LEFT PANEL - SINGLE LINE STATS
+     Deliberately NOT styled as tappable cards: no border, no hover
+     background swap, no pointer cursor. These are read-only data
+     points, and mobile users were tapping them expecting an action
+     because the old bordered/hover-highlighted "chip" look mimicked
+     tappable UI elsewhere on the page (filters, badges, nav). */
   .stats-overlay {
     position: absolute;
     bottom: clamp(20px, 4vh, 40px);
@@ -190,7 +195,7 @@
 
     display: flex;
     align-items: center;
-    gap: clamp(6px, 1vw, 14px);
+    gap: clamp(10px, 1.6vw, 20px);
 
     overflow-x: auto;
     scroll-behavior: smooth;
@@ -209,24 +214,18 @@
 
       min-width: max-content;
 
-      padding: 10px 14px;
-      border-radius: 12px;
+      /* Flat, non-card presentation — signals "info", not "button" */
+      padding: 4px 0;
+      background: transparent;
+      border: none;
+      border-radius: 0;
 
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(10px);
-
-      border: 1px solid rgba(255, 255, 255, 0.08);
-
-      transition: all 0.3s ease;
-
-      &:hover {
-        background: rgba(0, 123, 255, 0.15);
-        border-color: rgba(0, 123, 255, 0.4);
-      }
+      /* No hover/active transition — static content shouldn't react to touch */
 
       .stat-icon {
-        font-size: clamp(18px, 2vw, 24px);
+        font-size: clamp(16px, 1.8vw, 20px);
         color: #4fc3f7;
+        opacity: 0.85;
       }
 
       .stat-text {
@@ -243,10 +242,17 @@
 
       .stat-label {
         font-size: clamp(0.55rem, 0.9vw, 0.7rem);
-        color: rgba(255, 255, 255, 0.6);
+        color: rgba(255, 255, 255, 0.55);
         letter-spacing: 1px;
         white-space: nowrap;
       }
+    }
+
+    /* thin dividers between stats instead of individual card borders,
+       so the row still reads as organized without looking tappable */
+    .stat-box:not(:last-child) {
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      padding-right: clamp(10px, 1.6vw, 20px);
     }
   }
 
@@ -287,9 +293,8 @@
 
   @media (max-width: 480px) {
     .stats-overlay {
-      .stat-box {
-        border-left-width: 1.5px;
-        padding-left: 8px;
+      .stat-box:not(:last-child) {
+        padding-right: 10px;
       }
     }
   }
@@ -442,10 +447,11 @@
       text-transform: uppercase;
     }
 
+    /* ===== Availability row — informational only, no chip/button look ===== */
     .availability-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 16px;
       margin: 16px 0;
       width: 100%;
       box-sizing: border-box;
@@ -460,9 +466,13 @@
       font-weight: 500;
       white-space: nowrap;
       line-height: 1.5;
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      border-radius: 4px;
-      padding: 6px 12px;
+
+      /* No border/pill/background — a small left accent instead of a
+         full outline keeps it from reading as a tappable chip */
+      border: none;
+      border-left: 2px solid #cbd5e1;
+      border-radius: 0;
+      padding: 2px 0 2px 10px;
     }
 
     .availability-item mat-icon {
@@ -475,12 +485,13 @@
       min-width: 16px;
       height: 16px;
       overflow: visible;
+      color: #94a3b8;
     }
 
     @media (max-width: 600px) {
       .availability-row {
         flex-direction: column;
-        gap: 12px;
+        gap: 10px;
       }
     }
 
@@ -558,7 +569,6 @@
       }
 
       &:hover {
-        // background: #004992; /* Smooth darkening */
         background: #14466e;
       }
 
@@ -646,11 +656,16 @@
   color: #64748b;
 }
 
-/* 4. THE NAVIGATION - FIXING THE ARROW */
+/* 4. THE NAVIGATION - NOW A CLEARLY TAPPABLE LIST
+   Each row now renders an index number + a filled arrow chip so it
+   visually matches the "list item that expands" pattern users expect,
+   plus a divider and a bigger touch target so it doesn't get skipped. */
 .main-nav {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0;
+  margin-top: 8px;
+  // border-top: 1px solid #edf2f7;
 
   .nav-button {
     all: unset;
@@ -659,21 +674,25 @@
     display: flex;
     align-items: center;
     width: 100%;
+    //max-width: 250px;
     box-sizing: border-box;
+    min-height: 32px; /* comfortable touch target */
+    // padding: 14px 4px;
+    // border-bottom: 1px solid #edf2f7;
 
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
     .nav-index {
       font-size: 0.7rem;
-      color: #64748b;
+      color: #94a3b8;
       font-weight: 700;
       letter-spacing: 0.05em;
       min-width: 28px;
     }
 
     .nav-text {
-      font-size: 0.8rem;
-      font-weight: 500;
+      font-size: 0.85rem;
+      font-weight: 600;
       color: #334155;
       flex-grow: 1;
       padding-left: 15px;
@@ -683,27 +702,36 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 24px;
-      height: 24px;
-      border-radius: 4px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
       background: #f8fafc;
       border: 1px solid #edf2f7;
       transition: all 0.2s ease;
+      flex-shrink: 0;
 
       .nav-arrow {
-        font-size: 0.8rem;
-        color: #94a3b8;
+        /* mat-icon defaults its own box to 24x24 regardless of
+           font-size, which is what threw off the centering — pin
+           width/height/line-height to the same value as font-size
+           so the glyph's box is centered, not an oversized ghost box */
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #64748b;
         font-weight: 900;
       }
     }
 
-    /* 🔥 THE YARDI HOVER (High Contrast) */
+    /* 🔥 Hover feedback — high-contrast, matches CTA styling so the
+       row clearly reads as an action. Mouse-only, so it never lingers
+       after a click (e.g. when a dialog returns focus to this button). */
     &:hover {
-      text-decoration: underline;
-
-      &::before {
-        height: 60%;
-      }
+      background: #f8fafc;
 
       .nav-index {
         color: #0056b3;
@@ -723,8 +751,17 @@
       }
     }
 
+    /* Keyboard-focus feedback — a thin ring only, not the full hover
+       fill, so a returned/tabbed focus never looks like a stuck hover */
+    &:focus-visible {
+      outline: 2px solid #0056b3;
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
     &:active {
       transform: scale(0.99);
+      background: #f1f5f9;
     }
   }
 }
@@ -806,11 +843,11 @@
   right: 40px;
   z-index: 10000;
 
-  background: #121212;
+  background: #0076ce;
   color: #ffffff;
 
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-left: 4px solid #00e5ff;
+  // border-left: 4px solid rgba(21, 21, 21, 0.224);
 
   padding: 14px 20px;
   display: flex;
@@ -929,7 +966,6 @@
   transition: background 0.2s ease;
 
   &:hover {
-    // background: #ff3b3b !important;
     color: #000;
   }
 }
@@ -1128,7 +1164,6 @@
     transition: background 0.2s ease;
 
     &:hover {
-      // background: #0054a6;
     }
   }
 }
