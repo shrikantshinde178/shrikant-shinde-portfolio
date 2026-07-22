@@ -1,20 +1,16 @@
-import { Component, HostListener, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
 
 interface Stat {
-  value: string;
   label: string;
-  icon: string;
-  target?: number;
-  suffix?: string;
+  target: number;
+  suffix: string;
   animatedValue?: number;
 }
 
-interface NavItem {
-  index: string;
+interface NavTab {
   label: string;
   action: () => void;
 }
@@ -22,16 +18,13 @@ interface NavItem {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, MatDialogModule, RouterOutlet, MatIconModule],
+  imports: [CommonModule, MatDialogModule, RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App implements OnInit, AfterViewInit {
-  hasUnreadNotification = true;
-  showIdeaBox = false;
-  showNotificationIcon = false;
-  showToast = false;
-  animateToast = false;
+export class App implements OnInit, OnDestroy {
+  protected activeSlideIndex = 0;
+  private slideTimer: any;
 
   constructor(
     private dialog: MatDialog,
@@ -39,7 +32,6 @@ export class App implements OnInit, AfterViewInit {
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        // Safe check for global tracking objects in template environment
         if (typeof gtag === 'function') {
           gtag('config', 'G-QYZEE2C6MJ', {
             page_path: event.urlAfterRedirects,
@@ -49,33 +41,28 @@ export class App implements OnInit, AfterViewInit {
     });
   }
 
-  @HostListener('document:keydown.escape', ['$event'])
-  handleEscapeKey(event: Event): void {
-    // Changed from KeyboardEvent to Event
-    if (this.showIdeaBox) {
-      this.closeIdea(event);
+  ngOnInit(): void {
+    this.animateStats();
+    // this.startModuleSlider();
+  }
+
+  ngOnDestroy(): void {
+    if (this.slideTimer) {
+      clearInterval(this.slideTimer);
     }
   }
 
-  ngOnInit() {
-    this.animateStats();
-    const isRead = localStorage.getItem('ideaRead');
-    this.hasUnreadNotification = isRead !== 'true';
+  // private startModuleSlider(): void {
+  //   this.slideTimer = setInterval(() => {
+  //     this.activeSlideIndex = this.activeSlideIndex === 0 ? 1 : 0;
+  //   }, 4000);
+  // }
 
-    setTimeout(() => {
-      this.showNotificationIcon = true;
-    }, 3000);
+  playFullVideo(): void {
+    this.router.navigate(['/intro']);
   }
 
-  ngAfterViewInit() {
-    setTimeout(() => {
-      this.showToast = true;
-      setTimeout(() => (this.animateToast = true), 900);
-      setTimeout(() => this.closeToast(), 4000);
-    }, 20000);
-  }
-
-  animateStats() {
+  animateStats(): void {
     this.stats.forEach((stat) => {
       if (!stat.target) return;
 
@@ -87,8 +74,8 @@ export class App implements OnInit, AfterViewInit {
       const interval = setInterval(() => {
         current += increment;
 
-        if (current >= stat.target!) {
-          current = stat.target!;
+        if (current >= stat.target) {
+          current = stat.target;
           clearInterval(interval);
         }
 
@@ -108,26 +95,6 @@ export class App implements OnInit, AfterViewInit {
       return (value / 1000).toFixed(1) + 'K';
     }
     return value.toString();
-  }
-
-  toggleIdeaBox() {
-    this.showIdeaBox = !this.showIdeaBox;
-  }
-
-  closeIdea(event?: Event) {
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-
-    this.showIdeaBox = false;
-    this.hasUnreadNotification = false;
-    localStorage.setItem('ideaRead', 'true');
-  }
-
-  closeToast() {
-    this.animateToast = false;
-    setTimeout(() => (this.showToast = false), 400);
   }
 
   private openDialog(
@@ -163,10 +130,6 @@ export class App implements OnInit, AfterViewInit {
     this.openDialog(SocialLinks, '60vw', '60vh', 'contact-bento-panel');
   }
 
-  playFullVideo(): void {
-    this.router.navigate(['/intro']);
-  }
-
   private getDialogConfig(
     targetWidth: string,
     targetHeight: string,
@@ -185,75 +148,48 @@ export class App implements OnInit, AfterViewInit {
     };
   }
 
-  handleConnectClick(event: MouseEvent): void {
-    this.closeIdea(event);
-    this.openLinks();
-  }
-
   protected readonly brand = {
     name: 'Shrikant',
     lastName: 'Shinde',
-    role: 'Techno-Functional Consultant',
     location: 'India',
-    year: '2026',
+    timezoneLabel: 'IST',
+    overlapNote: 'Overlaps US mornings · UK/EU afternoons · AU evenings',
+    fileRef: 'YRD-2026',
     brief:
-      'I help real estate businesses and property owners build their digital foundations as strong as their physical assets.',
-    subbrief:
-      'Leveraging modern frameworks to turn Data into Directions and Ideas into User-Interfaces.',
-    url: 'https://drive.google.com/file/d/151q0h7N0qlKPVMlSJvYlP9IfpjbZlsWH/view?usp=sharing',
-    label: 'Sent Resume Request',
-    download: false,
-    availableForWork: false,
+      'I specialize in Yardi Voyager administration, configuration, SQL reporting, data workflows, and property management operations. I support Affordable Housing, PHA/Section 8, Residential, and Commercial environments, helping property teams improve reporting accuracy, streamline workflows, and resolve system issues.',
+    resumeUrl:
+      'https://drive.google.com/file/d/151q0h7N0qlKPVMlSJvYlP9IfpjbZlsWH/view?usp=sharing',
+    contactEmail: 'shrikant.shinde@gmail.com',
+    availableForWork: true,
   };
 
-  protected readonly trustedClients: string[] = [];
+  protected readonly heroStat = {
+    value: '1.5B+',
+    label: 'Rows Processed',
+  };
+
+  protected readonly specialtyTags: string[] = [
+    'Affordable Housing',
+    'PHA / Section 8',
+    'LIHTC',
+    'Residential',
+    'Commercial',
+    'SQL & Reporting',
+  ];
 
   protected readonly stats: Stat[] = [
-    {
-      value: '1.5B+',
-      label: 'Rows Processed',
-      icon: 'storage',
-      target: 1500000000,
-      suffix: 'B+',
-    },
-    {
-      value: '36+',
-      label: 'Custom Reports',
-      icon: 'code',
-      target: 36,
-      suffix: '+',
-    },
-    {
-      value: '2+',
-      label: 'Yrs Experience',
-      icon: 'bar_chart',
-      target: 2,
-      suffix: '+',
-    },
-    {
-      value: '5+',
-      label: 'Happy Client',
-      icon: 'groups',
-      target: 5,
-      suffix: '+',
-    },
+    { label: 'Custom reports built', target: 36, suffix: '+' },
+    { label: 'Years in Yardi', target: 2, suffix: '+' },
+    // { label: 'Units Supported', target: 1200, suffix: '+' },
+    { label: 'Clients Environments', target: 5, suffix: '+' },
   ];
 
-  protected readonly navItems: NavItem[] = [
-    {
-      index: '01',
-      label: 'What I’ve Built',
-      action: () => this.openProjects(),
-    },
-    {
-      index: '02',
-      label: 'Professional Journey',
-      action: () => this.openExperience(),
-    },
-    {
-      index: '03',
-      label: 'Tech I Work With',
-      action: () => this.openEducation(),
-    },
+  protected readonly navTabs: NavTab[] = [
+    { label: 'Project gallery', action: () => this.openProjects() },
+    { label: 'Experience timeline', action: () => this.openExperience() },
+    { label: 'Tech stack', action: () => this.openEducation() },
+    { label: 'Contact', action: () => this.openLinks() },
   ];
 }
+
+declare const gtag: (...args: any[]) => void;

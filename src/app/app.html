@@ -1,222 +1,223 @@
-<div class="corporate-shell">
-  <section class="visual-panel">
-    <div class="dots-top-right"></div>
-    <div class="dots-bottom-left"></div>
-    <div class="bottom-right-asset">
-      <img
-        src="assets/images/world.webp"
-        width="300"
-        height="169"
-        loading="lazy"
-        alt="decorative asset"
-      />
-    </div>
+<div class="stage">
+  <div class="brand-strip">
+    <span class="brand-mark">
+      {{ brand.name }} {{ brand.lastName }} — Portfolio
+    </span>
+    <span class="file-ref">file no. {{ brand.fileRef }}</span>
+  </div>
 
-    <div class="top-brand">
-      <span class="title">Portfolio</span>
-    </div>
-    <div class="video-wrapper">
-      <img
-        class="bg-image"
-        src="assets/images/shrikant_img.png"
-        alt="City night view"
-        loading="eager"
-        fetchpriority="high"
-      />
+  <div class="document">
+    <div class="doc-grid">
+      <!-- ===== VERTICAL SPINE STRIP ===== -->
+      <!-- <div class="doc-spine">
+          <img
+            class="spine-logo"
+            src="assets/images/YardiLogo.webp"
+            alt="Yardi Systems"
+            width="60"
+            height="16"
+          />
+          <span class="spine-title">Techno‑Functional Consultant</span>
+        </div> -->
 
-      <div class="overlay-gradient"></div>
-
-      <div class="play-trigger" (click)="playFullVideo()">
-        <div class="play-circle">
-          <span class="play-icon">▶</span>
+      <!-- ===== LEFT — LEDGER SIDEBAR ===== -->
+      <aside class="ledger">
+        <div
+          class="video-wrapper"
+          role="button"
+          tabindex="0"
+          aria-label="Play 2 minute introduction video"
+          (click)="playFullVideo()"
+          (keydown.enter)="playFullVideo()"
+          (keydown.space)="playFullVideo()"
+        >
+          <img
+            class="bg-image"
+            src="assets/images/shrikant_img.png"
+            alt="Introduction video preview"
+            loading="eager"
+            fetchpriority="high"
+          />
+          <div class="overlay-gradient"></div>
+          <div class="play-trigger">
+            <div class="play-circle">
+              <span class="play-icon">&#9658;</span>
+            </div>
+            <p class="play-text">Watch 2-min intro</p>
+          </div>
         </div>
-        <p class="play-text">Watch 2-min Intro</p>
-      </div>
-    </div>
 
-    <div class="stats-overlay">
-      <div class="stat-box" *ngFor="let stat of stats">
-        <mat-icon class="stat-icon">{{ stat.icon }}</mat-icon>
+        <div class="ledger-content-block">
+          <div class="stamp" [class.stamp-off]="!brand.availableForWork">
+            <span class="stamp-dot"></span>
+            {{ brand.availableForWork ? 'Open to work' : 'Currently engaged' }}
+          </div>
 
-        <div class="stat-text">
-          <span class="stat-value">
-            {{ formatValue(stat.animatedValue ?? 0) }}{{ stat.suffix }}
+          <div class="ledger-rows">
+            <div class="ledger-row" *ngFor="let stat of stats">
+              <span class="ledger-label">{{ stat.label }}</span>
+              <span class="ledger-fill"></span>
+              <span class="ledger-value">
+                {{ formatValue(stat.animatedValue ?? 0) }}{{ stat.suffix }}
+              </span>
+            </div>
+          </div>
+
+          <div class="ledger-footer">
+            <div class="location-line">
+              Based in <strong>{{ brand.location }}</strong>
+              <span class="tz-tag">{{ brand.timezoneLabel }}</span>
+            </div>
+            <div class="overlap-line">{{ brand.overlapNote }}</div>
+            <div class="engagement-line">
+              Engagement types: full-time, contract, freelance
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ===== RIGHT — EXECUTIVE DOSSIER PANEL ===== -->
+      <main class="dossier">
+        <div class="dossier-header-block">
+          <div class="dossier-meta">
+            <p class="intro-text">Yardi Consultant</p>
+            <h1 class="name-title">
+              {{ brand.name }} <span>{{ brand.lastName }}</span>
+            </h1>
+          </div>
+          <div class="action-control-group">
+            <div class="cta-row">
+              <button class="cta-primary" (click)="openLinks()">
+                Get in touch
+              </button>
+              <a
+                class="cta-link"
+                [href]="brand.resumeUrl"
+                target="_blank"
+                rel="noopener"
+                >Download résumé &rarr;</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="role-line">
+          <!-- <div class="logo-shield">
+              <img
+                class="yrd-logo"
+                src="assets/images/YardiLogo.webp"
+                alt="Yardi Systems Platform"
+                width="60"
+                height="16"
+              />
+            </div> -->
+          <span class="role-subtext"
+            >Yardi systems &middot; Techno-Functional Specialist
           </span>
-          <span class="stat-label">{{ stat.label }}</span>
+          <div class="inline-metric-tag" role="status"></div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <section class="content-panel">
-    <div class="curve-divider">
-      <svg viewBox="0 0 100 100" preserveAspectRatio="none">
-        <path d="M100,0 C60,0 40,100 0,100 L100,100 Z" fill="#f9fbff" />
-      </svg>
-    </div>
+        <div class="compliance-matrix">
+          <span class="matrix-label">Core Expertise:</span>
+          <div class="specialty-tags">
+            <span class="specialty-tag" *ngFor="let tag of specialtyTags">
+              <span class="tag-indicator"></span>{{ tag }}
+            </span>
+            <span class="specialty-tag compliance-tag">
+              <span class="tag-indicator alert-pip"></span>HUD-50059 &middot;
+              TRACS &middot; EIV
+            </span>
+          </div>
+        </div>
 
-    <div class="idea-notification" *ngIf="showNotificationIcon">
-      <div class="idea-icon" (click)="toggleIdeaBox()">
-        <mat-icon>notifications</mat-icon>
-        <span class="badge-dot" *ngIf="hasUnreadNotification"></span>
-      </div>
+        <div class="brief-box">
+          <p class="brief">{{ brand.brief }}</p>
+        </div>
 
-      <div
-        class="banner-overlay"
-        *ngIf="showIdeaBox"
-        (click)="closeIdea($event)"
-      >
-        <div class="hire-banner-box" (click)="$event.stopPropagation()">
-          <button
-            class="close-btn"
-            (click)="closeIdea($event)"
-            aria-label="Close notification"
+        <!-- REFACTORED DOWN-TO-UP VERTICAL IMAGE MARQUEE STRIP -->
+        <div
+          class="module-slider-strip"
+          aria-label="Ecosystem Capability Showcase"
+        >
+          <div
+            class="slider-track"
+            [style.transform]="'translateY(-' + (activeSlideIndex * 100) + '%)'"
           >
-            ✕
-          </button>
-
-          <div class="banner-flex">
-            <div class="img-wrapper"></div>
-            <div class="banner-info">
-              <h4 class="banner-title">Have any project idea?</h4>
-              <p class="banner-subtitle">
-                I'm available for a Full-time or Freelance.
-              </p>
+            <!-- Slide Stage 1: Native Sub-Product Ecosystem Image Logos -->
+            <div class="slider-slide vertical-slide-row">
+              <div class="strip-header">YARDI ECOSYSTEM:</div>
+              <div class="logo-image-row">
+                <img
+                  src="assets/real-estate-logo/Rent cafe.png"
+                  alt="RentCafé"
+                  title="RentCafe"
+                  class="ecosystem-logo-img"
+                />
+                <img
+                  src="assets/real-estate-logo/yardi voyager 7.png"
+                  alt="Voyager 7"
+                  title="Yardi Voyager 7"
+                  class="ecosystem-logo-img"
+                />
+                <img
+                  src="assets/real-estate-logo/yardi p2p.png"
+                  alt="Yardi Payment Processing"
+                  title="Procure To Pay"
+                  class="ecosystem-logo-img"
+                />
+                <img
+                  src="assets/real-estate-logo/Yardi Virtuso.png"
+                  alt="Virtuso"
+                  title="Yardi Virtuso"
+                  class="ecosystem-logo-img"
+                />
+                <img
+                  src="assets/real-estate-logo/Public Housing Authority.png"
+                  alt="PHA"
+                  title="Public Housing Authority"
+                  class="ecosystem-logo-img"
+                />
+                <img
+                  src="assets/real-estate-logo/Yardi YSR.png"
+                  alt="YSR"
+                  title="Yardi Standard Reports (YSR)"
+                  class="ecosystem-logo-img"
+                />
+              </div>
             </div>
 
-            <button class="hire-cta-btn" (click)="handleConnectClick($event)">
-              Let's Connect
+            <!-- Slide Stage 2: Target Operational Property Management Modules -->
+            <!-- <div class="slider-slide vertical-slide-row">
+                <div class="strip-header">Modules:</div>
+                <div class="chip-row">
+                  <span class="engine-chip mod-core">Affordable Housing</span>
+                  <span class="engine-chip mod-core">Residential</span>
+                  <span class="engine-chip mod-core">PHA</span>
+                  <span class="engine-chip mod-core">Commercial</span>
+                  <span class="engine-chip mod-core">Military</span>
+                </div>
+              </div> -->
+          </div>
+        </div>
+
+        <div class="dossier-footer-anchor">
+          <nav class="dossier-nav-bar" aria-label="Portfolio sections">
+            <button
+              *ngFor="let tab of navTabs"
+              class="dossier-nav-tab"
+              (click)="tab.action()"
+            >
+              {{ tab.label }}
             </button>
-          </div>
-        </div>
-      </div>
-    </div>
+          </nav>
 
-    <div class="inner-content">
-      <header class="branding">
-        <div class="status-pill" *ngIf="brand.availableForWork">
-          <span class="status-dot"></span>
-          <span>Available for new projects</span>
-        </div>
-
-        <span class="intro-text">Hello, I'm</span>
-        <h1 class="name-title">
-          {{ brand.name }} <span class="last-name">{{ brand.lastName }}</span>
-        </h1>
-
-        <p class="role-tag">
-          <img
-            src="assets/images/YardiLogo.webp"
-            width="70"
-            height="22"
-            alt="Yardi"
-            class="yrd-logo"
-          />
-          <span class="role-text">TECHNO-FUNCTIONAL CONSULTANT</span>
-        </p>
-
-        <!-- Non-interactive info row: no border/pill affordance, just an accent + text -->
-        <div class="availability-row">
-          <div class="availability-item">
-            <mat-icon inline="true">schedule</mat-icon>
-            <span>4–6 hr overlap with EST / GMT</span>
-          </div>
-          <div class="availability-item">
-            <mat-icon inline="true">event</mat-icon>
-            <span>US business-hours availability</span>
-          </div>
-        </div>
-
-        <div class="accent-line"></div>
-
-        <p class="brief">{{ brand.brief }}</p>
-
-        <!-- Slim, clearly non-interactive tags -->
-        <div class="engagement-row">
-          <span class="tag">Full-time</span>
-          <span class="tag">Contract</span>
-          <span class="tag">Freelance</span>
-        </div>
-
-        <!-- CTA row — the only visually "clickable" cluster besides main-nav -->
-        <div class="cta-row">
-          <button class="cta-primary" matRipple (click)="openLinks()">
-            <span>Get in touch</span>
-            <mat-icon inline="true">arrow_forward</mat-icon>
-          </button>
-
-          <a
-            class="cta-secondary"
-            [href]="brand.url"
-            target="_blank"
-            rel="noopener"
-            matRipple
+          <a class="contact-fallback" [href]="'mailto:' + brand.contactEmail"
+            >{{ brand.contactEmail }}</a
           >
-            <mat-icon inline="true">download</mat-icon>
-            <span>Download resume</span>
-          </a>
         </div>
-      </header>
-
-      <!-- Main nav: now renders index + arrow so it visually reads as "tap to expand" -->
-      <nav class="main-nav">
-        <button
-          *ngFor="let item of navItems"
-          (click)="item.action()"
-          class="nav-button"
-          matRipple
-        >
-          <span class="nav-index">{{ item.index }}</span>
-          <span class="nav-text">{{ item.label }}</span>
-          <span class="arrow-wrapper">
-            <mat-icon class="nav-arrow" inline="true">arrow_forward</mat-icon>
-          </span>
-        </button>
-
-        <!-- Uncomment once real or anonymized client names are ready -->
-        <!-- <div class="trusted-row" *ngIf="trustedClients?.length">
-          <span class="trusted-label">Trusted on projects with</span>
-          <span class="trusted-list">
-            <span *ngFor="let client of trustedClients; let last = last">
-              {{ client }}<span *ngIf="!last"> &middot; </span>
-            </span>
-          </span>
-        </div> -->
-      </nav>
-
-      <footer class="contact-footer">
-        <div class="location-group">
-          <mat-icon class="location-icon">place</mat-icon>
-
-          <span class="location-text">
-            Currently based in
-            <span class="location"> {{ brand.location }}</span>
-          </span>
-        </div>
-
-        <img src="assets/images/utd.webp" alt="world map" class="world-map" />
-      </footer>
+      </main>
     </div>
-  </section>
+  </div>
 </div>
 
 <router-outlet></router-outlet>
-<div class="thank-you-toast" *ngIf="showToast" [class.active]="animateToast">
-  <!-- <div class="toast-icon">
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="3"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    >
-      <polyline points="20 6 9 17 4 12"></polyline>
-    </svg>
-  </div> -->
-  <div class="text-group">
-    <p class="toast-msg">Thank you for visiting :)</p>
-  </div>
-</div>
