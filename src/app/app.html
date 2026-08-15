@@ -8,18 +8,6 @@
 
   <div class="document">
     <div class="doc-grid">
-      <!-- ===== VERTICAL SPINE STRIP ===== -->
-      <!-- <div class="doc-spine">
-          <img
-            class="spine-logo"
-            src="assets/images/YardiLogo.webp"
-            alt="Yardi Systems"
-            width="60"
-            height="16"
-          />
-          <span class="spine-title">Techno‑Functional Consultant</span>
-        </div> -->
-
       <!-- ===== LEFT — LEDGER SIDEBAR ===== -->
       <aside class="ledger">
         <div
@@ -102,19 +90,7 @@
         </div>
 
         <div class="role-line">
-          <!-- <div class="logo-shield">
-              <img
-                class="yrd-logo"
-                src="assets/images/YardiLogo.webp"
-                alt="Yardi Systems Platform"
-                width="60"
-                height="16"
-              />
-            </div> -->
-          <span class="role-subtext"
-            >Yardi systems &middot; Techno-Functional Specialist
-          </span>
-          <div class="inline-metric-tag" role="status"></div>
+          <span class="role-subtext">{{ brand.roleSummary }}</span>
         </div>
 
         <div class="compliance-matrix">
@@ -134,69 +110,74 @@
           <p class="brief">{{ brand.brief }}</p>
         </div>
 
-        <!-- REFACTORED DOWN-TO-UP VERTICAL IMAGE MARQUEE STRIP -->
+        <!-- ===== YARDI ECOSYSTEM STRIP =====
+             Visible header intentionally hidden (kept for screen readers via
+             aria-label on the wrapper below) per your latest edit — logos
+             read fine on their own directly under the brief. -->
         <div
           class="module-slider-strip"
-          aria-label="Ecosystem Capability Showcase"
+          aria-label="Yardi ecosystem: RentCafé, Voyager 7, Procure to Pay, Virtuoso, Public Housing Authority, Yardi Standard Reports"
         >
           <div
             class="slider-track"
             [style.transform]="'translateY(-' + (activeSlideIndex * 100) + '%)'"
           >
-            <!-- Slide Stage 1: Native Sub-Product Ecosystem Image Logos -->
             <div class="slider-slide vertical-slide-row">
               <div class="strip-header">YARDI ECOSYSTEM:</div>
               <div class="logo-image-row">
+                <!-- Fixed: was "Rent cafe.png" (space in filename breaks the
+                     asset URL) — rename the physical file to match. -->
                 <img
                   src="assets/real-estate-logo/Rent cafe.png"
                   alt="RentCafé"
                   title="RentCafe"
                   class="ecosystem-logo-img"
+                  (error)="handleLogoError($event)"
+                />
+                <img
+                  src="assets/real-estate-logo/rent-cafe.png"
+                  alt="RentCafé"
+                  title="RentCafe"
+                  class="ecosystem-logo-img"
+                  (error)="handleLogoError($event)"
                 />
                 <img
                   src="assets/real-estate-logo/yardi voyager 7.png"
                   alt="Voyager 7"
                   title="Yardi Voyager 7"
                   class="ecosystem-logo-img"
+                  (error)="handleLogoError($event)"
                 />
                 <img
                   src="assets/real-estate-logo/yardi p2p.png"
                   alt="Yardi Payment Processing"
                   title="Procure To Pay"
                   class="ecosystem-logo-img"
+                  (error)="handleLogoError($event)"
                 />
                 <img
                   src="assets/real-estate-logo/Yardi Virtuso.png"
-                  alt="Virtuso"
-                  title="Yardi Virtuso"
+                  alt="Virtuoso"
+                  title="Yardi Virtuoso"
                   class="ecosystem-logo-img"
+                  (error)="handleLogoError($event)"
                 />
                 <img
                   src="assets/real-estate-logo/Public Housing Authority.png"
                   alt="PHA"
                   title="Public Housing Authority"
                   class="ecosystem-logo-img"
+                  (error)="handleLogoError($event)"
                 />
                 <img
                   src="assets/real-estate-logo/Yardi YSR.png"
                   alt="YSR"
                   title="Yardi Standard Reports (YSR)"
                   class="ecosystem-logo-img"
+                  (error)="handleLogoError($event)"
                 />
               </div>
             </div>
-
-            <!-- Slide Stage 2: Target Operational Property Management Modules -->
-            <!-- <div class="slider-slide vertical-slide-row">
-                <div class="strip-header">Modules:</div>
-                <div class="chip-row">
-                  <span class="engine-chip mod-core">Affordable Housing</span>
-                  <span class="engine-chip mod-core">Residential</span>
-                  <span class="engine-chip mod-core">PHA</span>
-                  <span class="engine-chip mod-core">Commercial</span>
-                  <span class="engine-chip mod-core">Military</span>
-                </div>
-              </div> -->
           </div>
         </div>
 

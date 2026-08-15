@@ -43,7 +43,6 @@ export class App implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.animateStats();
-    // this.startModuleSlider();
   }
 
   ngOnDestroy(): void {
@@ -52,19 +51,30 @@ export class App implements OnInit, OnDestroy {
     }
   }
 
-  // private startModuleSlider(): void {
-  //   this.slideTimer = setInterval(() => {
-  //     this.activeSlideIndex = this.activeSlideIndex === 0 ? 1 : 0;
-  //   }, 4000);
-  // }
-
   playFullVideo(): void {
     this.router.navigate(['/intro']);
   }
 
+  /** Hides a logo image that failed to load instead of letting the browser
+   * show its default broken-image glyph (this is what happened to the
+   * RentCafé logo when its filename/path didn't resolve). */
+  handleLogoError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    img.classList.add('logo-broken');
+  }
+
   animateStats(): void {
+    const prefersReducedMotion = window.matchMedia?.(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
+
     this.stats.forEach((stat) => {
       if (!stat.target) return;
+
+      if (prefersReducedMotion) {
+        stat.animatedValue = stat.target;
+        return;
+      }
 
       let current = 0;
       const duration = 1200;
@@ -155,17 +165,15 @@ export class App implements OnInit, OnDestroy {
     timezoneLabel: 'IST',
     overlapNote: 'Overlaps US mornings · UK/EU afternoons · AU evenings',
     fileRef: 'YRD-2026',
+    roleSummary:
+      'Platform configuration, integration & ongoing systems support',
     brief:
-      'I specialize in Yardi Voyager administration, configuration, SQL reporting, data workflows, and property management operations. I support Affordable Housing, PHA/Section 8, Residential, and Commercial environments, helping property teams improve reporting accuracy, streamline workflows, and resolve system issues.',
+      // 'Across these portfolios, I build custom reports, streamline data workflows, and resolve system issues so property teams can trust their numbers.',
+      'I help property management teams fix broken Yardi environments and transform them into fully optimized, automated systems that ensure clean datasets, efficient workflows and smooth operations.',
     resumeUrl:
       'https://drive.google.com/file/d/151q0h7N0qlKPVMlSJvYlP9IfpjbZlsWH/view?usp=sharing',
-    contactEmail: 'shrikant.shinde@gmail.com',
+    contactEmail: 'mr.shrikantshinde@gmail.com',
     availableForWork: true,
-  };
-
-  protected readonly heroStat = {
-    value: '1.5B+',
-    label: 'Rows Processed',
   };
 
   protected readonly specialtyTags: string[] = [
@@ -175,12 +183,12 @@ export class App implements OnInit, OnDestroy {
     'Residential',
     'Commercial',
     'SQL & Reporting',
+    'ETL',
   ];
 
   protected readonly stats: Stat[] = [
     { label: 'Custom reports built', target: 36, suffix: '+' },
     { label: 'Years in Yardi', target: 2, suffix: '+' },
-    // { label: 'Units Supported', target: 1200, suffix: '+' },
     { label: 'Clients Environments', target: 5, suffix: '+' },
   ];
 

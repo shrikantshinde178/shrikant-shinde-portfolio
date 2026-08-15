@@ -1,0 +1,25 @@
+[debug] [2026-07-22T05:16:14.489Z] ----------------------------------------------------------------------
+[debug] [2026-07-22T05:16:14.491Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\AUNRADHA\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2026-07-22T05:16:14.491Z] CLI Version:   15.16.0
+[debug] [2026-07-22T05:16:14.491Z] Platform:      win32
+[debug] [2026-07-22T05:16:14.491Z] Node Version:  v22.16.0
+[debug] [2026-07-22T05:16:14.491Z] Time:          Wed Jul 22 2026 10:46:14 GMT+0530 (India Standard Time)
+[debug] [2026-07-22T05:16:14.492Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-07-22T05:16:16.452Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-07-22T05:16:16.453Z] > authorizing via signed-in user (shrikantrs178@gmail.com)
+[debug] [2026-07-22T05:16:16.453Z] [iam] checking project shrikant-shinde-portfolio for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-07-22T05:16:16.454Z] Checked if tokens are valid: true, expires at: 1784700334728
+[debug] [2026-07-22T05:16:16.454Z] Checked if tokens are valid: true, expires at: 1784700334728
+[debug] [2026-07-22T05:16:16.455Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/shrikant-shinde-portfolio:testIamPermissions [none]
+[debug] [2026-07-22T05:16:16.455Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/shrikant-shinde-portfolio:testIamPermissions  x-goog-user-project=shrikant-shinde-portfolio
+[debug] [2026-07-22T05:16:16.455Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/shrikant-shinde-portfolio:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-07-22T05:16:16.492Z] *** [apiv2] error from fetch(https://cloudresourcemanager.googleapis.com/v1/projects/shrikant-shinde-portfolio:testIamPermissions, {"headers":{},"method":"POST","body":"{\"permissions\":[\"firebase.projects.get\",\"firebasehosting.sites.update\"]}"}): FetchError: request to https://cloudresourcemanager.googleapis.com/v1/projects/shrikant-shinde-portfolio:testIamPermissions failed, reason: getaddrinfo ENOTFOUND cloudresourcemanager.googleapis.com
+[debug] [2026-07-22T05:16:16.492Z] [iam] error while checking permissions, command may fail: Failed to make request to https://cloudresourcemanager.googleapis.com/v1/projects/shrikant-shinde-portfolio:testIamPermissions
+[debug] [2026-07-22T05:16:16.493Z] Checked if tokens are valid: true, expires at: 1784700334728
+[debug] [2026-07-22T05:16:16.493Z] Checked if tokens are valid: true, expires at: 1784700334728
+[debug] [2026-07-22T05:16:16.493Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/shrikant-shinde-portfolio [none]
+[debug] [2026-07-22T05:16:16.496Z] *** [apiv2] error from fetch(https://firebase.googleapis.com/v1beta1/projects/shrikant-shinde-portfolio, {"headers":{},"method":"GET","signal":{"reason":""}}): FetchError: request to https://firebase.googleapis.com/v1beta1/projects/shrikant-shinde-portfolio failed, reason: getaddrinfo ENOTFOUND firebase.googleapis.com
+[debug] [2026-07-22T05:16:16.497Z] Failed to make request to https://firebase.googleapis.com/v1beta1/projects/shrikant-shinde-portfolio (original: request to https://firebase.googleapis.com/v1beta1/projects/shrikant-shinde-portfolio failed, reason: getaddrinfo ENOTFOUND firebase.googleapis.com)
+[error] 
+[error] Error: Assertion failed: resolving hosting target of a site with no site name or target name. This should have caused an error earlier
