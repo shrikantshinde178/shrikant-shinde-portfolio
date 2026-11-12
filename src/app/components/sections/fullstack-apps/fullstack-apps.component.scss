@@ -1,0 +1,942 @@
+/* ==========================================================================
+   FULL-STACK APPS
+   cobalt = Yardi · emerald = Web apps · amber = Database · slate = All
+   ========================================================================== */
+
+$slate-900: #0f172a;
+$slate-800: #1e293b;
+$slate-600: #475569;
+$slate-500: #64748b;
+$slate-400: #94a3b8;
+$slate-300: #cbd5e1;
+$slate-200: #e2e8f0;
+$slate-100: #f1f5f9;
+$slate-50: #f8fafc;
+$border-color: #e5e7eb;
+$font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+$radius: 2px;
+$gap: 0.5rem;
+$thumb: 104px;
+
+@mixin tones {
+  --tone: #{$slate-800};
+  --tone-soft: #{$slate-50};
+  --tone-border: #{$slate-200};
+
+  &[data-tone="cobalt"] {
+    --tone: #0284c7;
+    --tone-soft: #f0f9ff;
+    --tone-border: #bae6fd;
+  }
+
+  &[data-tone="emerald"] {
+    --tone: #059669;
+    --tone-soft: #ecfdf5;
+    --tone-border: #a7f3d0;
+  }
+
+  &[data-tone="amber"] {
+    --tone: #d97706;
+    --tone-soft: #fffbeb;
+    --tone-border: #fde68a;
+  }
+}
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.fullstack-view {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.35rem 0.5rem 0.5rem;
+  box-sizing: border-box;
+  font-family: inherit;
+  color: #111827;
+}
+
+/* ==========================================================================
+   1. SEARCH
+   Matches Technical Articles search styling
+   ========================================================================== */
+
+.top-search-bar-only {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.8rem;
+
+  .search-box {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.55rem 0.75rem;
+    background: $slate-50;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    transition: 0.15s ease;
+
+    &:focus-within {
+      background: #fff;
+      border-color: #c9e4fa;
+      box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.06);
+    }
+
+    .search-ico {
+      flex-shrink: 0;
+      font-size: 17px;
+      width: 17px;
+      height: 17px;
+      color: $slate-400;
+    }
+
+    input {
+      flex: 1;
+      min-width: 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      font: inherit;
+      font-size: 0.84rem;
+      color: $slate-800;
+
+      &::placeholder {
+        color: $slate-400;
+      }
+    }
+
+    .search-meta {
+      flex-shrink: 0;
+      font-size: 0.68rem;
+      color: #0284c7;
+      background: #eff7ff;
+      border-radius: 4px;
+      padding: 0.15rem 0.45rem;
+      white-space: nowrap;
+    }
+
+    .clear-btn {
+      flex-shrink: 0;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      color: $slate-500;
+      cursor: pointer;
+      font-size: 0.75rem;
+      line-height: 1;
+
+      &:hover {
+        color: $slate-800;
+      }
+
+      &:focus-visible {
+        outline: 2px solid #0284c7;
+        outline-offset: 3px;
+        border-radius: 2px;
+      }
+    }
+
+    .kbd {
+      display: none;
+      flex-shrink: 0;
+      font-size: 0.7rem;
+      color: $slate-500;
+      background: #fff;
+      border: 1px solid $slate-200;
+      border-radius: 4px;
+      padding: 0.05rem 0.35rem;
+      font-family: inherit;
+    }
+  }
+}
+
+/* ==========================================================================
+   2. TABS
+   ========================================================================== */
+
+.filter-tab-bar-wrap {
+  width: 100%;
+  margin: 1rem 0;
+  overflow: hidden;
+}
+
+.filter-tab-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.15rem;
+  width: 100%;
+  height: 34px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab-btn {
+    @include tones;
+
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    height: 34px;
+    box-sizing: border-box;
+    padding: 0 0.65rem;
+    margin: 0;
+    font-family: inherit;
+    font-size: 0.72rem;
+    font-weight: 500;
+    line-height: 1;
+    color: #6b7280;
+    background: transparent;
+    border: none;
+    outline: none;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0.65rem;
+      right: 0.65rem;
+      bottom: 2px;
+      height: 2px;
+      background: var(--tone);
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 160ms ease;
+    }
+
+    &:hover {
+      color: $slate-900;
+    }
+
+    &.active {
+      color: var(--tone);
+      font-weight: 600;
+
+      &::after {
+        transform: scaleX(1);
+      }
+    }
+  }
+}
+
+/* Mobile navigation */
+
+@media (max-width: 600px) {
+  .filter-tab-bar-wrap {
+    margin: 0.85rem 0;
+  }
+
+  .filter-tab-bar {
+    height: 36px;
+
+    .tab-btn {
+      height: 36px;
+      padding: 0 0.55rem;
+      font-size: 0.7rem;
+
+      &::after {
+        left: 0.55rem;
+        right: 0.55rem;
+      }
+    }
+  }
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .filter-tab-bar .tab-btn::after {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   3. PROJECT GRID
+   ========================================================================== */
+
+.enterprise-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $gap;
+  align-items: stretch;
+
+  @media (min-width: 760px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.app-card {
+  @include tones;
+
+  min-width: 0;
+  display: grid;
+  grid-template-columns: $thumb minmax(0, 1fr);
+  grid-template-rows: 1fr auto;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid $border-color;
+  border-radius: $radius;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+
+  &:hover {
+    border-color: var(--tone-border);
+
+    .item-card-title {
+      color: var(--tone);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .app-card,
+    .tab-btn,
+    .search-box,
+    .page-control-btn {
+      transition: none !important;
+    }
+
+    .app-card:hover {
+      transform: none;
+    }
+  }
+
+  .card-visual-banner {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    position: relative;
+    min-height: 84px;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--tone-soft) 0%, #fff 100%);
+
+    .card-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      z-index: 0;
+    }
+
+    .brand-logo-container {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+      pointer-events: none;
+      z-index: 1;
+
+      .logo-chip {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+      }
+
+      .brand-img {
+        display: block;
+        max-width: 90%;
+        max-height: 65px;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+      }
+    }
+
+    .type-tag {
+      position: absolute;
+      left: 7px;
+      bottom: 7px;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 27px;
+      height: 27px;
+      padding: 0;
+      color: var(--tone);
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid var(--tone-border);
+      border-radius: 50%;
+
+      mat-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 15px;
+        height: 15px;
+        font-size: 15px;
+        line-height: 15px;
+      }
+
+      .category-logo {
+        display: block;
+        width: 19px;
+        height: 19px;
+        object-fit: contain;
+      }
+    }
+  }
+
+  .card-main-content {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    padding: 0.4rem 0.6rem 0.1rem;
+
+    .item-card-title {
+      margin: 0 0 0.15rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      line-height: 1.3;
+      color: #111;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      transition: color 140ms ease;
+    }
+
+    .item-card-summary {
+      margin: 0;
+      font-size: 0.7rem;
+      line-height: 1.4;
+      color: #6b7280;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+
+  /* Yardi reports: full titles, left aligned */
+
+  &[data-tone="cobalt"] {
+    .card-main-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      text-align: left;
+      min-width: 0;
+    }
+
+    .item-card-title {
+      display: block;
+      width: 100%;
+      margin: 0 0 0.15rem;
+      text-align: left;
+      white-space: normal;
+      overflow: visible;
+      text-overflow: clip;
+      overflow-wrap: break-word;
+      word-break: normal;
+      -webkit-line-clamp: unset;
+      -webkit-box-orient: initial;
+      line-height: 1.4;
+    }
+  }
+
+  .item-card-footer {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.25rem 0.6rem;
+    min-width: 0;
+    padding: 0.2rem 0.6rem 0.4rem;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 72px minmax(0, 1fr);
+
+    .card-visual-banner .type-tag {
+      display: none;
+    }
+  }
+}
+
+/* ==========================================================================
+   4. CHIPS
+   ========================================================================== */
+
+.meta-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.meta-chip {
+  padding: 0 0.35rem;
+  font-size: 0.6rem;
+  line-height: 1.5;
+  color: #58748b;
+  background: #eef6fc;
+  border-radius: 2px;
+
+  &--primary {
+    font-weight: 600;
+    color: var(--tone);
+    background: var(--tone-soft);
+  }
+
+  &--more {
+    font-family: $font-mono;
+    background: $slate-100;
+    cursor: help;
+  }
+}
+
+/* ==========================================================================
+   5. ACTIONS
+   ========================================================================== */
+
+.app-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-left: auto;
+
+  .action-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0;
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: $slate-600;
+    white-space: nowrap;
+    cursor: pointer;
+    text-decoration: underline;
+
+    &:hover,
+    &:focus,
+    &:focus-visible,
+    &:active {
+      text-decoration: none !important;
+    }
+
+    mat-icon {
+      font-size: 13px;
+      width: 13px;
+      height: 13px;
+    }
+
+    &:hover {
+      color: $slate-900;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--tone);
+      outline-offset: 2px;
+    }
+
+    &--primary {
+      color: var(--tone);
+
+      &:hover {
+        color: var(--tone);
+        filter: brightness(0.85);
+      }
+    }
+  }
+
+  .page-count {
+    font-family: $font-mono;
+    font-size: 0.58rem;
+    color: $slate-400;
+  }
+}
+
+/* ==========================================================================
+   6. EMPTY RESULTS
+   ========================================================================== */
+
+.empty-results-box {
+  margin-top: 0.4rem;
+  padding: 1rem;
+  text-align: center;
+  background: #fff;
+
+  .empty-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    color: $slate-400;
+  }
+
+  .empty-title {
+    margin: 0;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: $slate-800;
+  }
+}
+
+/* ==========================================================================
+   7. UNIFIED PROJECT FOOTER
+   ========================================================================== */
+
+.project-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 36px;
+  box-sizing: border-box;
+  margin-top: 0.45rem;
+  padding: 0.35rem 0.2rem 0.1rem;
+}
+
+.project-summary {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  flex: 1 1 auto;
+
+  .summary-label {
+    font-size: 0.64rem;
+    line-height: 1.4;
+    color: $slate-400;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+}
+
+.table-pagination {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0;
+
+  .page-control-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.12rem;
+    padding: 0.2rem 0;
+    background: transparent;
+    border: none;
+    font-family: inherit;
+    font-size: 0.65rem;
+    font-weight: 500;
+    color: $slate-600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 140ms ease;
+
+    mat-icon {
+      display: block;
+      width: 14px;
+      height: 14px;
+      font-size: 14px;
+      line-height: 14px;
+    }
+
+    &:disabled {
+      color: #cbd5e1;
+      cursor: default;
+    }
+
+    &:not(:disabled):hover {
+      color: #0284c7;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #0284c7;
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+  }
+
+  .page-state {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    min-width: 28px;
+    font-family: $font-mono;
+    font-size: 0.65rem;
+    color: $slate-500;
+    white-space: nowrap;
+
+    strong {
+      font-weight: 600;
+      color: $slate-800;
+    }
+
+    .page-separator {
+      color: $slate-300;
+    }
+  }
+}
+
+/* ==========================================================================
+   8. EXTERNAL LINK CONFIRMATION
+   ========================================================================== */
+
+.ext-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 30px 1rem 1rem;
+  box-sizing: border-box;
+  background: rgba(15, 23, 42, 0.45);
+}
+
+.ext-dialog {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  box-sizing: border-box;
+  padding: 1.15rem 1.25rem 1rem;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.25);
+
+  .ext-head {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-bottom: 0.5rem;
+    padding-right: 42px;
+  }
+
+  .ext-ico {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    color: #0078d4;
+  }
+
+  .ext-title {
+    margin: 0;
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: $slate-800;
+  }
+
+  .ext-project {
+    margin: 1.2rem 0 0.3rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.3;
+    color: $slate-900;
+  }
+
+  .ext-msg {
+    margin: 0 0 0.5rem;
+    font-size: 0.76rem;
+    line-height: 1.45;
+    color: $slate-600;
+  }
+
+  .ext-url {
+    margin: 0;
+    padding: 0.2rem 0.45rem;
+    font-family: $font-mono;
+    font-size: 0.66rem;
+    color: $slate-500;
+    background: $slate-50;
+    border: 1px solid $slate-200;
+    border-radius: $radius;
+    word-break: break-all;
+  }
+
+  .ext-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    color: $slate-500;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition:
+      background 160ms ease,
+      color 160ms ease;
+
+    mat-icon {
+      width: 34px;
+      height: 34px;
+      font-size: 34px;
+      line-height: 34px;
+      font-weight: 300;
+      -webkit-text-stroke: 0.7px #fff;
+    }
+
+    &:hover {
+      color: $slate-900;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #0284c7;
+      outline-offset: 2px;
+    }
+  }
+
+  .ext-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.4rem;
+    margin-top: 1rem;
+  }
+
+  .ext-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3rem 0.8rem;
+    font-family: inherit;
+    font-size: 0.74rem;
+    font-weight: 400;
+    color: $slate-600;
+    background: #fff;
+    border: 1px solid $border-color;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+      background: $slate-50;
+    }
+
+    &--primary {
+      color: #fff;
+      background: #0078d4;
+      border-color: #0078d4;
+
+      &:hover {
+        background: #006cbe;
+      }
+    }
+  }
+}
+
+/* ==========================================================================
+   9. RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 600px) {
+  .top-search-bar-only {
+    .search-box {
+      .kbd {
+        display: none;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .app-card[data-tone="cobalt"] {
+    .card-main-content {
+      padding: 0.45rem 0.55rem;
+      min-width: 0;
+    }
+
+    .item-card-title {
+      display: block !important;
+      white-space: normal !important;
+      overflow: visible !important;
+      text-align: left !important;
+      -webkit-line-clamp: unset !important;
+    }
+  }
+
+  .project-footer {
+    gap: 0.35rem;
+    padding-right: 0.1rem;
+    padding-left: 0.1rem;
+  }
+
+  .project-summary {
+    .summary-label {
+      font-size: 0.59rem;
+    }
+  }
+
+  .table-pagination {
+    gap: 0.4rem;
+
+    .page-control-btn {
+      font-size: 0.61rem;
+      gap: 0;
+    }
+
+    .page-control-btn mat-icon {
+      width: 12px;
+      height: 12px;
+      font-size: 12px;
+      line-height: 12px;
+    }
+
+    .page-state {
+      font-size: 0.61rem;
+    }
+  }
+}
+
+/* Very narrow screens */
+
+@media (max-width: 350px) {
+  .project-footer {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    row-gap: 0.4rem;
+  }
+
+  .project-summary {
+    flex: 1 1 100%;
+  }
+
+  .table-pagination {
+    margin-left: auto;
+  }
+}
+
+/* ==========================================================================
+   10. REDUCED MOTION
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .app-card,
+  .tab-btn,
+  .search-box,
+  .page-control-btn {
+    transition: none !important;
+  }
+}

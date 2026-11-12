@@ -6,6 +6,15 @@
 /out-tsc
 /bazel-out
 
+# Dependencies & Build
+/node_modules
+/dist
+/.angular
+
+# Firebase local cache
+.firebase/
+firebase-debug.log
+
 # Node
 /node_modules
 npm-debug.log

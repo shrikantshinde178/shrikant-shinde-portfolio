@@ -1,0 +1,91 @@
+<div class="contact-popup">
+  <!-- Top bar -->
+  <div class="contact-topbar">
+    <span class="contact-label">CA | US | APAC </span>
+
+    <nav class="contact-icons">
+      <button
+        type="button"
+        class="icon-btn"
+        (click)="copyEmail()"
+        [attr.title]="copied() ? 'Copied!' : 'Copy email'"
+        aria-label="Copy email"
+      >
+        <mat-icon>mail_outline</mat-icon>
+      </button>
+
+      <a
+        class="icon-btn"
+        [href]="linkedinUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="LinkedIn"
+        title="LinkedIn"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            fill="currentColor"
+            d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM8 18H5V9h3zM6.5 7.7a1.7 1.7 0 1 1 0-3.4 1.7 1.7 0 0 1 0 3.4zM19 18h-3v-4.4c0-2.6-3-2.4-3 0V18h-3V9h3v1.4c1.4-2.5 6-2.7 6 2.4z"
+          />
+        </svg>
+      </a>
+
+      <a
+        class="icon-btn"
+        [href]="resumeUrl"
+        download
+        aria-label="Download CV"
+        title="Download CV"
+      >
+        <mat-icon>download</mat-icon>
+      </a>
+    </nav>
+  </div>
+
+  <!-- Main content -->
+  <div class="contact-content">
+    <h2>Let's build a stronger team.</h2>
+
+    <p>
+      Open to global collaboration, strategic engagements and long-term
+      partnerships.
+    </p>
+
+    <div class="contact-email" (click)="copyEmail()">
+      <mat-icon>alternate_email</mat-icon>
+      <span>{{ contactEmail }}</span>
+      <mat-icon class="copy-icon">
+        {{ copied() ? "check" : "content_copy" }}
+      </mat-icon>
+    </div>
+
+    <span class="copied-message" *ngIf="copied()">
+      Email copied successfully!
+    </span>
+  </div>
+
+  <!-- Actions -->
+  <div class="contact-actions">
+    <a
+      [href]="meetingUrl"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="action-btn primary"
+    >
+      <mat-icon>calendar_today</mat-icon>
+      Book a 15-min sync
+      <mat-icon class="arrow">north_east</mat-icon>
+    </a>
+
+    <a
+      [href]="formUrl"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="action-btn secondary"
+    >
+      <mat-icon>send</mat-icon>
+      Send an enquiry
+      <mat-icon class="arrow">north_east</mat-icon>
+    </a>
+  </div>
+</div>

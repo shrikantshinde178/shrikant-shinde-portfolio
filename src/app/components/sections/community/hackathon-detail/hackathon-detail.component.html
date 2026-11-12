@@ -1,0 +1,266 @@
+@if (hackathon(); as item) {
+  <main class="hackathon-detail-page">
+    <!-- BREADCRUMBS -->
+    <nav class="detail-breadcrumbs" aria-label="Breadcrumb">
+      <a routerLink="/community">Community Activity</a>
+      <span>/</span>
+      <span>Hackathons</span>
+      <span>/</span>
+      <span class="breadcrumb-current">{{ item.title }}</span>
+    </nav>
+
+    <!-- HERO -->
+    <section class="detail-hero">
+      <img
+        class="detail-hero-image"
+        [src]="item.heroImage"
+        [alt]="item.title"
+      />
+
+      <div class="detail-hero-overlay"></div>
+
+      <div class="detail-hero-content">
+        <div class="detail-eyebrows">
+          <span>{{ item.event }}</span>
+          @if (item.result) {
+            <span class="detail-result">{{ item.result }}</span>
+          }
+        </div>
+
+        <p class="detail-date">{{ item.date }} · {{ item.duration }}</p>
+
+        <h1>{{ item.title }}</h1>
+        <h2>{{ item.subtitle }}</h2>
+        <p class="detail-intro">{{ item.overview }}</p>
+
+        <div class="detail-tech-tags">
+          @for (tech of item.technologies; track tech) {
+            <span>{{ tech }}</span>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECT NAVIGATION -->
+    <nav class="detail-section-nav" aria-label="On this page">
+      <a href="#overview">Overview</a>
+      <a href="#problem">Problem</a>
+      <a href="#solution">Solution</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#technology">Technology</a>
+      <a href="#learnings">Learnings</a>
+    </nav>
+
+    <!-- OVERVIEW -->
+    <section class="detail-content-grid" id="overview">
+      <article class="detail-main-column">
+        <section class="detail-section">
+          <span class="section-index">01 / CONTEXT</span>
+          <h2>Project overview</h2>
+          <p>{{ item.overview }}</p>
+        </section>
+
+        <section class="detail-section" id="problem">
+          <span class="section-index">02 / THE CHALLENGE</span>
+          <h2>The problem</h2>
+          <p>{{ item.problem }}</p>
+        </section>
+
+        <section class="detail-section" id="solution">
+          <span class="section-index">03 / THE APPROACH</span>
+          <h2>Proposed solution</h2>
+          <p>{{ item.solution }}</p>
+        </section>
+
+        <section class="detail-section">
+          <span class="section-index">04 / MY ROLE</span>
+          <h2>My contribution</h2>
+          <p>{{ item.myContribution }}</p>
+        </section>
+      </article>
+
+      <aside class="detail-sidebar">
+        <div class="detail-info-card">
+          <span class="section-index">EVENT DETAILS</span>
+          <h3>At a glance</h3>
+
+          <div class="detail-info-row">
+            <span>Event</span>
+            <strong>{{ item.event }}</strong>
+          </div>
+
+          <div class="detail-info-row">
+            <span>Date</span>
+            <strong>{{ item.date }}</strong>
+          </div>
+
+          <div class="detail-info-row">
+            <span>Duration</span>
+            <strong>{{ item.duration }}</strong>
+          </div>
+
+          @if (item.result) {
+            <div class="detail-info-row">
+              <span>Result</span>
+              <strong>{{ item.result }}</strong>
+            </div>
+          }
+        </div>
+
+        <div class="detail-info-card" id="technology">
+          <span class="section-index">TECH STACK</span>
+          <h3>Technologies used</h3>
+
+          <div class="detail-tech-list">
+            @for (tech of item.technologies; track tech) {
+              <span>{{ tech }}</span>
+            }
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- AUTO-SCROLLING GALLERY -->
+    @if (item.gallery.length > 0) {
+      <section class="detail-gallery-section" id="gallery">
+        <div class="detail-section-heading">
+          <div>
+            <span class="section-index">05 / BEHIND THE SCENES</span>
+            <h2>Project gallery</h2>
+          </div>
+          <p>Snapshots from the project journey</p>
+        </div>
+
+        <div
+          class="gallery-viewport"
+          tabindex="0"
+          aria-label="Automatically scrolling project gallery"
+        >
+          <div class="gallery-track">
+            @for (image of galleryTrack(); track $index) {
+              <figure class="gallery-item">
+                <img [src]="image.src" [alt]="image.caption" loading="lazy" />
+                <figcaption>{{ image.caption }}</figcaption>
+              </figure>
+            }
+          </div>
+        </div>
+      </section>
+    }
+
+    <!-- ARCHITECTURE -->
+    @if (item.architectureImage) {
+      <section class="detail-section architecture-section">
+        <span class="section-index">06 / SYSTEM DESIGN</span>
+        <h2>Solution architecture</h2>
+        <img
+          class="architecture-image"
+          [src]="item.architectureImage"
+          alt="Project solution architecture"
+          loading="lazy"
+        />
+      </section>
+    }
+
+    <!-- VIDEO -->
+    @if (videoUrl(); as embedUrl) {
+      <section class="detail-section demo-section">
+        <span class="section-index">PROJECT WALKTHROUGH</span>
+        <h2>Watch the demo</h2>
+        <div class="demo-video">
+          <iframe
+            [src]="embedUrl"
+            [title]="item.title + ' demo video'"
+            loading="lazy"
+            allow="
+              accelerometer;
+              autoplay;
+              clipboard-write;
+              encrypted-media;
+              gyroscope;
+              picture-in-picture;
+              web-share;
+            "
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </section>
+    }
+
+    <!-- CHALLENGES AND LEARNINGS -->
+    <section class="detail-reflection-grid" id="learnings">
+      <article class="detail-reflection-card">
+        <span class="section-index">07 / PROBLEM SOLVING</span>
+        <h2>Challenges</h2>
+        <ul>
+          @for (challenge of item.challenges; track $index) {
+            <li>{{ challenge }}</li>
+          }
+        </ul>
+      </article>
+
+      <article class="detail-reflection-card">
+        <span class="section-index">08 / TAKEAWAYS</span>
+        <h2>What I learned</h2>
+        <ul>
+          @for (learning of item.learnings; track $index) {
+            <li>{{ learning }}</li>
+          }
+        </ul>
+      </article>
+    </section>
+
+    <!-- PROJECT LINKS -->
+    @if (item.links.length > 0) {
+      <section class="detail-section detail-links">
+        <span class="section-index">FURTHER EXPLORATION</span>
+        <h2>Project resources</h2>
+
+        @for (link of item.links; track link.url) {
+          <button
+            type="button"
+            class="detail-resource-link"
+            (click)="openExternalLink(link.url)"
+          >
+            {{ link.label }}
+            <span aria-hidden="true">↗</span>
+          </button>
+        }
+      </section>
+    }
+
+    <!-- PREVIOUS / NEXT -->
+    <nav class="detail-pagination" aria-label="Other hackathons">
+      @if (previousHackathon(); as previous) {
+        <a [routerLink]="['/community/hackathons', previous.slug]">
+          <span>← Previous hackathon</span>
+          <strong>{{ previous.title }}</strong>
+        </a>
+      } @else {
+        <span></span>
+      }
+
+      @if (nextHackathon(); as next) {
+        <a
+          class="pagination-next"
+          [routerLink]="['/community/hackathons', next.slug]"
+        >
+          <span>Next hackathon →</span>
+          <strong>{{ next.title }}</strong>
+        </a>
+      }
+    </nav>
+
+    <a class="back-to-community" routerLink="/community">
+      ← Back to Community Activity
+    </a>
+  </main>
+} @else {
+  <main class="hackathon-not-found">
+    <span class="section-index">404 / NOT FOUND</span>
+    <h1>Hackathon not found</h1>
+    <p>This project may have been moved or the URL may be incorrect.</p>
+    <a routerLink="/community">Back to Community Activity</a>
+  </main>
+}

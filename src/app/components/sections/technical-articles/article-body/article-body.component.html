@@ -1,0 +1,169 @@
+<div class="article-grid">
+  @for (b of blocks(); track $index) {
+    @if (b.type === "p") {
+      <p>{{ b.text }}</p>
+    } @else if (b.type === "h2") {
+      <h2>{{ b.text }}</h2>
+    } @else if (b.type === "image") {
+      <figure class="media" [class]="span(b.span, 'wide')">
+        <img
+          [src]="b.img.src"
+          [alt]="b.img.alt"
+          [attr.width]="b.img.w"
+          [attr.height]="b.img.h"
+          [attr.loading]="$index === 0 ? 'eager' : 'lazy'"
+          decoding="async"
+        />
+        @if (b.img.caption) {
+          <figcaption>{{ b.img.caption }}</figcaption>
+        }
+      </figure>
+    } @else if (b.type === "gallery") {
+      <div [class]="span(b.span, 'wide')">
+        <div class="gallery" [class]="'l-' + b.layout">
+          @for (m of b.images; track m.src) {
+            <figure>
+              <img
+                [src]="m.src"
+                [alt]="m.alt"
+                [attr.width]="m.w"
+                [attr.height]="m.h"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+          }
+        </div>
+      </div>
+    } @else if (b.type === "video") {
+      <figure class="media" [class]="span(b.span, 'wide')">
+        <video
+          controls
+          preload="none"
+          playsinline
+          [poster]="b.poster"
+          [style.aspect-ratio]="b.w + '/' + b.h"
+        >
+          <source [src]="b.src" type="video/mp4" />
+        </video>
+        @if (b.caption) {
+          <figcaption>{{ b.caption }}</figcaption>
+        }
+      </figure>
+    } @else if (b.type === "youtube") {
+      <figure class="media yt" [class]="span(b.span, 'wide')">
+        @if (isPlaying(b.id)) {
+          <iframe
+            [src]="ytUrl(b.id)"
+            title="Embedded video"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+          ></iframe>
+        } @else {
+          <button
+            type="button"
+            class="yt-facade"
+            (click)="play(b.id)"
+            aria-label="Play video"
+          >
+            <img [src]="b.poster" alt="" loading="lazy" decoding="async" />
+            <span class="play">&#9654;</span>
+          </button>
+        }
+        @if (b.caption) {
+          <figcaption>{{ b.caption }}</figcaption>
+        }
+      </figure>
+    } @else if (b.type === "audio") {
+      <div class="audio">
+        <p class="audio-title">{{ b.title }}</p>
+        <audio controls preload="none" [src]="b.src"></audio>
+      </div>
+    } @else if (b.type === "quote") {
+      <blockquote>
+        {{ b.text }}
+        @if (b.by) {
+          <cite>{{ b.by }}</cite>
+        }
+      </blockquote>
+    } @else if (b.type === "callout") {
+      <aside class="callout" [class]="'tone-' + b.tone">{{ b.text }}</aside>
+    } @else if (b.type === "code") {
+      <pre
+        class="code"
+        [attr.data-lang]="b.lang"
+      ><code>{{ b.text }}</code></pre>
+    } @else if (b.type === "banner") {
+      <figure class="banner" [class]="span(b.span, 'full')">
+        <img
+          [src]="b.img.src"
+          [alt]="b.img.alt"
+          [attr.width]="b.img.w"
+          [attr.height]="b.img.h"
+          [attr.loading]="$index === 0 ? 'eager' : 'lazy'"
+          decoding="async"
+        />
+        <figcaption class="banner-text">
+          @if (b.label) {
+            <span class="banner-label">{{ b.label }}</span>
+          }
+          <strong>{{ b.title }}</strong>
+          @if (b.subtitle) {
+            <span class="banner-sub">{{ b.subtitle }}</span>
+          }
+        </figcaption>
+      </figure>
+    } @else if (b.type === "labels") {
+      <div class="labels">
+        @for (l of b.items; track l) {
+          <span>{{ l }}</span>
+        }
+      </div>
+    } @else if (b.type === "split") {
+      <div class="split" [class]="span(b.span, 'wide')" [class.flip]="b.flip">
+        <figure class="media">
+          <img
+            [src]="b.img.src"
+            [alt]="b.img.alt"
+            [attr.width]="b.img.w"
+            [attr.height]="b.img.h"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+        <div class="split-text">
+          @if (b.title) {
+            <h3>{{ b.title }}</h3>
+          }
+          <p>{{ b.text }}</p>
+        </div>
+      </div>
+    } @else if (b.type === "steps") {
+      <ol class="steps">
+        @for (s of b.items; track s.title) {
+          <li>
+            <strong>{{ s.title }}</strong>
+            <span>{{ s.text }}</span>
+          </li>
+        }
+      </ol>
+    } @else if (b.type === "list") {
+      <ul class="list" [class.check]="b.style === 'check'">
+        @for (i of b.items; track i) {
+          <li>{{ i }}</li>
+        }
+      </ul>
+    } @else if (b.type === "divider") {
+      <hr class="divider" />
+    } @else if (b.type === "stats") {
+      <div class="stats span-wide">
+        @for (s of b.items; track s.label) {
+          <div>
+            <strong>{{ s.value }}</strong>
+            <span>{{ s.label }}</span>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

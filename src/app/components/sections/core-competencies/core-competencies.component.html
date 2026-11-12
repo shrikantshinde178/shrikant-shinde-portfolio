@@ -1,0 +1,56 @@
+<section class="competencies">
+  <!-- Positioning: one line, Yardi first -->
+  <!-- PRIMARY: Yardi expertise -->
+  <div class="comp-primary">
+    @for (col of yardiColumns; track col.id) {
+      <article class="comp-group" [attr.aria-labelledby]="'comp-h-' + col.id">
+        <header class="comp-head">
+          <mat-icon class="comp-icon" aria-hidden="true">{{
+            col.icon
+          }}</mat-icon>
+          <h3 class="comp-title" [id]="'comp-h-' + col.id">{{ col.title }}</h3>
+        </header>
+
+        <ul class="comp-list">
+          @for (item of col.items; track item.label) {
+            <li class="comp-item">
+              <span class="comp-label">{{ item.label }}</span>
+              <span class="comp-detail">{{ item.detail }}</span>
+            </li>
+          }
+        </ul>
+      </article>
+    }
+  </div>
+
+  <!-- SECONDARY: technical edge -->
+  <div class="comp-tech" role="group" aria-label="Technical edge">
+    <div class="tech-title">
+      <mat-icon class="tech-icon" aria-hidden="true">terminal</mat-icon>
+      <span>Technical stack</span>
+    </div>
+
+    @for (row of techRows; track row.label) {
+      <div class="tech-row">
+        <span class="tech-label">{{ row.label }}</span>
+        <ul class="tech-tags">
+          @for (tag of row.tags; track tag) {
+            <li class="tech-tag">{{ tag }}</li>
+          }
+        </ul>
+      </div>
+    }
+  </div>
+
+  <p class="comp-cta">
+    <span class="cta-hint">Want to see these skills in action?</span>
+    <button
+      type="button"
+      class="cta-link"
+      (click)="openProofOfWork()"
+      aria-label="View recent implementations"
+    >
+      Click here
+    </button>
+  </p>
+</section>

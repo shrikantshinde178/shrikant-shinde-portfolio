@@ -1,0 +1,505 @@
+$slate-900: #0f172a;
+$slate-700: #334155;
+$slate-600: #475569;
+$slate-500: #94a3b8;
+$slate-100: #f5f7fa;
+$slate-50: #fafbfd;
+$border: #edf0f3;
+$accent: #087fe4;
+
+/* Must match $reader-width in articles.component.scss */
+$reader-width: 720px;
+
+:host {
+  display: block;
+}
+
+figure {
+  margin: 0;
+}
+
+/* ==========================================================================
+   THE GRID
+   One column, same width as the title / lede / footer. Every block
+   (text, image, video, gallery, banner) lines up. span-wide / span-full
+   classes from the template are harmless and need no CSS.
+   ========================================================================== */
+
+.article-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  max-width: $reader-width;
+  margin: 0 auto;
+  row-gap: 1.15rem;
+  font-size: 0.94rem;
+  font-weight: 400;
+  line-height: 1.85;
+  color: $slate-700;
+
+  > * {
+    min-width: 0;
+    margin: 0;
+  }
+}
+
+h2 {
+  margin-top: 1.2rem;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: $slate-900;
+}
+
+/* ==========================================================================
+   MEDIA
+   ========================================================================== */
+
+.media,
+.gallery figure {
+  border-radius: 6px;
+  overflow: hidden;
+  background: $slate-100;
+}
+
+.media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 420px;
+  object-fit: cover;
+}
+
+/* Video keeps its own aspect ratio (set inline); no cropping */
+.media video {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+  background: $slate-900;
+}
+
+figcaption {
+  padding: 0.4rem 0.1rem 0;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: $slate-500;
+  background: #fff;
+}
+
+/* ==========================================================================
+   GALLERY
+   ========================================================================== */
+
+.gallery {
+  display: grid;
+  gap: 0.5rem;
+
+  figure {
+    aspect-ratio: 4 / 3;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    object-fit: cover;
+  }
+
+  &.l-2up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  &.l-3up {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  &.l-mosaic {
+    grid-template-columns: repeat(4, 1fr);
+
+    figure:first-child {
+      grid-column: span 2;
+      grid-row: span 2;
+      aspect-ratio: auto;
+    }
+  }
+
+  @media (max-width: 600px) {
+    &.l-3up,
+    &.l-mosaic {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+/* ==========================================================================
+   YOUTUBE FACADE
+   ========================================================================== */
+
+.yt {
+  position: relative;
+  aspect-ratio: 16 / 9;
+
+  iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+}
+
+.yt-facade {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: #000;
+  cursor: pointer;
+
+  img {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    object-fit: cover;
+    opacity: 0.85;
+  }
+
+  .play {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    color: $slate-900;
+    font-size: 1.1rem;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $accent;
+    outline-offset: 3px;
+  }
+}
+
+/* ==========================================================================
+   AUDIO
+   ========================================================================== */
+
+.audio {
+  padding: 0.8rem 1rem;
+  background: $slate-50;
+  border: 1px solid $border;
+  border-radius: 6px;
+
+  .audio-title {
+    margin: 0 0 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: $slate-900;
+  }
+
+  audio {
+    width: 100%;
+  }
+}
+
+/* ==========================================================================
+   QUOTE / CALLOUT / CODE
+   ========================================================================== */
+
+blockquote {
+  padding-left: 1rem;
+  border-left: 3px solid $accent;
+  font-size: 1.05rem;
+  font-style: italic;
+  font-weight: 300;
+  color: $slate-600;
+
+  cite {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 400;
+    color: $slate-500;
+  }
+}
+
+.callout {
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  line-height: 1.65;
+
+  &.tone-info {
+    background: #eff7ff;
+    color: #0c4a6e;
+  }
+
+  &.tone-tip {
+    background: #ecfdf5;
+    color: #065f46;
+  }
+
+  &.tone-warn {
+    background: #fffbeb;
+    color: #92400e;
+  }
+}
+
+.code {
+  padding: 1rem;
+  overflow-x: auto;
+  background: $slate-900;
+  color: #e2e8f0;
+  border-radius: 6px;
+  font:
+    0.78rem/1.6 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Consolas,
+    monospace;
+}
+
+/* ==========================================================================
+   STATS
+   ========================================================================== */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+
+  div {
+    padding: 0.9rem 1rem;
+    background: $slate-50;
+    border: 1px solid $border;
+    border-radius: 6px;
+  }
+
+  strong {
+    display: block;
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 1.2;
+    color: $accent;
+  }
+
+  span {
+    font-size: 0.74rem;
+    color: $slate-600;
+  }
+}
+
+/* ==========================================================================
+   BANNER
+   ========================================================================== */
+
+.banner {
+  position: relative;
+  aspect-ratio: 21 / 9;
+  border-radius: 6px;
+  overflow: hidden;
+  background: $slate-900;
+
+  @media (max-width: 760px) {
+    aspect-ratio: 16 / 9;
+  }
+
+  img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    object-fit: cover;
+    opacity: 0.7;
+  }
+
+  .banner-text {
+    position: absolute;
+    inset: auto 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 2rem clamp(1rem, 4vw, 2rem) clamp(1rem, 3vw, 1.5rem);
+    background: linear-gradient(to top, rgba(15, 23, 42, 0.85), transparent);
+    color: #fff;
+
+    strong {
+      font-size: clamp(1.1rem, 2.6vw, 1.6rem);
+      font-weight: 400; /* 300 is too thin on a photo */
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+    }
+  }
+
+  .banner-label {
+    align-self: flex-start;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.68rem;
+    font-weight: 500;
+    line-height: 1.5;
+    background: $accent;
+    border-radius: 3px;
+  }
+
+  .banner-sub {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    opacity: 0.9;
+  }
+}
+
+/* ==========================================================================
+   LABELS
+   ========================================================================== */
+
+.labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+
+  span {
+    padding: 0.15rem 0.55rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: $slate-600;
+    background: $slate-100;
+    border-radius: 999px;
+  }
+}
+
+/* ==========================================================================
+   SPLIT (image + text)
+   ========================================================================== */
+
+.split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  align-items: center;
+
+  @media (min-width: 761px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.6rem;
+
+    &.flip .media {
+      order: 2;
+    }
+  }
+
+  .media {
+    aspect-ratio: 4 / 3;
+
+    img {
+      width: 100%;
+      height: 100%;
+      max-height: none;
+      object-fit: cover;
+    }
+  }
+
+  h3 {
+    margin: 0 0 0.4rem;
+    font-size: 1.05rem;
+    font-weight: 400;
+    line-height: 1.4;
+    color: $slate-900;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+/* ==========================================================================
+   STEPS / LIST / DIVIDER
+   ========================================================================== */
+
+.steps {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  counter-reset: step;
+  display: grid;
+  gap: 0.8rem;
+
+  li {
+    position: relative;
+    padding-left: 2.4rem;
+    counter-increment: step;
+
+    &::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0.15rem;
+      display: grid;
+      place-items: center;
+      width: 1.6rem;
+      height: 1.6rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      line-height: 1;
+      color: $accent;
+      background: #eff7ff;
+      border-radius: 50%;
+    }
+  }
+
+  strong {
+    display: block;
+    font-weight: 500;
+    color: $slate-900;
+    line-height: 1.5;
+  }
+
+  span {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: $slate-600;
+  }
+}
+
+.list {
+  margin: 0;
+  padding-left: 1.2rem;
+
+  li {
+    margin-bottom: 0.35rem;
+  }
+
+  &.check {
+    padding-left: 0;
+    list-style: none;
+
+    li {
+      position: relative;
+      padding-left: 1.6rem;
+
+      &::before {
+        content: "\2713";
+        position: absolute;
+        left: 0;
+        color: #059669;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  margin: 0.8rem 0;
+  border: 0;
+  background: $border;
+}

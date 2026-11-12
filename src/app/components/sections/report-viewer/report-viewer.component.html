@@ -1,0 +1,134 @@
+<div class="viewer-shell">
+  <!-- HEADER -->
+  <header class="viewer-header">
+    <div class="viewer-title-block">
+      <h2 class="viewer-title">{{ project.title }}</h2>
+    </div>
+
+    <div class="viewer-actions">
+      <span class="page-indicator" *ngIf="pages.length">
+        Page <strong>{{ currentPage() }}</strong> / {{ pages.length }}
+      </span>
+
+      <div class="zoom-group" *ngIf="pages.length">
+        <button
+          type="button"
+          (click)="zoomOut()"
+          [disabled]="zoom() <= minZoom"
+          aria-label="Zoom out"
+        >
+          <mat-icon>remove</mat-icon>
+        </button>
+        <button
+          type="button"
+          class="zoom-value"
+          (click)="resetZoom()"
+          title="Reset zoom"
+        >
+          {{ zoom() }}%
+        </button>
+        <button
+          type="button"
+          (click)="zoomIn()"
+          [disabled]="zoom() >= maxZoom"
+          aria-label="Zoom in"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+      <button
+        type="button"
+        class="viewer-close"
+        (click)="close()"
+        aria-label="Close report"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </header>
+
+  <!-- CLIENT-OWNERSHIP NOTICE -->
+  <div class="client-notice" role="note">
+    <mat-icon>info</mat-icon>
+    <span>
+      <strong>Client-owned content.</strong> Displayed for portfolio
+      demonstration purposes only.
+    </span>
+  </div>
+
+  <!-- BODY: all pages, one after another -->
+  <div
+    class="viewer-body"
+    #scroller
+    [class.is-zoomed]="zoom() > 100"
+    (scroll)="onScroll()"
+  >
+    <div class="pages-column" *ngIf="pages.length; else empty">
+      <div
+        class="page"
+        #pageEl
+        *ngFor="let src of pages; let i = index"
+        [class.is-loaded]="isLoaded(i)"
+        [style.width.px]="pageWidth()"
+      >
+        <!-- skeleton until the image arrives -->
+        <div class="page-skeleton" *ngIf="!isLoaded(i) && !isFailed(i)">
+          <span class="spinner"></span>
+          <span>Page {{ i + 1 }}</span>
+        </div>
+
+        <div class="page-error" *ngIf="isFailed(i)">
+          <mat-icon>broken_image</mat-icon>
+          <span>Page {{ i + 1 }} could not be loaded</span>
+        </div>
+
+        <img
+          [src]="src"
+          [alt]="project.title + ' page ' + (i + 1)"
+          draggable="false"
+          [attr.loading]="i < 2 ? 'eager' : 'lazy'"
+          (load)="onImgLoad(i)"
+          (error)="onImgError(i)"
+          [hidden]="isFailed(i)"
+        />
+
+        <!-- transparent shield: blocks "save image as" on the picture itself -->
+        <div class="page-shield"></div>
+
+        <!-- watermark -->
+        <div class="watermark-clip" aria-hidden="true">
+          <div class="watermark">
+            <span *ngFor="let t of watermarkTiles">{{ watermarkText }}</span>
+          </div>
+        </div>
+
+        <span class="page-number">{{ i + 1 }}</span>
+      </div>
+
+      <p class="end-note">
+        <mat-icon>lock</mat-icon>
+        <span>
+          End of report · For assistance, please write at
+          <a href="mailto:mr.shrikantshinde@gmail.com"
+            >mr.shrikantshinde&#64;gmail.com</a
+          >
+          or connect on
+          <a
+            href="https://linkedin.com/in/shrikantshinde178"
+            target="_blank"
+            rel="noopener noreferrer"
+            >LinkedIn</a
+          >.
+        </span>
+      </p>
+    </div>
+
+    <ng-template #empty>
+      <div class="viewer-empty">
+        <mat-icon>description</mat-icon>
+        <p>No report pages available for this project yet.</p>
+      </div>
+    </ng-template>
+  </div>
+</div>

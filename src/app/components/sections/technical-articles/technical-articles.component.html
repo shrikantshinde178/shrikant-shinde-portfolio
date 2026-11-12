@@ -1,0 +1,426 @@
+<section class="articles-view">
+  <!-- ================= READER (inline) ================= -->
+  <div *ngIf="selectedArticle() as article" class="reader">
+    <!-- VISITOR BANNER -->
+    <div class="visit-banner" *ngIf="showTopBanner()" role="note">
+      <p class="vb-text">
+        <span class="vb-hi">Hi, I'm Shrikant Shinde.</span>
+        I write about Yardi, MSSQL tuning and property-management tech.
+      </p>
+
+      <a
+        class="vb-link"
+        href="/"
+        [class.is-loading]="portfolioNavigationLoading()"
+        [attr.aria-disabled]="portfolioNavigationLoading()"
+        [attr.aria-busy]="portfolioNavigationLoading()"
+        (click)="$event.preventDefault(); goToPortfolioHome()"
+      >
+        @if (portfolioNavigationLoading()) {
+          <span class="vb-loading-text">Redirecting</span>
+
+          <span class="vb-dots" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        } @else {
+          View my portfolio
+          <mat-icon>arrow_forward</mat-icon>
+        }
+      </a>
+
+      <button
+        type="button"
+        class="vb-close"
+        (click)="ctaDismissed.set(true)"
+        aria-label="Dismiss"
+      >
+        &#10005;
+      </button>
+    </div>
+
+    <!-- READER TOOLBAR -->
+    <div class="reader-bar">
+      <button type="button" class="text-btn" (click)="backToList()">
+        <mat-icon>arrow_back</mat-icon>
+        All articles
+      </button>
+
+      <div class="share-wrap">
+        <button
+          type="button"
+          class="share-btn"
+          (click)="
+            canNativeShare ? nativeShare(article) : shareOpen.set(!shareOpen())
+          "
+          [attr.aria-expanded]="shareOpen()"
+          aria-haspopup="true"
+        >
+          <mat-icon>ios_share</mat-icon>
+          Share
+        </button>
+
+        <div class="share-menu" *ngIf="shareOpen()" role="menu">
+          <button type="button" role="menuitem" (click)="copyLink(article)">
+            <mat-icon>{{ copied() ? "check" : "link" }}</mat-icon>
+            {{ copied() ? "Link copied" : "Copy link" }}
+          </button>
+
+          <button
+            type="button"
+            role="menuitem"
+            (click)="shareLinkedIn(article)"
+          >
+            <mat-icon>work</mat-icon>
+            LinkedIn
+          </button>
+
+          <button type="button" role="menuitem" (click)="shareX(article)">
+            <mat-icon>alternate_email</mat-icon>
+            X
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARTICLE CONTENT
+         head  = narrow text column
+         body  = full-width block grid (wide / full media can break out)
+         foot  = narrow text column -->
+    <article class="reader-card">
+      <header class="reader-head">
+        <p class="reader-meta">
+          {{ article.categoryTag }} &middot; {{ article.date }} &middot;
+          {{ article.readTime }}
+        </p>
+
+        <h1 class="reader-title">{{ article.title }}</h1>
+
+        <p class="reader-lede">{{ article.summary }}</p>
+      </header>
+
+      <div class="reader-body">
+        <app-article-body [blocks]="blocksOf(article)" />
+      </div>
+
+      <footer class="reader-foot">
+        <div class="foot-tags">
+          <span class="pill" *ngFor="let t of article.tags">
+            {{ t }}
+          </span>
+        </div>
+
+        <a
+          *ngIf="article.externalUrl"
+          class="text-link"
+          [href]="article.externalUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Also on Medium
+          <mat-icon>open_in_new</mat-icon>
+        </a>
+      </footer>
+    </article>
+
+    <!-- BOTTOM PORTFOLIO CTA -->
+    <aside class="cta-card" *ngIf="arrivedViaLink()">
+      <div>
+        <p class="cta-title">Enjoyed this article?</p>
+
+        <p class="cta-sub">
+          Explore my portfolio to see my projects, experience and other
+          write-ups.
+        </p>
+      </div>
+
+      <a
+        class="cta-btn"
+        href="/"
+        [class.is-loading]="portfolioNavigationLoading()"
+        [attr.aria-disabled]="portfolioNavigationLoading()"
+        [attr.aria-busy]="portfolioNavigationLoading()"
+        (click)="$event.preventDefault(); goToPortfolioHome()"
+      >
+        @if (portfolioNavigationLoading()) {
+          <span class="vb-loading-text">Redirecting</span>
+
+          <span class="vb-dots" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        } @else {
+          View my portfolio
+          <mat-icon>arrow_forward</mat-icon>
+        }
+      </a>
+    </aside>
+
+    <!-- RELATED ARTICLES -->
+    <div class="related" *ngIf="related().length">
+      <h2 class="related-title">Keep reading</h2>
+
+      <div class="list-grid">
+        <ng-container *ngFor="let a of related(); trackBy: trackArticleById">
+          <ng-container
+            *ngTemplateOutlet="rowCard; context: { $implicit: a }"
+          ></ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= LIST ================= -->
+  <div *ngIf="!selectedArticle()">
+    <!-- SEARCH -->
+    <div class="search-box" role="search">
+      <mat-icon class="search-ico">search</mat-icon>
+
+      <input
+        #searchInput
+        type="text"
+        autocomplete="off"
+        placeholder="Search article by title, topic, or keyword..."
+        aria-label="Search articles"
+        [ngModel]="articlesSearch()"
+        (ngModelChange)="setSearch($event)"
+        (keydown.escape)="setSearch('')"
+      />
+
+      <span class="search-meta" *ngIf="articlesSearch()" aria-live="polite">
+        {{ filteredArticles().length }}
+        {{ filteredArticles().length === 1 ? "result" : "results" }}
+      </span>
+
+      <button
+        *ngIf="articlesSearch()"
+        type="button"
+        class="clear-btn"
+        (click)="setSearch(''); searchInput.focus()"
+        aria-label="Clear search"
+      >
+        &#10005;
+      </button>
+
+      <kbd class="kbd" *ngIf="!articlesSearch()" aria-hidden="true"></kbd>
+    </div>
+
+    <!-- FILTER + SORT -->
+    <div class="filter-bar">
+      <label class="select-wrap">
+        <span class="field-label">Filter</span>
+
+        <span class="select-box">
+          <select
+            [ngModel]="articlesTagFilter()"
+            (ngModelChange)="setArticlesTag($event)"
+            aria-label="Filter by category"
+          >
+            <option value=""></option>
+
+            <option *ngFor="let cat of articleCategories" [value]="cat">
+              {{ cat === "All" ? "All" : cat }} ({{ getCategoryCount(cat) }})
+            </option>
+          </select>
+
+          <mat-icon>expand_more</mat-icon>
+        </span>
+      </label>
+
+      <label class="select-wrap">
+        <span class="field-label">Sort</span>
+
+        <span class="select-box">
+          <select
+            [ngModel]="articlesSort()"
+            (ngModelChange)="setArticlesSort($event)"
+            aria-label="Sort articles"
+          >
+            <option value=""></option>
+
+            <option *ngFor="let s of sortOptions" [value]="s.value">
+              {{ s.label }}
+            </option>
+          </select>
+
+          <mat-icon>swap_vert</mat-icon>
+        </span>
+      </label>
+
+      <button
+        type="button"
+        class="clear-all"
+        [disabled]="!hasActiveFilters()"
+        (click)="clearAll()"
+      >
+        <mat-icon>filter_alt_off</mat-icon>
+        Clear
+      </button>
+    </div>
+
+    <!-- FEATURED ARTICLE -->
+    <article
+      *ngIf="featuredArticle() as f"
+      class="featured"
+      tabindex="0"
+      role="button"
+      [attr.aria-label]="'Read article: ' + f.title"
+      (click)="openArticle(f)"
+      (keydown.enter)="openArticle(f)"
+      (keydown.space)="$event.preventDefault(); openArticle(f)"
+    >
+      <div class="featured-img">
+        <img *ngIf="f.imageUrl" [src]="f.imageUrl" [alt]="f.title" />
+      </div>
+
+      <div class="featured-text">
+        <p class="featured-kicker">FEATURED ARTICLE · {{ f.categoryTag }}</p>
+
+        <h2 class="featured-title">{{ f.title }}</h2>
+
+        <p class="featured-summary">{{ f.summary }}</p>
+
+        <p class="row-meta">
+          {{ f.date }} &middot; {{ f.readTime }}
+
+          <span class="src" *ngIf="sourceLabel(f) as s">
+            &middot; on {{ s }}
+          </span>
+        </p>
+      </div>
+    </article>
+
+    <!-- ARTICLE GRID -->
+    <div
+      class="list-grid"
+      [class.no-top]="!featuredArticle()"
+      *ngIf="paginatedArticles().length"
+    >
+      <ng-container
+        *ngFor="let a of paginatedArticles(); trackBy: trackArticleById"
+      >
+        <ng-container
+          *ngTemplateOutlet="rowCard; context: { $implicit: a }"
+        ></ng-container>
+      </ng-container>
+    </div>
+
+    <!-- EMPTY RESULTS -->
+    <div *ngIf="filteredArticles().length === 0" class="empty">
+      <mat-icon>search_off</mat-icon>
+
+      <p class="empty-title">
+        No results found
+
+        <!-- <ng-container *ngIf="articlesSearch(); else noSearchText">
+          "{{ articlesSearch() }}"
+        </ng-container> -->
+
+        <ng-template #noSearchText>your filters</ng-template>
+      </p>
+
+      <p class="empty-sub">
+        <a href="#" (click)="$event.preventDefault(); clearAll()">
+          Clear all filters
+        </a>
+
+        or want a topic covered? Email
+
+        <a href="mailto:mr.shrikantshinde@gmail.com">
+          mr.shrikantshinde&#64;gmail.com </a
+        >.
+      </p>
+    </div>
+
+    <!-- UNIFIED ARTICLE SUMMARY + PAGINATION -->
+    <div class="project-footer" *ngIf="filteredArticles().length > 0">
+      <!-- ARTICLE COUNT -->
+      <div class="project-summary">
+        <span class="summary-label">
+          {{ rangeLabel() }}
+        </span>
+      </div>
+
+      <!-- PAGINATION -->
+      <div
+        class="table-pagination"
+        *ngIf="totalArticlesPages() > 1"
+        aria-label="Article pagination"
+      >
+        <button
+          type="button"
+          class="page-control-btn"
+          [disabled]="articlesCurrentPage() === 1"
+          (click)="changeArticlesPage(-1)"
+          aria-label="Previous page"
+        >
+          <mat-icon>chevron_left</mat-icon>
+          <span>Previous</span>
+        </button>
+
+        <span class="page-state" aria-live="polite">
+          <strong>{{ articlesCurrentPage() }}</strong>
+          <span class="page-separator">/</span>
+          {{ totalArticlesPages() }}
+        </span>
+
+        <button
+          type="button"
+          class="page-control-btn"
+          [disabled]="articlesCurrentPage() === totalArticlesPages()"
+          (click)="changeArticlesPage(1)"
+          aria-label="Next page"
+        >
+          <span>Next</span>
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SHARED ROW CARD ================= -->
+  <ng-template #rowCard let-a>
+    <article
+      class="row-card"
+      tabindex="0"
+      role="button"
+      [attr.aria-label]="'Read article: ' + a.title"
+      (click)="openArticle(a)"
+      (keydown.enter)="openArticle(a)"
+      (keydown.space)="$event.preventDefault(); openArticle(a)"
+    >
+      <div class="row-thumb">
+        <img
+          *ngIf="a.imageUrl"
+          [src]="a.imageUrl"
+          [alt]="''"
+          width="100"
+          height="78"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+
+      <div class="row-body">
+        <h3 class="row-title">{{ a.title }}</h3>
+
+        <p class="row-summary">{{ a.summary }}</p>
+
+        <div class="row-foot">
+          <span class="row-meta"> {{ a.date }} &middot; {{ a.readTime }} </span>
+
+          <span class="pill" *ngIf="a.tags?.length">
+            {{ a.tags[0] }}
+          </span>
+
+          <span class="pill ext" *ngIf="sourceLabel(a) as s">
+            {{ s }}
+            <mat-icon>open_in_new</mat-icon>
+          </span>
+        </div>
+      </div>
+    </article>
+  </ng-template>
+</section>

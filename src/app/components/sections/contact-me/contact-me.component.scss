@@ -1,0 +1,194 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.contact-popup {
+  position: relative;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  background: #fff;
+  color: #171c26;
+  font-family: inherit;
+}
+
+/* Top bar */
+.contact-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.contact-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  color: #7b8492;
+}
+
+.contact-icons {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e8ebf0;
+  border-radius: 50%;
+  background: #fff;
+  color: #596579;
+  cursor: pointer;
+  text-decoration: none;
+  transition: 0.2s ease;
+
+  mat-icon {
+    font-size: 17px;
+    width: 17px;
+    height: 17px;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  &:hover {
+    color: #1769aa;
+    border-color: #1769aa;
+    background: #f3f8fc;
+  }
+}
+
+/* Content */
+.contact-content {
+  h2 {
+    margin: 0 0 10px;
+    font-size: clamp(23px, 5vw, 29px);
+    line-height: 1.2;
+    font-weight: 400;
+    letter-spacing: -0.8px;
+  }
+
+  p {
+    margin: 0;
+    max-width: 380px;
+    font-size: 13px;
+    line-height: 1.65;
+    color: #727c8b;
+  }
+}
+
+/* Email */
+.contact-email {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 20px;
+  padding: 11px 12px;
+  border: 1px solid #e9edf2;
+  border-radius: 8px;
+  background: #f9fafc;
+  color: #465264;
+  font-size: 12px;
+  cursor: pointer;
+
+  mat-icon {
+    width: 17px;
+    height: 17px;
+    font-size: 17px;
+    color: #1769aa;
+  }
+
+  .copy-icon {
+    margin-left: auto;
+    color: #8a94a3;
+  }
+}
+
+.copied-message {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  color: #16834a;
+}
+
+/* Action buttons */
+.contact-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.action-btn {
+  min-height: 42px;
+  padding: 0 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.2s ease;
+  box-sizing: border-box;
+
+  mat-icon {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+  }
+
+  .arrow {
+    margin-left: auto;
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.action-btn.primary {
+  background: #1769aa;
+  color: #fff;
+
+  &:hover {
+    background: #10578f;
+  }
+}
+
+.action-btn.secondary {
+  background: #fff;
+  color: #344054;
+  border: 1px solid #e1e6ed;
+
+  &:hover {
+    background: #f5f8fb;
+    border-color: #1769aa;
+  }
+}
+
+/* Small popup screens */
+@media (max-width: 380px) {
+  .contact-popup {
+    padding: 16px;
+  }
+
+  .contact-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .action-btn {
+    min-height: 40px;
+  }
+
+  .contact-topbar {
+    margin-bottom: 20px;
+  }
+}

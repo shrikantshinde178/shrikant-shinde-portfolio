@@ -1,1 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.report-viewer-dialog-panel {
+  --mdc-dialog-container-shape: 0;
+  --mat-dialog-container-shape: 0;
+
+  .mat-mdc-dialog-container .mdc-dialog__surface {
+    border-radius: 0 !important;
+    padding: 0;
+    overflow: hidden;
+  }
+}
+
+/* separate block, NOT nested above */
+.cdk-overlay-backdrop.report-viewer-backdrop,
+.cdk-overlay-dark-backdrop {
+  background: rgba(15, 23, 42, 0.6) !important;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}

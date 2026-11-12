@@ -1,0 +1,437 @@
+$studio-card: #ffffff;
+$slate-primary: #0f172a;
+$slate-secondary: #334155;
+$slate-muted: #64748b;
+$slate-subtle: #94a3b8;
+$slate-border: #e2e8f0;
+$slate-border-subtle: #f1f5f9;
+$accent-cobalt: #0284c7;
+$accent-cobalt-subtle: #f0f9ff;
+$accent-cobalt-border: #bae6fd;
+$accent-amber: #d97706;
+$accent-amber-subtle: #fffbeb;
+$accent-amber-border: #fde68a;
+$font-mono:
+  ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+  monospace;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  /* the dialog decides the width, never the page images */
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  /* nothing in the viewer can be selected or long-press saved */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.viewer-shell {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  background: $studio-card;
+}
+
+/* ---------- HEADER ---------- */
+.viewer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px;
+  background: $studio-card;
+  border-top: 3px solid $accent-cobalt;
+  border-bottom: 1px solid $slate-border;
+  flex-shrink: 0;
+}
+
+.viewer-title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+
+  .viewer-title {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: $slate-primary;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .viewer-module {
+    font-family: $font-mono;
+    font-size: 0.66rem;
+    color: $slate-muted;
+  }
+}
+
+.viewer-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.page-indicator {
+  font-family: $font-mono;
+  font-size: 0.72rem;
+  color: $slate-muted;
+  white-space: nowrap;
+
+  strong {
+    color: $slate-primary;
+    font-weight: 700;
+  }
+}
+
+.zoom-group {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  background: #ffffff;
+  border: 1px solid $slate-border;
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-width: 30px;
+    padding: 0 6px;
+    font-family: $font-mono;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: $slate-secondary;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+    }
+
+    &:hover:not([disabled]) {
+      background: $slate-border-subtle;
+      color: $slate-primary;
+    }
+    &[disabled] {
+      opacity: 0.4;
+      cursor: default;
+    }
+  }
+
+  .zoom-value {
+    min-width: 48px;
+    border-left: 1px solid $slate-border;
+    border-right: 1px solid $slate-border;
+  }
+}
+
+.viewer-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  color: $slate-muted;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+
+  &:hover {
+    // background: $slate-border-subtle;
+    color: $slate-primary;
+  }
+}
+.end-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--text-secondary, #6b7280);
+  text-align: center;
+  flex-wrap: wrap;
+
+  mat-icon {
+    font-size: 1.1rem;
+    width: 1.1rem;
+    height: 1.1rem;
+    vertical-align: middle;
+  }
+
+  a {
+    color: inherit;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--primary-color, #2563eb);
+    }
+  }
+}
+
+/* ---------- BODY ---------- */
+.viewer-body {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  /* content (pages) can never make this box wider than the dialog */
+  contain: inline-size;
+  overflow: auto;
+  background: #e5e7eb;
+  padding: 18px 12px 24px;
+  scroll-behavior: smooth;
+  /* no sideways scroll at normal size; enabled only once zoomed in */
+  overflow-x: hidden;
+
+  &.is-zoomed {
+    overflow-x: auto;
+  }
+}
+
+/* client-ownership notice */
+.client-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 7px 16px;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: #92400e;
+  background: $accent-amber-subtle;
+  border-bottom: 1px solid $accent-amber-border;
+  flex-shrink: 0;
+
+  mat-icon {
+    flex-shrink: 0;
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+    margin-top: 1px;
+    color: $accent-amber;
+  }
+
+  strong {
+    font-weight: 700;
+  }
+}
+
+.pages-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  /* grows with zoomed pages (so it can scroll), centred when smaller */
+  width: max-content;
+  min-width: 100%;
+}
+
+.page {
+  flex-shrink: 0;
+  position: relative;
+  max-width: none;
+  background: #ffffff;
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.14);
+  /* reserve space while loading so the scroll doesn't jump */
+  aspect-ratio: 8.5 / 11;
+
+  &.is-loaded {
+    aspect-ratio: auto;
+  }
+
+  /* base width is 900px at 100% zoom, scaled by the inline % width */
+  &:not(.is-loaded),
+  &.is-loaded {
+    min-width: 0;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    pointer-events: none;
+    -webkit-user-drag: none;
+  }
+}
+
+.page-skeleton,
+.page-error {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: $font-mono;
+  font-size: 0.7rem;
+  color: $slate-subtle;
+  background: #f8fafc;
+}
+
+.page-error {
+  position: relative;
+  min-height: 200px;
+  color: $slate-muted;
+
+  mat-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+  }
+}
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid $slate-border;
+  border-top-color: $accent-cobalt;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* transparent layer over each page */
+.page-shield {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+/* clip box so the rotated watermark can never widen the page */
+.watermark-clip {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* diagonal repeating watermark */
+.watermark {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-content: space-around;
+  justify-items: center;
+  gap: 90px 20px;
+  overflow: hidden;
+  pointer-events: none;
+  transform: rotate(-28deg) scale(1.5);
+
+  span {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    color: rgba(15, 23, 42, 0.09);
+  }
+}
+
+.page-number {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  z-index: 4;
+  padding: 1px 7px;
+  font-family: $font-mono;
+  font-size: 0.62rem;
+  color: #ffffff;
+  background: rgba(15, 23, 42, 0.55);
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.end-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin: 6px 0 0;
+  font-family: $font-mono;
+  font-size: 0.66rem;
+  color: $slate-muted;
+
+  mat-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.viewer-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 100%;
+  color: $slate-muted;
+
+  mat-icon {
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+    color: $slate-subtle;
+  }
+  p {
+    margin: 0;
+    font-size: 0.82rem;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 600px) {
+  .viewer-header {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+  .viewer-actions {
+    gap: 6px;
+  }
+  .page-indicator {
+    display: none;
+  }
+  .viewer-body {
+    padding: 10px 6px 20px;
+  }
+  .client-notice {
+    padding: 6px 12px;
+    font-size: 0.68rem;
+  }
+}
+
+/* never printable */
+@media print {
+  :host {
+    display: none !important;
+  }
+}

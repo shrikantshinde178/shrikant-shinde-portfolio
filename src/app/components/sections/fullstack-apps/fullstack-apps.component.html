@@ -1,0 +1,305 @@
+<section class="fullstack-view">
+  <!-- SEARCH -->
+  <div class="top-search-bar-only">
+    <div class="search-box" role="search">
+      <mat-icon class="search-ico">search</mat-icon>
+
+      <input
+        #searchInput
+        type="text"
+        placeholder="Search project by name, tech stack, or keyword..."
+        aria-label="Search projects"
+        autocomplete="off"
+        [ngModel]="fullstackSearch()"
+        (ngModelChange)="
+          fullstackSearch.set($event); fullstackCurrentPage.set(1)
+        "
+        (keydown.escape)="fullstackSearch.set(''); fullstackCurrentPage.set(1)"
+      />
+
+      <span class="search-meta" *ngIf="fullstackSearch()" aria-live="polite">
+        {{ filteredFullstack().length }}
+        {{ filteredFullstack().length === 1 ? "result" : "results" }}
+      </span>
+
+      <button
+        *ngIf="fullstackSearch()"
+        type="button"
+        class="clear-btn"
+        (click)="
+          fullstackSearch.set('');
+          fullstackCurrentPage.set(1);
+          searchInput.focus()
+        "
+        aria-label="Clear search"
+      >
+        &#10005;
+      </button>
+
+      <kbd class="kbd" *ngIf="!fullstackSearch()" aria-hidden="true">/</kbd>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="filter-tab-bar-wrap">
+    <div
+      class="filter-tab-bar"
+      role="tablist"
+      aria-label="Filter projects by category"
+    >
+      <button
+        *ngFor="let cat of fullstackCategories"
+        type="button"
+        class="tab-btn"
+        role="tab"
+        [attr.data-tone]="toneOf(cat)"
+        [attr.aria-selected]="fullstackTagFilter() === cat"
+        [class.active]="fullstackTagFilter() === cat"
+        (click)="setFullstackTag(cat)"
+      >
+        <span class="tab-label">{{ cat }}</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- PROJECT GRID -->
+  <div class="enterprise-grid" *ngIf="filteredFullstack().length > 0">
+    <article
+      *ngFor="let app of paginatedFullstack()"
+      class="app-card"
+      [attr.data-tone]="toneOf(app.categoryTag)"
+    >
+      <!-- CARD IMAGE -->
+      <div class="card-visual-banner">
+        <img
+          *ngIf="app.imageUrl"
+          [src]="app.imageUrl"
+          [alt]="app.title"
+          loading="lazy"
+          class="card-img"
+        />
+
+        <!-- Yardi logo only -->
+        <div
+          *ngIf="app.categoryTag === 'Yardi related'"
+          class="brand-logo-container"
+        >
+          <div class="logo-chip">
+            <img
+              src="images/real-estate-logo/yardi voyager 7.png"
+              alt="Yardi Voyager"
+              class="brand-img"
+            />
+          </div>
+        </div>
+
+        <!-- Category Icon -->
+        <span class="type-tag" [attr.aria-label]="app.categoryTag">
+          <img
+            *ngIf="
+              app.categoryTag === 'Yardi related';
+              else defaultCategoryIcon
+            "
+            src="/images/Yardi.webp"
+            alt="Yardi"
+            class="category-logo"
+          />
+
+          <ng-template #defaultCategoryIcon>
+            <mat-icon>{{ iconOf(app.categoryTag) }}</mat-icon>
+          </ng-template>
+        </span>
+      </div>
+
+      <!-- CARD CONTENT -->
+      <div class="card-main-content">
+        <h3 class="item-card-title">{{ app.title }}</h3>
+        <p class="item-card-summary">{{ app.description }}</p>
+      </div>
+
+      <!-- CARD FOOTER -->
+      <div class="item-card-footer">
+        <div
+          class="meta-chips"
+          *ngIf="app.categoryTag === 'Web applications' && app.stack?.length"
+        >
+          <span *ngFor="let s of app.stack!.slice(0, 3)" class="meta-chip">
+            {{ s }}
+          </span>
+
+          <span
+            *ngIf="app.stack!.length > 3"
+            class="meta-chip meta-chip--more"
+            [title]="app.stack!.slice(3).join(', ')"
+          >
+            +{{ app.stack!.length - 3 }}
+          </span>
+        </div>
+
+        <div
+          class="meta-chips"
+          *ngIf="app.categoryTag === 'Database' && app.databaseEngine"
+        >
+          <span
+            *ngFor="let p of splitBadge(app.databaseEngine); let i = index"
+            class="meta-chip"
+            [class.meta-chip--primary]="i === 0"
+          >
+            {{ p }}
+          </span>
+        </div>
+
+        <div class="app-card-actions">
+          <ng-container
+            *ngIf="app.categoryTag === 'Yardi related'; else standardActions"
+          >
+            <button
+              type="button"
+              class="action-link action-link--primary"
+              (click)="openReport(app)"
+            >
+              <mat-icon>description</mat-icon>
+              View Report
+            </button>
+
+            <span class="page-count" *ngIf="pageCount(app) > 0">
+              {{ pageCount(app) }} pages
+            </span>
+          </ng-container>
+
+          <ng-template #standardActions>
+            <a
+              *ngIf="app.githubUrl"
+              [href]="app.githubUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="action-link"
+            >
+              <mat-icon>code</mat-icon>
+              Repository
+            </a>
+
+            <button
+              *ngIf="app.liveDemoUrl"
+              type="button"
+              class="action-link action-link--primary"
+              (click)="openExternal(app)"
+            >
+              <mat-icon>open_in_new</mat-icon>
+              Live Demo
+            </button>
+          </ng-template>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- EMPTY RESULTS -->
+  <div *ngIf="filteredFullstack().length === 0" class="empty-results-box">
+    <mat-icon class="empty-icon">search_off</mat-icon>
+    <p class="empty-title">
+      No results found
+      <!-- "{{ fullstackSearch() }}". -->
+    </p>
+  </div>
+
+  <!-- UNIFIED PROJECT SUMMARY + PAGINATION -->
+  <div class="project-footer" *ngIf="filteredFullstack().length > 0">
+    <!-- PROJECT COUNT -->
+    <div class="project-summary">
+      <span class="summary-label">
+        Showing
+        {{ paginatedFullstack().length }}
+        of {{ filteredFullstack().length }}
+        projects
+      </span>
+    </div>
+
+    <!-- PAGINATION -->
+    <div
+      class="table-pagination"
+      *ngIf="filteredFullstack().length > pageSize"
+      aria-label="Project pagination"
+    >
+      <button
+        type="button"
+        class="page-control-btn"
+        [disabled]="fullstackCurrentPage() === 1"
+        (click)="changeFullstackPage(-1)"
+        aria-label="Previous page"
+      >
+        <mat-icon>chevron_left</mat-icon>
+        <span>Previous</span>
+      </button>
+
+      <span class="page-state" aria-live="polite">
+        <strong>{{ fullstackCurrentPage() }}</strong>
+        <span class="page-separator">/</span>
+        {{ totalFullstackPages() }}
+      </span>
+
+      <button
+        type="button"
+        class="page-control-btn"
+        [disabled]="fullstackCurrentPage() === totalFullstackPages()"
+        (click)="changeFullstackPage(1)"
+        aria-label="Next page"
+      >
+        <span>Next</span>
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- EXTERNAL LINK CONFIRMATION -->
+  <div
+    class="ext-backdrop"
+    *ngIf="externalTarget() as t"
+    (click)="closeExternal()"
+  >
+    <div
+      class="ext-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="ext-title"
+      (click)="$event.stopPropagation()"
+    >
+      <button
+        type="button"
+        class="ext-close-btn"
+        (click)="closeExternal()"
+        aria-label="Close confirmation dialog"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+
+      <div class="ext-head">
+        <mat-icon class="ext-ico">open_in_new</mat-icon>
+        <h2 class="ext-title" id="ext-title">External instance</h2>
+      </div>
+
+      <p class="ext-project">{{ t.title }}</p>
+
+      <p class="ext-msg">
+        You are about to proceed to an external instance. Click
+        <strong>Proceed</strong> to agree &amp; continue.
+      </p>
+
+      <p class="ext-url" *ngIf="externalHost(t.liveDemoUrl)">
+        {{ externalHost(t.liveDemoUrl) }}
+      </p>
+
+      <div class="ext-actions">
+        <a
+          class="ext-btn ext-btn--primary"
+          [href]="t.liveDemoUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          (click)="closeExternal()"
+        >
+          Proceed
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

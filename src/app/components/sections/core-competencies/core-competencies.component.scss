@@ -1,0 +1,228 @@
+/* Palette matched to the portfolio UI */
+$brand: #0284c7;
+$link: #1d4e89;
+$ink: #222222;
+$ink-2: #3a3a3a;
+$muted: #6b7280;
+$line: #e5e7eb;
+$line-strong: #cbd5e1;
+$wash: #f8f9fa;
+
+$bp-tablet: 760px;
+$label-w: 128px;
+$label-w-mobile: 116px;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.competencies {
+  width: 100%;
+  margin: 8px auto 14px;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+/* ───────── Primary: Yardi (2 columns) ───────── */
+.comp-primary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 28px;
+  align-items: start;
+
+  @media (max-width: $bp-tablet) {
+    grid-template-columns: 1fr;
+    row-gap: 14px;
+  }
+}
+
+.comp-group {
+  min-width: 0;
+}
+
+.comp-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid $line-strong;
+
+  // short brand-blue segment marks primary expertise
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 28px;
+    height: 2px;
+    background: $brand;
+  }
+
+  .comp-icon {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    font-size: 17px;
+    line-height: 18px;
+    color: $brand;
+  }
+
+  .comp-title {
+    margin: 0;
+    font-size: 0.84rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: $ink;
+  }
+}
+
+.comp-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.comp-item {
+  display: grid;
+  grid-template-columns: $label-w minmax(0, 1fr);
+  column-gap: 10px;
+  align-items: baseline;
+  padding: 6px 0;
+
+  & + & {
+    border-top: 1px solid $line;
+  }
+
+  .comp-label {
+    font-size: 0.76rem;
+    font-weight: 600;
+    line-height: 1.35;
+    color: $ink-2;
+  }
+
+  .comp-detail {
+    font-size: 0.7rem;
+    line-height: 1.35;
+    color: $muted;
+  }
+
+  @media (max-width: $bp-tablet) {
+    grid-template-columns: $label-w-mobile minmax(0, 1fr);
+    padding: 8px 0;
+    .comp-label {
+      font-size: 0.8rem;
+    }
+    .comp-detail {
+      font-size: 0.74rem;
+    }
+  }
+}
+
+/* ───────── Secondary: technical edge (tags) ───────── */
+.comp-tech {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 14px;
+  padding: 10px 14px;
+  background: $wash;
+  border: 1px solid $line;
+
+  .tech-title {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: $ink-2;
+
+    .tech-icon {
+      width: 16px;
+      height: 16px;
+      font-size: 16px;
+      line-height: 16px;
+      color: $muted;
+    }
+  }
+
+  .tech-row {
+    display: grid;
+    grid-template-columns: 82px minmax(0, 1fr);
+    column-gap: 10px;
+    align-items: start;
+
+    @media (max-width: $bp-tablet) {
+      grid-template-columns: 1fr;
+      row-gap: 4px;
+    }
+  }
+
+  .tech-label {
+    padding-top: 2px;
+    font-size: 0.7rem;
+    color: $muted;
+  }
+
+  .tech-tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .tech-tag {
+    padding: 2px 8px;
+    font-size: 0.7rem;
+    line-height: 1.5;
+    color: $ink-2;
+    background: #fff;
+    border: 1px solid $line-strong;
+  }
+
+  @media (max-width: $bp-tablet) {
+    padding: 10px 12px;
+  }
+}
+
+/* ───────── CTA ───────── */
+.comp-cta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0 0;
+  font-size: 0.74rem;
+
+  .cta-hint {
+    color: $muted;
+  }
+
+  .cta-link {
+    color: $link;
+    // text-decoration: underline;
+    text-underline-offset: 3px;
+    font: inherit;
+    cursor: pointer;
+    border: 0;
+    background: transparent;
+    padding: 0;
+
+    &:hover {
+      text-decoration: none;
+    }
+    &:focus-visible {
+      outline: 2px solid $link;
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+  }
+
+  @media (max-width: $bp-tablet) {
+    flex-direction: column;
+    gap: 3px;
+    text-align: center;
+  }
+}
