@@ -92,94 +92,36 @@ export class FullstackAppsComponent {
   ];
 
   readonly fullstackProjects: FullStackProject[] = [
+    // 1. YARDI RELATED
     {
-      id: 'medi-remind',
-      title: 'Medi Remind',
-      categoryTag: 'Web applications',
-      description:
-        'Responsive real estate management interface featuring tenant service request dispatching.',
-      stack: ['Angular', 'TypeScript', 'Material UI', 'REST APIs', 'SCSS'],
-      logoUrl: 'images/real-estate-logo/Rent cafe.png',
-      imageUrl: 'images/world.webp',
-      liveDemoUrl: '#',
-      githubUrl: '#',
-    },
-    {
-      id: 'hud-cert-tracker',
-      title: 'HUD 50059 Recertification Alert Portal',
+      id: 'weekly-matrix',
+      title: 'Weekly Matrix',
       categoryTag: 'Yardi related',
-      description: '',
+      description: 'Yardi Spreadsheet Reporting (YSR)',
       yardiModule: 'HUD 50059 • Affordable Housing',
-      reportPdf: [
-        'yardi-reports/hud-page-1.png',
-        'yardi-reports/hud-page-2.png',
-      ],
+      reportPages: ['yardi-reports/Weekly-Matrix/page-0001.png'],
     },
-    {
-      id: 'invoice-reconciler',
-      title: 'PayScan AP Batch Reconciler & Ingestion Utility',
-      categoryTag: 'Yardi related',
-      description: '',
-      yardiModule: 'PayScan • AP Batches',
-      reportPdf: [
-        'yardi-reports/payscan-page-1.png',
-        'yardi-reports/payscan-page-2.png',
-        'yardi-reports/payscan-page-3.png',
-      ],
-    },
+
+    // 2. DATABASE
     {
       id: 'rentroll-aggregator',
-      title: 'Multi-Entity Ledger & Rent Roll Aggregator',
+      title: 'Rent Roll Aggregator',
       categoryTag: 'Database',
       description:
         'High-throughput microservice syncing daily resident ledger charges, payments, and CheckScan batches into standardized JSON data feeds.',
       databaseEngine: 'MSSQL Server • T-SQL • Stored Procedures',
       liveDemoUrl: '#',
       githubUrl: '#',
-      imageUrl: 'images/db projects/database proj2.jpeg',
+      imageUrl: 'images/db projects/database proj1.jpeg',
     },
+
+    // 3. WEB APPLICATION
     {
       id: 'peervista',
       title: 'PeerVista',
       categoryTag: 'Web applications',
       description:
-        'Responsive real estate management interface featuring tenant service request dispatching.',
-      stack: ['Angular', 'TypeScript', 'Material UI', 'REST APIs', 'SCSS'],
-      logoUrl: 'images/real-estate-logo/Rent cafe.png',
-      imageUrl: 'images/City.png',
-      liveDemoUrl: '#',
-      githubUrl: '#',
-    },
-    {
-      id: 'peervista-2',
-      title: 'PeerVista',
-      categoryTag: 'Web applications',
-      description:
-        'Responsive real estate management interface featuring tenant service request dispatching.',
-      stack: ['Angular', 'TypeScript', 'Material UI', 'REST APIs', 'SCSS'],
-      logoUrl: 'images/real-estate-logo/Rent cafe.png',
-      imageUrl: 'images/City.png',
-      liveDemoUrl: '#',
-      githubUrl: '#',
-    },
-    {
-      id: 'peervista-3',
-      title: 'PeerVista',
-      categoryTag: 'Web applications',
-      description:
-        'Responsive real estate management interface featuring tenant service request dispatching.',
-      stack: ['Angular', 'TypeScript', 'Material UI', 'REST APIs', 'SCSS'],
-      logoUrl: 'images/real-estate-logo/Rent cafe.png',
-      imageUrl: 'images/City.png',
-      liveDemoUrl: '#',
-      githubUrl: '#',
-    },
-    {
-      id: 'peervista-4',
-      title: 'PeerVista',
-      categoryTag: 'Web applications',
-      description:
-        'Responsive real estate management interface featuring tenant service request dispatching.',
+        'An insurance platform that helps borrowers purchase hassle-free policies and list insurance products on the portal.',
       stack: ['Angular', 'TypeScript', 'Material UI', 'REST APIs', 'SCSS'],
       logoUrl: 'images/real-estate-logo/Rent cafe.png',
       imageUrl: 'images/City.png',
@@ -187,11 +129,12 @@ export class FullstackAppsComponent {
       githubUrl: '#',
     },
 
+    // 4. YARDI RELATED
     {
       id: 'custom-financials',
-      title: 'Quarterly Custom Financials & General Ledger',
+      title: 'Budget Comparison (Custom Financial - Quarterly)',
       categoryTag: 'Yardi related',
-      description: '',
+      description: 'Yardi Spreadsheet Reporting (YSR)',
       yardiModule: 'YSR Custom Financials • YSQL',
       reportPages: [
         'yardi-reports/Quarterly-Custom-Financials/page-0001.jpg',
@@ -205,16 +148,69 @@ export class FullstackAppsComponent {
         'yardi-reports/Quarterly-Custom-Financials/page-0009.jpg',
       ],
     },
+
+    // 5. WEB APPLICATION
     {
-      id: 'rentroll-aggregator',
-      title: 'Multi-Entity Ledger & Rent Roll Aggregator',
-      categoryTag: 'Database',
+      id: 'medi-remind',
+      title: 'Medi Remind',
+      categoryTag: 'Web applications',
       description:
-        'High-throughput microservice syncing daily resident ledger charges, payments, and CheckScan batches into standardized JSON data feeds.',
-      databaseEngine: 'MSSQL Server • T-SQL • Stored Procedures',
+        'Full Stack web application helping patients feel personally supported beyond their visit and enhancing the overall hospitality experience.',
+      stack: ['Angular', 'TypeScript', 'Material UI', 'REST APIs', 'SCSS'],
+      logoUrl: 'images/real-estate-logo/Rent cafe.png',
+      imageUrl: 'images/world.webp',
       liveDemoUrl: '#',
       githubUrl: '#',
-      imageUrl: 'images/db projects/database proj1.jpeg',
+    },
+
+    // 6. YARDI RELATED
+    {
+      id: 'tenant-vehicle-info',
+      title: 'Tenant Vehicle Info',
+      categoryTag: 'Yardi related',
+      description: 'Columnar',
+      yardiModule: 'HUD 50059 • Affordable Housing',
+      reportPages: [
+        'yardi-reports/Tenant-Vehical-Info/page-0001.jpg',
+        'yardi-reports/Tenant-Vehical-Info/page-0002.jpg',
+        'yardi-reports/Tenant-Vehical-Info/page-0003.jpg',
+      ],
+    },
+
+    // 7. DATABASE
+    {
+      id: 'aws-load-balancing',
+      title: 'Traffic Handling with AWS Load Balancing',
+      categoryTag: 'Database',
+      description:
+        'Traffic management and load distribution using AWS load balancing.',
+      databaseEngine: 'AWS • Load Balancing',
+      liveDemoUrl: '#',
+      githubUrl: '#',
+      imageUrl: 'images/db projects/aws load balancing.png',
+    },
+
+    // 8. YARDI RELATED
+    {
+      id: 'late-rent-notice',
+      title: 'Late Rent Notice',
+      categoryTag: 'Yardi related',
+      description: 'Columnar',
+      yardiModule: 'PayScan • AP Batches',
+      reportPages: ['yardi-reports/Late-Letter-Notice/page-0001.png'],
+    },
+
+    // 9. YARDI RELATED
+    {
+      id: '30-day-invoice-notice',
+      title: '30-Day Invoice Notice',
+      categoryTag: 'Yardi related',
+      description: 'Yardi Spreadsheet Reporting (YSR)',
+      yardiModule: 'HUD 50059 • Affordable Housing',
+      reportPages: [
+        'yardi-reports/30-Day-Invoice/page-0001.jpg',
+        'yardi-reports/30-Day-Invoice/page-0002.jpg',
+      ],
     },
   ];
 

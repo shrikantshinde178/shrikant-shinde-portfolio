@@ -166,7 +166,7 @@ export class PortfolioSwitcherComponent implements OnInit, OnDestroy {
 
   // Contact links
   contactEmail = 'mr.shrikantshinde@gmail.com';
-  resumeUrl = '/assets/resume.pdf';
+  resumeUrl = 'resume/Shrikant_Shinde_Yardi_SQL_Consultant_Resume.pdf';
   linkedinUrl = 'https://linkedin.com/in/';
   meetingUrl = 'https://calendly.com';
 
@@ -632,7 +632,7 @@ export class PortfolioSwitcherComponent implements OnInit, OnDestroy {
 
     const anchor = document.createElement('a');
     anchor.href = this.resumeUrl;
-    anchor.download = 'Resume.pdf';
+    anchor.download = 'Shrikant_Shinde_Yardi_SQL_Consultant_Resume.pdf';
     anchor.click();
   }
 

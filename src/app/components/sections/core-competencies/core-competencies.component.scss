@@ -202,8 +202,8 @@ $label-w-mobile: 116px;
 
   .cta-link {
     color: $link;
-    // text-decoration: underline;
-    text-underline-offset: 3px;
+    text-decoration: underline;
+    // text-underline-offset: 3px;
     font: inherit;
     cursor: pointer;
     border: 0;
@@ -212,6 +212,7 @@ $label-w-mobile: 116px;
 
     &:hover {
       text-decoration: none;
+      // color: #1d4e89;
     }
     &:focus-visible {
       outline: 2px solid $link;
